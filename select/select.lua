@@ -90,6 +90,7 @@ local function main()
     selector(5)
     selector(6)
     selector(10)
+    selector(11)
     return t
   end)())
   skin.image = mergeArray(skin.image, (function()
@@ -242,6 +243,7 @@ local function main()
     {id = "option_gauge", ref = 40, images = optionSelector(6)},
     {id = "option_hsfix", ref = 55, images = optionSelector(5)},
     {id = "option_dp", ref = 54, images = optionSelector(4)},
+    {id = "option_scoretargetgraph", ref = 77, images = optionSelector(11)},
 
     {id = "option_exjudge", ref = 301, images = optionSelector(2)},
     {id = "option_constant", ref = 302, images = optionSelector(2)},
@@ -766,6 +768,7 @@ local function main()
         {id = "option_hsfix", op = op, dst = { {x = base_x + 230 * 2, y = base_y + 60 * (10 - 5), w = selector_w, h = h(5)} }},
         {id = "option_random_2", op = op, dst = { {x = base_x + 230 * 3, y = base_y, w = selector_w, h = h(10)} }},
         {id = "option_dp", op = op, dst = { {x = 850, y = 20, w = selector_w, h = h(4)} }},
+        {id = "option_scoretargetgraph", op = op, dst = { {x = base_x + 230 * 4, y = base_y - 60, w = selector_w, h = h(11)} }},
       }
     end)())
     t = mergeArray(t, (function()
