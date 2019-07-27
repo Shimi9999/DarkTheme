@@ -46,6 +46,8 @@ local function main()
     {id = 8, path = "lampgraph.png"},
     {id = 9, path = "trophy.png"},
     {id = 10, path = "infotext.png"},
+    {id = 11, path = "option_selector.png"},
+    {id = 12, path = "option_play.png"},
   }
   skin.font = {
     {id = 0, path = "../common/font/Koruri-Semibold.ttf"}
@@ -69,8 +71,25 @@ local function main()
     {id = "lnmode", src = 7, x = 0, w = 150, h = 64 * 3, divy = 3, len = 3, ref = 308, act = 308},
     {id = "lnmode_frame", src = 3, x = 0, y = 0, w = 150, h = 64},
 
-    {id = "scrollbar_frame", src = 3, x = 0, y = 0, w = 50, h = 600}
+    {id = "scrollbar_frame", src = 3, x = 0, y = 0, w = 50, h = 600},
+
+    {id = "option_play", src = 12, x = 0, y = 0, w = header.w, h = header.h},
   }
+  skin.image = mergeArray(skin.image, (function()
+    local src = 11 x = 0 base_y = 540 diff_y = 60 w = 220
+    local t = {}
+    local function selector(selection_num)
+      local h = 10 + diff_y * selection_num
+      for i = 1, selection_num do
+        table.insert(t, {id = "option_selector_"..selection_num.."_"..i, src = src, x = x, y = base_y - diff_y * (i - 1), w = w, h = h})
+      end
+    end
+    selector(4)
+    selector(5)
+    selector(6)
+    selector(10)
+    return t
+  end)())
   skin.image = mergeArray(skin.image, (function()
     local src = 1 x = 0 w = 800 h = 60
     return {
@@ -193,8 +212,21 @@ local function main()
       {id = "songs", src = src, x = x, y = y + h * 6, w = w, h = h},
     }
   end)())
+  local function optionSelector(num)
+    local t = {}
+    for i = 1, num do
+      table.insert(t, "option_selector_"..num.."_"..i)
+    end
+    return t
+  end
   skin.imageset = {
     {id = "bar", images = {"bar_song","bar_folder","bar_table","bar_grade","bar_nograde","bar_command","bar_search","bar_nosong"}},
+
+    {id = "option_random_1", ref = 42, images = optionSelector(10)},
+    {id = "option_random_2", ref = 43, images = optionSelector(10)},
+    {id = "option_gauge", ref = 40, images = optionSelector(6)},
+    {id = "option_hsfix", ref = 55, images = optionSelector(5)},
+    {id = "option_dp", ref = 54, images = optionSelector(4)},
   }
   skin.value = (function()
     local function value(param_table)
@@ -686,6 +718,21 @@ local function main()
 
       {id = "search_frame", dst = { {x = 42, y = 42, w = 500, h = 46, r = 16, g = 16, b = 16} }},
       {id = "search", filter = 1, dst = { {x = 50, y = 50, w = 500, h = 32} }},
+    }
+  end)())
+  skin.destination = mergeArray(skin.destination, (function()
+    local base_x = 510 base_y = 70 w = 220
+    local function h(selection_num) return 10 + 60 * selection_num end
+    return {
+      {id = "background", op = {21}, dst = { {x = 0, y = 0, w = header.w, h = header.h, a = 200} }},
+      {id = "option_play", op = {21}, dst = { {x = 0, y = 0, w = header.w, h = header.h} }},
+
+      {id = "option_random_1", op = {21}, dst = { {x = base_x, y = base_y, w = w, h = h(10) } }},
+      {id = "option_gauge", op = {21}, dst = { {x = base_x + 230 * 1, y = base_y + 60 * (10 - 6), w = w, h = h(6)} }},
+      -- Todo : option_hsfix don't work
+      {id = "option_hsfix", op = {21}, dst = { {x = base_x + 230 * 2, y = base_y + 60 * (10 - 5), w = w, h = h(5)} }},
+      {id = "option_random_2", op = {21}, dst = { {x = base_x + 230 * 3, y = base_y, w = w, h = h(10)} }},
+      {id = "option_dp", op = {21}, dst = { {x = 850, y = 20, w = w, h = h(4)} }},
     }
   end)())
   skin.destination = mergeArray(skin.destination, (function()
