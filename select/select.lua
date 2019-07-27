@@ -48,6 +48,8 @@ local function main()
     {id = 10, path = "infotext.png"},
     {id = 11, path = "option_selector.png"},
     {id = 12, path = "option_play.png"},
+    {id = 13, path = "option_assist.png"},
+    {id = 14, path = "option_detailed.png"},
   }
   skin.font = {
     {id = 0, path = "../common/font/Koruri-Semibold.ttf"}
@@ -58,13 +60,6 @@ local function main()
     {id = "lamp", src = 3, x = 0, y = 0, w = 16, h = 60},
     {id = "search_frame", src = 3, x = 0, y = 0, w = 500, h = 32},
 
-    {id = "dot", src = 2, x = 48*0, y = 64, w = 48, h = 64},
-    {id = "colon", src = 2, x = 48*1, y = 64, w = 48, h = 64},
-    {id = "wavedash", src = 2, x = 48*2, y = 64, w = 48, h = 64},
-    {id = "minus", src = 2, x = 48*3, y = 64, w = 48, h = 64},
-    {id = "slash", src = 2, x = 48*4, y = 64, w = 48, h = 64},
-    {id = "percent", src = 2, x = 48*5, y = 64, w = 48, h = 64},
-
     {id = "keys", src = 4, x = 1410, y = 0, w = 284, h = 64*8, divy = 8, len = 8, ref = 11, act = 11},
     {id = "sort", src = 4, x = 1010, y = 0, w = 400, h = 64*8, divy = 8, len = 8, ref = 12, act = 12},
 
@@ -74,6 +69,11 @@ local function main()
     {id = "scrollbar_frame", src = 3, x = 0, y = 0, w = 50, h = 600},
 
     {id = "option_play", src = 12, x = 0, y = 0, w = header.w, h = header.h},
+    {id = "option_assist", src = 13, x = 0, y = 0, w = header.w, h = header.h},
+    {id = "option_detailed", src = 14, x = 0, y = 0, w = header.w, h = header.h},
+    {id = "option_bg_1", src = 0, x = 0, y = 0, w = -1, h = -1},
+    {id = "option_bg_2", src = 0, x = 0, y = 0, w = -1, h = -1},
+    {id = "option_bg_3", src = 0, x = 0, y = 0, w = -1, h = -1},
   }
   skin.image = mergeArray(skin.image, (function()
     local src = 11 x = 0 base_y = 540 diff_y = 60 w = 220
@@ -84,11 +84,26 @@ local function main()
         table.insert(t, {id = "option_selector_"..selection_num.."_"..i, src = src, x = x, y = base_y - diff_y * (i - 1), w = w, h = h})
       end
     end
+    selector(2)
+    selector(3)
     selector(4)
     selector(5)
     selector(6)
     selector(10)
     return t
+  end)())
+  skin.image = mergeArray(skin.image, (function()
+    local src = 2 w = 48 h = 64
+    local y = h * 2
+    return {
+      {id = "dot", src = src, x = w * 0, y = y, w = w, h = h},
+      {id = "colon", src = src, x = w * 1, y = y, w = w, h = h},
+      {id = "wavedash", src = src, x = w * 2, y = y, w = w, h = h},
+      {id = "slash", src = src, x = w * 4, y = y, w = w, h = h},
+      {id = "percent", src = src, x = w * 5, y = y, w = w, h = h},
+
+      {id = "minus", src = src, x = w * 11, y = h, w = w, h = h},
+    }
   end)())
   skin.image = mergeArray(skin.image, (function()
     local src = 1 x = 0 w = 800 h = 60
@@ -227,6 +242,17 @@ local function main()
     {id = "option_gauge", ref = 40, images = optionSelector(6)},
     {id = "option_hsfix", ref = 55, images = optionSelector(5)},
     {id = "option_dp", ref = 54, images = optionSelector(4)},
+
+    {id = "option_exjudge", ref = 301, images = optionSelector(2)},
+    {id = "option_constant", ref = 302, images = optionSelector(2)},
+    {id = "option_judgearea", ref = 303, images = optionSelector(2)},
+    {id = "option_legacy", ref = 304, images = optionSelector(2)},
+    {id = "option_marknote", ref = 305, images = optionSelector(2)},
+    {id = "option_bpmguide", ref = 306, images = optionSelector(2)},
+    {id = "option_nomine", ref = 307, images = optionSelector(2)},
+
+    {id = "option_bga", ref = 72, images = optionSelector(3)},
+    {id = "option_gas", ref = 78, images = optionSelector(5)},
   }
   skin.value = (function()
     local function value(param_table)
@@ -286,6 +312,10 @@ local function main()
 
       value({id = "scorerate_num", digit = 3, ref = 102}),
       value({id = "scorerate_afterdot_num", digit = 2, ref = 103, w = w + 48, divx = 11}),
+
+      value({id = "option_duration", digit = 4, ref = 312}),
+      value({id = "option_greennumber", digit = 4, ref = 313}),
+      value({id = "option_judgetiming", digit = 3, ref = 12, w = w + 48 * 2, h = h * 2, divx = 12, divy = 2}),
 
       value({id = "fps_num", digit = 4, ref = 20})
     }
@@ -721,19 +751,55 @@ local function main()
     }
   end)())
   skin.destination = mergeArray(skin.destination, (function()
-    local base_x = 510 base_y = 70 w = 220
+    local selector_w = 220
     local function h(selection_num) return 10 + 60 * selection_num end
-    return {
-      {id = "background", op = {21}, dst = { {x = 0, y = 0, w = header.w, h = header.h, a = 200} }},
-      {id = "option_play", op = {21}, dst = { {x = 0, y = 0, w = header.w, h = header.h} }},
+    local t = {}
+    t = mergeArray(t, (function()
+      local op = {21} base_x = 510 base_y = 70
+      return {
+        {id = "option_bg_2", op = op, dst = { {x = 0, y = 0, w = header.w, h = header.h, a = 200} }},
+        {id = "option_play", op = op, dst = { {x = 0, y = 0, w = header.w, h = header.h} }},
 
-      {id = "option_random_1", op = {21}, dst = { {x = base_x, y = base_y, w = w, h = h(10) } }},
-      {id = "option_gauge", op = {21}, dst = { {x = base_x + 230 * 1, y = base_y + 60 * (10 - 6), w = w, h = h(6)} }},
-      -- Todo : option_hsfix don't work
-      {id = "option_hsfix", op = {21}, dst = { {x = base_x + 230 * 2, y = base_y + 60 * (10 - 5), w = w, h = h(5)} }},
-      {id = "option_random_2", op = {21}, dst = { {x = base_x + 230 * 3, y = base_y, w = w, h = h(10)} }},
-      {id = "option_dp", op = {21}, dst = { {x = 850, y = 20, w = w, h = h(4)} }},
-    }
+        {id = "option_random_1", op = op, dst = { {x = base_x, y = base_y, w = selector_w, h = h(10) } }},
+        {id = "option_gauge", op = op, dst = { {x = base_x + 230 * 1, y = base_y + 60 * (10 - 6), w = selector_w, h = h(6)} }},
+        -- beatoraja bug : option_hsfix don't work
+        {id = "option_hsfix", op = op, dst = { {x = base_x + 230 * 2, y = base_y + 60 * (10 - 5), w = selector_w, h = h(5)} }},
+        {id = "option_random_2", op = op, dst = { {x = base_x + 230 * 3, y = base_y, w = selector_w, h = h(10)} }},
+        {id = "option_dp", op = op, dst = { {x = 850, y = 20, w = selector_w, h = h(4)} }},
+      }
+    end)())
+    t = mergeArray(t, (function()
+      local op = {22} bottom_x = 510 bottom_y = 230 top_x = 630 top_y = 720
+      return {
+        {id = "option_bg_2", op = op, dst = { {x = 0, y = 0, w = header.w, h = header.h, a = 200} }},
+        {id = "option_assist", op = op, dst = { {x = 0, y = 0, w = header.w, h = header.h} }},
+
+        {id = "option_exjudge", op = op, dst = { {x = bottom_x, y = bottom_y, w = selector_w, h = h(2) } }},
+        {id = "option_judgearea", op = op, dst = { {x = bottom_x + 230 * 1, y = bottom_y, w = selector_w, h = h(2)} }},
+        {id = "option_marknote", op = op, dst = { {x = bottom_x + 230 * 2, y = bottom_y, w = selector_w, h = h(2)} }},
+        {id = "option_nomine", op = op, dst = { {x = bottom_x + 230 * 3, y = bottom_y, w = selector_w, h = h(2)} }},
+        {id = "option_constant", op = op, dst = { {x = top_x, y = top_y, w = selector_w, h = h(2) } }},
+        {id = "option_legacy", op = op, dst = { {x = top_x + 230 * 1, y = top_y, w = selector_w, h = h(2)} }},
+        {id = "option_bpmguide", op = op, dst = { {x = top_x + 230 * 2, y = top_y, w = selector_w, h = h(2)} }},
+      }
+    end)())
+    t = mergeArray(t, (function()
+      local op = {23} x = 540
+      local nscale = 0.5
+      local nw = 48 * nscale nh = 64 * nscale
+      return {
+        {id = "option_bg_3", op = op, dst = { {x = 0, y = 0, w = header.w, h = header.h, a = 200} }},
+        {id = "option_detailed", op = op, dst = { {x = 0, y = 0, w = header.w, h = header.h} }},
+
+        {id = "option_bga", op = op, dst = { {x = x, y = 170, w = selector_w, h = h(3) } }},
+        {id = "option_gas", op = op, dst = { {x = x, y = 540, w = selector_w, h = h(5) } }},
+
+        {id = "option_duration", op = op, dst = { {x = 1048, y = 740, w = nw, h = nh} }},
+        {id = "option_greennumber", op = op, dst = { {x = 1160, y = 740, w = nw, h = nh, r = 127, g = 204, b = 101} }},
+        {id = "option_judgetiming", op = op, dst = { {x = 1110, y = 310, w = nw, h = nh} }},
+      }
+    end)())
+    return t
   end)())
   skin.destination = mergeArray(skin.destination, (function()
     local scale = 0.45
