@@ -18,7 +18,7 @@ local filepath = {}
 
 local header = {
   type = 5,
-  name = "Dark Theme",
+  name = "DarkTheme",
   w = 1920,
   h = 1080,
   input = 2000,
@@ -45,6 +45,7 @@ local function main()
     {id = 7, path = "label.png"},
     {id = 8, path = "lampgraph.png"},
     {id = 9, path = "trophy.png"},
+    {id = 10, path = "infotext.png"},
   }
   skin.font = {
     {id = 0, path = "../common/font/Koruri-Semibold.ttf"}
@@ -181,6 +182,17 @@ local function main()
       {id = "trophy_gold", src = src, x = x + w * 2, y = y, w = w, h = h}
     }
   end)())
+  skin.image = mergeArray(skin.image, (function()
+    local src = 10 x = 0 y = 0 w = 526 h = 64
+    return {
+      {id = "uptime", src = src, x = x, y = y + h * 0, w = w, h = h},
+      {id = "total_playnotes", src = src, x = x, y = y + h * 1, w = w, h = h},
+      {id = "total_playcount", src = src, x = x, y = y + h * 2, w = w, h = h},
+      {id = "total_clearcount", src = src, x = x, y = y + h * 3, w = w, h = h},
+      {id = "total_playtime", src = src, x = x, y = y + h * 4, w = w, h = h},
+      {id = "songs", src = src, x = x, y = y + h * 6, w = w, h = h},
+    }
+  end)())
   skin.imageset = {
     {id = "bar", images = {"bar_song","bar_folder","bar_table","bar_grade","bar_nograde","bar_command","bar_search","bar_nosong"}},
   }
@@ -193,7 +205,16 @@ local function main()
     local v = {
       value({id = "bar_level", digit = 2}),
 
-      value({id = "pattern_length_num", digit = 5, ref = 300}),
+      value({id = "songs_num", digit = 5, ref = 300}),
+      value({id = "uptime_hour_num", digit = 2, ref = 27}),
+      value({id = "uptime_minute_num", digit = 2, ref = 28, w = w + 48, divx = 11}),
+      value({id = "uptime_second_num", digit = 2, ref = 29, w = w + 48, divx = 11}),
+      value({id = "total_playtime_hour_num", digit = 4, ref = 17}),
+      value({id = "total_playtime_minute_num", digit = 2, ref = 18, w = w + 48, divx = 11}),
+      value({id = "total_playtime_second_num", digit = 2, ref = 19, w = w + 48, divx = 11}),
+      value({id = "total_playnotes_num", digit = 10, ref = 333}),
+      value({id = "total_playcount_num", digit = 4, ref = 30}),
+      value({id = "total_clearcount_num", digit = 4, ref = 31}),
 
       value({id = "bpm_num", digit = 3, ref = 91}),
       value({id = "bpm_max_num", digit = 3, ref = 90}),
@@ -403,7 +424,7 @@ local function main()
     {id = "bpmgraph"}
   }
   skin.destination = {
-    {id = "background", dst = { {x = 0, y = 0, w = 1920, h = 1080} }},
+    {id = "background", dst = { {x = 0, y = 0, w = header.w, h = header.h} }},
 
     -- banner
     {id = -102, stretch = 1, dst = { {x = 60, y = 940, w = 300, h = 80} }},
@@ -624,23 +645,63 @@ local function main()
   skin.destination = mergeArray(skin.destination, (function()
     local x = 1860 w = 20  thumb_h = 50
     local frame_h = 600 + thumb_h
-    local y = (1080 - frame_h) / 2
+    local y = (header.h - frame_h) / 2
     return {
       {id = "scrollbar_frame", dst = { {x = x, y = y, w = w, h = frame_h, r = 16, g = 16, b = 16} }},
       {id = "scrollbar_thumb", dst = { {x = x, y = y + frame_h - thumb_h, w = w, h = thumb_h, r = 225, g = 225, b = 225} }}
     }
   end)())
   skin.destination = mergeArray(skin.destination, (function()
+    local scale = 0.5 op = {1}
+    local base_x = 400 y = 640 w = 20 h = 64 * scale
     return {
-      {id = "pattern_length_num", op = {1}, dst = { {x = 480, y = 640, w = 24, h = 32} }},
+      {id = "songs_num", op = op, dst = { {x = base_x, y = y, w = 48 * scale, h = h} }},
+      {id = "songs", op = op, dst = { {x = base_x + 100, y = y, w = 526 * scale, h = h} }},
+    }
+  end)())
+  skin.destination = mergeArray(skin.destination, (function()
+    local scale = 0.5 op = {1}
+    local base_x = 300 base_y = 400 w = 526 * scale h = 64 * scale
+    local nx = base_x + w + 20 nw = 48 * scale
+    return {
+      {id = "total_playtime", op = op, dst = { {x = base_x, y = base_y - h * 0, w = w, h = h} }},
+      {id = "total_playnotes", op = op, dst = { {x = base_x, y = base_y - h * 1, w = w, h = h} }},
+      {id = "total_playcount", op = op, dst = { {x = base_x, y = base_y - h * 2, w = w, h = h} }},
+      {id = "total_clearcount", op = op, dst = { {x = base_x, y = base_y - h * 3, w = w, h = h} }},
 
+      {id = "total_playtime_hour_num", op = op, dst = { {x = nx, y = base_y - h * 0, w = nw, h = h} }},
+      {id = "colon", op = op, dst = { {x = nx + 10 + 60 * 1, y = base_y - h * 0, w = nw, h = h} }},
+      {id = "total_playtime_minute_num", op = op, dst = { {x = nx + 30 + 60 * 1, y = base_y - h * 0, w = nw, h = h} }},
+      {id = "colon", op = op, dst = { {x = nx + 10 + 60 * 2, y = base_y - h * 0, w = nw, h = h} }},
+      {id = "total_playtime_second_num", op = op, dst = { {x = nx + 30 + 60 * 2, y = base_y - h * 0, w = nw, h = h} }},
+      {id = "total_playnotes_num", op = op, dst = { {x = nx, y = base_y - h * 1, w = nw, h = h} }},
+      {id = "total_playcount_num", op = op, dst = { {x = nx, y = base_y - h * 2, w = nw, h = h} }},
+      {id = "total_clearcount_num", op = op, dst = { {x = nx, y = base_y - h * 3, w = nw, h = h} }},
+    }
+  end)())
+  skin.destination = mergeArray(skin.destination, (function()
+    return {
       {id = "keys", dst = { {x = 700, y = 1000, w = 142, h = 32} }},
       {id = "sort", dst = { {x = 880, y = 1000, w = 200, h = 32} }},
 
       {id = "search_frame", dst = { {x = 42, y = 42, w = 500, h = 46, r = 16, g = 16, b = 16} }},
       {id = "search", filter = 1, dst = { {x = 50, y = 50, w = 500, h = 32} }},
+    }
+  end)())
+  skin.destination = mergeArray(skin.destination, (function()
+    local scale = 0.45
+    local base_x = 4 y = 4 nw = 48 * scale h = 64 * scale
+    local uptime_x = base_x + 140 uptimenum_x = uptime_x + 76
+    local info_color = {r = 105, g = 105, b = 105}
+    return {
+      {id = "fps_num", dst = { mergeMap({x = base_x, y = y, w = nw, h = h}, info_color) }},
 
-      {id = "fps_num", dst = { {x = 4, y = 4, w = 20, h = 28, r = 105, g = 105, b = 105} }}
+      {id = "uptime", dst = { mergeMap({x = uptime_x, y = y, w = 526 * scale, h = h}, info_color) }},
+      {id = "uptime_hour_num", dst = { mergeMap({x = uptimenum_x + 50 * 1, y = y, w = nw, h = h}, info_color) }},
+      {id = "colon", dst = { mergeMap({x = uptimenum_x + 32 + 50 * 1, y = y, w = nw, h = h}, info_color) }},
+      {id = "uptime_minute_num", dst = { mergeMap({x = uptimenum_x + 50 * 2, y = y, w = nw, h = h}, info_color) }},
+      {id = "colon", dst = { mergeMap({x = uptimenum_x + 32 + 50 * 2, y = y, w = nw, h = h}, info_color) }},
+      {id = "uptime_second_num", dst = { mergeMap({x = uptimenum_x + 50 * 3, y = y, w = nw, h = h}, info_color) }}
     }
   end)())
 
