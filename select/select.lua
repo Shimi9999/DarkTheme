@@ -236,32 +236,8 @@ local function main()
       {id = "songs", src = src, x = x, y = y + h * 6, w = w, h = h},
     }
   end)())
-  local function optionSelector(num)
-    local t = {}
-    for i = 1, num do
-      table.insert(t, "option_selector_"..num.."_"..i)
-    end
-    return t
-  end
   skin.imageset = {
     {id = "bar", images = {"bar_song","bar_folder","bar_table","bar_grade","bar_nograde","bar_command","bar_search","bar_nosong"}},
-
-    {id = "option_random_1", ref = 42, images = optionSelector(10)},
-    {id = "option_random_2", ref = 43, images = optionSelector(10)},
-    {id = "option_gauge", ref = 40, images = optionSelector(6)},
-    {id = "option_hsfix", ref = 55, images = optionSelector(5)},
-    {id = "option_dp", ref = 54, images = optionSelector(4)},
-
-    {id = "option_exjudge", ref = 301, images = optionSelector(2)},
-    {id = "option_constant", ref = 302, images = optionSelector(2)},
-    {id = "option_judgearea", ref = 303, images = optionSelector(2)},
-    {id = "option_legacy", ref = 304, images = optionSelector(2)},
-    {id = "option_marknote", ref = 305, images = optionSelector(2)},
-    {id = "option_bpmguide", ref = 306, images = optionSelector(2)},
-    {id = "option_nomine", ref = 307, images = optionSelector(2)},
-
-    {id = "option_bga", ref = 72, images = optionSelector(3)},
-    {id = "option_gas", ref = 78, images = optionSelector(5)},
 
     {id = "option_target", ref = 77, images = (function()
       local t = {}
@@ -271,6 +247,33 @@ local function main()
       return t
     end)()},
   }
+  mergeArray(skin.imageset, (function()
+    local function optionSelector(num)
+      local t = {}
+      for i = 1, num do
+        table.insert(t, "option_selector_"..num.."_"..i)
+      end
+      return t
+    end
+    return {
+      {id = "option_random_1", ref = 42, images = optionSelector(10)},
+      {id = "option_random_2", ref = 43, images = optionSelector(10)},
+      {id = "option_gauge", ref = 40, images = optionSelector(6)},
+      {id = "option_hsfix", ref = 55, images = optionSelector(5)},
+      {id = "option_dp", ref = 54, images = optionSelector(4)},
+
+      {id = "option_exjudge", ref = 301, images = optionSelector(2)},
+      {id = "option_constant", ref = 302, images = optionSelector(2)},
+      {id = "option_judgearea", ref = 303, images = optionSelector(2)},
+      {id = "option_legacy", ref = 304, images = optionSelector(2)},
+      {id = "option_marknote", ref = 305, images = optionSelector(2)},
+      {id = "option_bpmguide", ref = 306, images = optionSelector(2)},
+      {id = "option_nomine", ref = 307, images = optionSelector(2)},
+
+      {id = "option_bga", ref = 72, images = optionSelector(3)},
+      {id = "option_gas", ref = 78, images = optionSelector(5)},
+    }
+  end)())
   skin.value = (function()
     local function value(param_table)
       local src = 2 x = 0 y = 0 w = 480 h = 64 divx = 10 space = -4
