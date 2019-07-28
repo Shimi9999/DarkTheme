@@ -529,17 +529,18 @@ local function main()
   }
   skin.destination = mergeArray(skin.destination, (function()
     local base_x = 540 base_y = 706 w = 1000 h = 32
+    local course_h = 40
     return {
       {id = "directory", filter = 1, dst = { {x = base_x - 40, y = base_y + 140, w = w, h = h} }},
       {id = "genre", filter = 1, dst = { {x = base_x, y = base_y + 92, w = w, h = h} }},
-      {id = "title", filter = 1, dst = { {x = base_x, y = 706, w = w, h = 76} }},
+      {id = "title", filter = 1, dst = { {x = base_x, y = base_y, w = w, h = 76} }},
       {id = "subtitle", filter = 1, dst = { {x = base_x, y = base_y - 44, w = w, h = 48} }},
       {id = "artist", filter = 1, dst = { {x = base_x, y = base_y - 84, w = w, h = h} }},
-      {id = "coursetitle1", filter = 1, dst = { {x = base_x, y = base_y - 40 * 0, w = w, h = h} }},
-      {id = "coursetitle2", filter = 1, dst = { {x = base_x, y = base_y - 40 * 1, w = w, h = h} }},
-      {id = "coursetitle3", filter = 1, dst = { {x = base_x, y = base_y - 40 * 2, w = w, h = h} }},
-      {id = "coursetitle4", filter = 1, dst = { {x = base_x, y = base_y - 40 * 3, w = w, h = h} }},
-      {id = "coursetitle5", filter = 1, dst = { {x = base_x, y = base_y - 40 * 4, w = w, h = h} }}
+      {id = "coursetitle1", filter = 1, dst = { {x = base_x, y = base_y - (course_h + 4) * 0, w = w, h = course_h} }},
+      {id = "coursetitle2", filter = 1, dst = { {x = base_x, y = base_y - (course_h + 4) * 1, w = w, h = course_h} }},
+      {id = "coursetitle3", filter = 1, dst = { {x = base_x, y = base_y - (course_h + 4) * 2, w = w, h = course_h} }},
+      {id = "coursetitle4", filter = 1, dst = { {x = base_x, y = base_y - (course_h + 4) * 3, w = w, h = course_h} }},
+      {id = "coursetitle5", filter = 1, dst = { {x = base_x, y = base_y - (course_h + 4) * 4, w = w, h = course_h} }}
     }
   end)())
   skin.destination = mergeArray(skin.destination, (function()
@@ -768,7 +769,7 @@ local function main()
     }
   end)())
   skin.destination = mergeArray(skin.destination, (function()
-    local selector_w = 220 selector_a = 170
+    local selector_w = 220
     local function h(selection_num) return 10 + 60 * selection_num end
     local t = {}
     t = mergeArray(t, (function()
