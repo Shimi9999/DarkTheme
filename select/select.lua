@@ -1,16 +1,4 @@
-local function mergeArray(first, second)
-  for i = 1, #second do
-    first[#first + 1] = second[i]
-  end
-  return first
-end
-
-local function mergeMap(first, second)
-  for k, v in pairs(second) do
-    first[k] = v
-  end
-  return first
-end
+local utils = require "utils"
 
 local property = {}
 
@@ -76,7 +64,7 @@ local function main()
     {id = "option_bg_2", src = 0, x = 0, y = 0, w = -1, h = -1},
     {id = "option_bg_3", src = 0, x = 0, y = 0, w = -1, h = -1},
   }
-  mergeArray(skin.image, (function()
+  utils.mergeArray(skin.image, (function()
     local src = 11 x = 0 base_y = 540 diff_y = 60 w = 220
     local t = {}
     local function selector(selection_num)
@@ -93,7 +81,7 @@ local function main()
     selector(10)
     return t
   end)())
-  mergeArray(skin.image, (function()
+  utils.mergeArray(skin.image, (function()
     local src = 15 x = 0 base_y = 0 diff_y = 40 w = 310 h = 430
     local t = {}
     for i = 1, 11 do
@@ -101,7 +89,7 @@ local function main()
     end
     return t
   end)())
-  mergeArray(skin.image, (function()
+  utils.mergeArray(skin.image, (function()
     local src = 2 w = 48 h = 64
     local y = h * 2
     return {
@@ -114,7 +102,7 @@ local function main()
       {id = "minus", src = src, x = w * 11, y = h, w = w, h = h},
     }
   end)())
-  mergeArray(skin.image, (function()
+  utils.mergeArray(skin.image, (function()
     local src = 1 x = 0 w = 800 h = 60
     return {
       {id = "bar_song", src = src, x = x, y = h * 0, w = w, h = h},
@@ -127,7 +115,7 @@ local function main()
       {id = "bar_search", src = src, x = x, y = h * 0, w = w, h = h}
     }
   end)())
-  mergeArray(skin.image, (function()
+  utils.mergeArray(skin.image, (function()
     local src = 7 x = 0 w = 150 h = 64
     return {
       {id = "label_ln", src = src, x = x, y = h * 0, w = w, h = h},
@@ -137,7 +125,7 @@ local function main()
       {id = "label_random", src = src, x = x, y = h * 4, w = w, h = h}
     }
   end)())
-  mergeArray(skin.image, (function()
+  utils.mergeArray(skin.image, (function()
     local src = 4 x = 248 w = 350 h = 64
     return {
       {id = "veryhard_judge", src = src, x = x, y = h * 0, w = w, h = h},
@@ -150,7 +138,7 @@ local function main()
       {id = "total", src = src, x = x, y = h * 8, w = w, h = h},
     }
   end)())
-  mergeArray(skin.image, (function()
+  utils.mergeArray(skin.image, (function()
     local src = 4 x = 0 w = 250 h = 64
     return {
       {id = "7keys", src = src, x = x, y = h * 0, w = w, h = h},
@@ -162,7 +150,7 @@ local function main()
       {id = "48keys", src = src, x = x, y = h * 4, w = w, h = h}
     }
   end)())
-  mergeArray(skin.image, (function()
+  utils.mergeArray(skin.image, (function()
     local src = 4 x = 600 w = 400 h = 64
     local t = {}
     for i = 1, 11 do
@@ -170,7 +158,7 @@ local function main()
     end
     return t
   end)())
-  mergeArray(skin.image, (function()
+  utils.mergeArray(skin.image, (function()
     local src = 4 x = 1700 w = 290 h = 64
     return {
       {id = "peak", src = src, x = x, y = h * 0, w = w, h = h},
@@ -182,7 +170,7 @@ local function main()
       {id = "bss", src = src, x = x, y = h * 7, w = w, h = h}
     }
   end)())
-  mergeArray(skin.image, (function()
+  utils.mergeArray(skin.image, (function()
     local src = 5 base_x = 0 y = 0 w = 64 h = 64
     return {
       {id = "play", src = src, x = base_x + w * 0, y = y, w = w, h = h, ref = 15, act = 15},
@@ -194,14 +182,14 @@ local function main()
       {id = "replay_4", src = src, x = base_x + w * 6, y = y, w = w, h = h, ref = 318, act = 318}
     }
   end)())
-  mergeArray(skin.image, (function()
+  utils.mergeArray(skin.image, (function()
     local src = 6 y = 0 h = 64
     return {
       {id = "judges", src = src, x = 0, y = y, w = 254, h = h * 6},
       {id = "scores", src = src, x = 300, y = y, w = 400, h = h * 5}
     }
   end)())
-  mergeArray(skin.image, (function()
+  utils.mergeArray(skin.image, (function()
     local src = 6 x = 740 y = 0 w = 140 h = 64
     local t = {}
     for i = 1, 9 do
@@ -209,7 +197,7 @@ local function main()
     end
     return t
   end)())
-  mergeArray(skin.image, (function()
+  utils.mergeArray(skin.image, (function()
     local src = 6 x = 900 y = 0 w = 450 h = 64
     local t = {}
     for i = 1, 10 do
@@ -217,7 +205,7 @@ local function main()
     end
     return t
   end)())
-  mergeArray(skin.image, (function()
+  utils.mergeArray(skin.image, (function()
     local src = 9 x = 0 y = 0 w = 60 h = 60
     return {
       {id = "trophy_bronze", src = src, x = x + w * 0, y = y, w = w, h = h},
@@ -225,7 +213,7 @@ local function main()
       {id = "trophy_gold", src = src, x = x + w * 2, y = y, w = w, h = h}
     }
   end)())
-  mergeArray(skin.image, (function()
+  utils.mergeArray(skin.image, (function()
     local src = 10 x = 0 y = 0 w = 526 h = 64
     return {
       {id = "uptime", src = src, x = x, y = y + h * 0, w = w, h = h},
@@ -247,7 +235,7 @@ local function main()
       return t
     end)()},
   }
-  mergeArray(skin.imageset, (function()
+  utils.mergeArray(skin.imageset, (function()
     local function optionSelector(num)
       local t = {}
       for i = 1, num do
@@ -278,7 +266,7 @@ local function main()
     local function value(param_table)
       local src = 2 x = 0 y = 0 w = 480 h = 64 divx = 10 space = -4
       local t = {src = src, x = x, y = y, w = w, h = h, divx = divx, space = space}
-      return mergeMap(t, param_table)
+      return utils.mergeMap(t, param_table)
     end
     local v = {
       value({id = "bar_level", digit = 2}),
@@ -342,7 +330,7 @@ local function main()
     for i = 1, 6 do
       local ref = 109 + i
       if i == 6 then ref = 420 end
-      mergeArray(v, { value({id = "judge_num_"..i, digit = 4, ref = ref}) } )
+      utils.mergeArray(v, { value({id = "judge_num_"..i, digit = 4, ref = ref}) } )
     end
 
     return v
@@ -530,7 +518,7 @@ local function main()
     {id = "total", op = {2}, filter = 1, dst = { {x = 480, y = 480, w = 350 * 0.5, h = 32} }},
     {id = "total_num", op = {2}, dst = { {x = 480 + 120, y = 480, w = 24, h = 32} }}
   }
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local base_x = 540 base_y = 706 w = 1000 h = 32
     local course_h = 40
     return {
@@ -546,7 +534,7 @@ local function main()
       {id = "coursetitle5", filter = 1, dst = { {x = base_x, y = base_y - (course_h + 4) * 4, w = w, h = course_h} }}
     }
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local base_x = 550 y = 400 w = 30 h = 40 op = {2, 5}
     local peak_color = {r = 201, g = 101, b = 101}
     local end_color = {r = 204, g = 204, b = 101}
@@ -555,20 +543,20 @@ local function main()
     local tw = 290 * tscale th = 64 * tscale
     local ty = y - 20
     return {
-      {id = "density_peak", op = op, filter = 1, dst = { mergeMap({x = base_x, y = y, w = w, h = h}, peak_color) }},
-      {id = "density_end", op = op, filter = 1, dst = { mergeMap({x = base_x + 100, y = y, w = w, h = h}, end_color) }},
-      {id = "dot", op = op, filter = 1, dst = { mergeMap({x = base_x + 140, y = y, w = w, h = h}, end_color) }},
-      {id = "density_end_afterdot", op = op, filter = 1, dst = { mergeMap({x = base_x + 160, y = y, w = w*0.7, h = h*0.7}, end_color) }},
-      {id = "density_average", op = op, filter = 1, dst = { mergeMap({x = base_x + 240, y = y, w = w, h = h}, average_color) }},
-      {id = "dot", op = op, filter = 1, dst = { mergeMap({x = base_x + 280, y = y, w = w, h = w}, average_color) }},
-      {id = "density_peak_afterdot", filter = 1, op = op, dst = { mergeMap({x = base_x + 300, y = y, w = w*0.7, h = h*0.7}, average_color) }},
+      {id = "density_peak", op = op, filter = 1, dst = { utils.mergeMap({x = base_x, y = y, w = w, h = h}, peak_color) }},
+      {id = "density_end", op = op, filter = 1, dst = { utils.mergeMap({x = base_x + 100, y = y, w = w, h = h}, end_color) }},
+      {id = "dot", op = op, filter = 1, dst = { utils.mergeMap({x = base_x + 140, y = y, w = w, h = h}, end_color) }},
+      {id = "density_end_afterdot", op = op, filter = 1, dst = { utils.mergeMap({x = base_x + 160, y = y, w = w*0.7, h = h*0.7}, end_color) }},
+      {id = "density_average", op = op, filter = 1, dst = { utils.mergeMap({x = base_x + 240, y = y, w = w, h = h}, average_color) }},
+      {id = "dot", op = op, filter = 1, dst = { utils.mergeMap({x = base_x + 280, y = y, w = w, h = w}, average_color) }},
+      {id = "density_peak_afterdot", filter = 1, op = op, dst = { utils.mergeMap({x = base_x + 300, y = y, w = w*0.7, h = h*0.7}, average_color) }},
 
-      {id = "peak", op = op, dst = { mergeMap({x = base_x, y = ty, w = tw, h = th}, peak_color) }},
-      {id = "end", op = op, dst = { mergeMap({x = base_x + 140, y = ty, w = tw, h = th}, end_color) }},
-      {id = "average", op = op, dst = { mergeMap({x = base_x + 260, y = ty, w = tw, h = th}, average_color) }}
+      {id = "peak", op = op, dst = { utils.mergeMap({x = base_x, y = ty, w = tw, h = th}, peak_color) }},
+      {id = "end", op = op, dst = { utils.mergeMap({x = base_x + 140, y = ty, w = tw, h = th}, end_color) }},
+      {id = "average", op = op, dst = { utils.mergeMap({x = base_x + 260, y = ty, w = tw, h = th}, average_color) }}
     }
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local dst = { {x = 850, y = 560, w = 170, h = 32} }
     return {
       {id = "veryhard_judge", op = {180}, dst = dst},
@@ -578,7 +566,7 @@ local function main()
       {id = "veryeasy_judge", op = {184}, dst = dst}
     }
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local dst = { { x = 850, y = 520, w = 125, h = 32} }
     return {
       {id = "7keys", op = {160}, dst = dst},
@@ -590,7 +578,7 @@ local function main()
       {id = "48keys", op = {1161}, dst = dst},
     }
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local base_x = 550 base_y = 200 num_y = base_y - 40 w = 24 h = 32 margin = 100
     local tscale = 0.3
     local tw = 290 * tscale th = 64 * tscale
@@ -603,19 +591,19 @@ local function main()
       {id = "notesgraph", op = {2}, dst = { {x = base_x, y = base_y, w = 500, h = 140} }},
       {id = "bpmgraph", op = {2, 177}, dst = { {x = base_x, y = base_y, w = 500, h = 140} }},
 
-      {id = "note_num", op = {5}, dst = { mergeMap({x = base_x + margin * 0, y = num_y, w = w, h = h}, color_note) }},
-      {id = "scratch_num", op = {5}, dst = { mergeMap({x = base_x + margin * 1, y = num_y, w = w, h = h}, color_scratch) }},
-      {id = "ln_num", op = {5}, dst = { mergeMap({x = base_x + margin * 2, y = num_y, w = w, h = h}, color_ln) }},
-      {id = "bss_num", op = {5}, dst = { mergeMap({x = base_x + margin * 3, y = num_y, w = w, h = h, }, color_bss) }},
+      {id = "note_num", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 0, y = num_y, w = w, h = h}, color_note) }},
+      {id = "scratch_num", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 1, y = num_y, w = w, h = h}, color_scratch) }},
+      {id = "ln_num", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 2, y = num_y, w = w, h = h}, color_ln) }},
+      {id = "bss_num", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 3, y = num_y, w = w, h = h, }, color_bss) }},
       --{id = "mine_num", op = {5}, dst = { {x = base_x + 400, y = num_y, w = w, h = h} }}
 
-      {id = "note", op = {5}, dst = { mergeMap({x = base_x + margin * 0, y = ty, w = tw, h = th}, color_note) }},
-      {id = "scratch", op = {5}, dst = { mergeMap({x = base_x + margin * 1, y = ty, w = tw, h = th}, color_scratch) }},
-      {id = "ln", op = {5}, dst = { mergeMap({x = base_x + margin * 2, y = ty, w = tw, h = th}, color_ln) }},
-      {id = "bss", op = {5}, dst = { mergeMap({x = base_x + margin * 3, y = ty, w = tw, h = th, }, color_bss) }},
+      {id = "note", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 0, y = ty, w = tw, h = th}, color_note) }},
+      {id = "scratch", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 1, y = ty, w = tw, h = th}, color_scratch) }},
+      {id = "ln", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 2, y = ty, w = tw, h = th}, color_ln) }},
+      {id = "bss", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 3, y = ty, w = tw, h = th, }, color_bss) }},
     }
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local base_x = 50 base_y = 460 w = 24 h = 32
     return {
       {id = "scorerate_num", op = {5, -100}, dst = { {x = base_x, y = base_y - 40 , w = w, h = h} }},
@@ -624,7 +612,7 @@ local function main()
       {id = "percent", op = {5, -100}, dst = { {x = base_x + 110, y = base_y - 40 , w = w, h = h} }}
     }
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local scale = 0.4
     local base_x = 30 base_y = 250 h = 64 * scale
     return {
@@ -632,7 +620,7 @@ local function main()
       {id = "scores", op = {5}, dst = { {x = base_x + 200, y = base_y + h, w = 400 * scale, h = h * 5} }}
     }
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local scale = 0.4
     local x = 140 base_y = 250 w = 48 * scale h = 64 * scale
     local t = {}
@@ -641,7 +629,7 @@ local function main()
     end
     return t
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local scale = 0.4
     local x = 400 m = 70 w = 48 * scale h = 64 * scale
     local base_y = 250 + h * 5
@@ -659,7 +647,7 @@ local function main()
       {id = "djpoint_num", op = {5}, dst = { {x = x - 100, y = base_y - h * 5, w = w, h = h} }},
     }
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local x = 30 y = 460 w = 200 h = 32
     local ops = {100, 101, 1100, 1101, 102, 103, 104, 1102, 105, 1103, 1104}
     local t = {}
@@ -668,7 +656,7 @@ local function main()
     end
     return t
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     -- OK : NORMAL,MIRROR,RANDOM,SRANDOM,RRANDOM,SPIRAL
     -- NG : HRANDOM,ALLSCR,ECRANDOM,EXSRANDOM
     local scale = 0.3
@@ -682,7 +670,7 @@ local function main()
     end
     return t
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local x = 240 y = 430 w = 130 h = 64
     local t = {}
     for i = 1, 8 do
@@ -690,7 +678,7 @@ local function main()
     end
     return t
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local scale = 0.4
     local x = 360 y = 420 w = 48 * scale h = 64 * scale
     local t = {
@@ -698,13 +686,13 @@ local function main()
       {id = "nextrank_num", op = {5, -100}, dst = { {x = x + 50, y = y, w = w, h = h} }}
     }
     for i = 1, 8 do
-      mergeArray(t, {
+      utils.mergeArray(t, {
         {id = "rank_"..i, op = {199 + i, -100}, dst = { {x = x, y = y, w = 140 * scale, h = h} }}
       })
     end
     return t
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local x = 50 y = 100 w = 38 h = 38 margin = 10
     local function dst(pos) return { {x = x + (w + margin) * pos, y = y, w = w, h = h} } end
     return {
@@ -717,7 +705,7 @@ local function main()
       {id = "replay_4", op = {5, 1203}, filter = 1, dst = dst(6)}
     }
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local scale = 0.6
     local x = 800 y = 50 w = 150 * scale h = 64 * scale
     return {
@@ -725,7 +713,7 @@ local function main()
       {id = "lnmode", dst = { {x = x, y = y, w = w, h = h} }}
     }
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local x = 1860 w = 20  thumb_h = 50
     local frame_h = 600 + thumb_h
     local y = (header.h - frame_h) / 2
@@ -734,7 +722,7 @@ local function main()
       {id = "scrollbar_thumb", dst = { {x = x, y = y + frame_h - thumb_h, w = w, h = thumb_h, r = 225, g = 225, b = 225} }}
     }
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local scale = 0.5 op = {1}
     local base_x = 400 y = 640 w = 20 h = 64 * scale
     return {
@@ -742,7 +730,7 @@ local function main()
       {id = "songs", op = op, dst = { {x = base_x + 100, y = y, w = 526 * scale, h = h} }},
     }
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local scale = 0.5 op = {1}
     local base_x = 300 base_y = 400 w = 526 * scale h = 64 * scale
     local nx = base_x + w + 20 nw = 48 * scale
@@ -762,7 +750,7 @@ local function main()
       {id = "total_clearcount_num", op = op, dst = { {x = nx, y = base_y - h * 3, w = nw, h = h} }},
     }
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     return {
       {id = "keys", dst = { {x = 700, y = 1000, w = 142, h = 32} }},
       {id = "sort", dst = { {x = 880, y = 1000, w = 200, h = 32} }},
@@ -771,11 +759,11 @@ local function main()
       {id = "search", filter = 1, dst = { {x = 50, y = 50, w = 500, h = 32} }},
     }
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local selector_w = 220
     local function h(selection_num) return 10 + 60 * selection_num end
     local t = {}
-    mergeArray(t, (function()
+    utils.mergeArray(t, (function()
       local op = {21} base_x = 510 base_y = 70
       return {
         {id = "option_bg_2", op = op, dst = { {x = 0, y = 0, w = header.w, h = header.h, a = 200} }},
@@ -791,7 +779,7 @@ local function main()
         {id = "option_dp", op = op, blend = 2, dst = { {x = 850, y = 20, w = selector_w, h = h(4)} }},
       }
     end)())
-    mergeArray(t, (function()
+    utils.mergeArray(t, (function()
       local op = {22} bottom_x = 510 bottom_y = 230 top_x = 630 top_y = 720
       return {
         {id = "option_bg_2", op = op, dst = { {x = 0, y = 0, w = header.w, h = header.h, a = 200} }},
@@ -806,7 +794,7 @@ local function main()
         {id = "option_bpmguide", op = op, blend = 2, dst = { {x = top_x + 230 * 2, y = top_y, w = selector_w, h = h(2)} }},
       }
     end)())
-    mergeArray(t, (function()
+    utils.mergeArray(t, (function()
       local op = {23} x = 540
       local nscale = 0.5
       local nw = 48 * nscale nh = 64 * nscale
@@ -824,20 +812,20 @@ local function main()
     end)())
     return t
   end)())
-  mergeArray(skin.destination, (function()
+  utils.mergeArray(skin.destination, (function()
     local scale = 0.45
     local base_x = 4 y = 4 nw = 48 * scale h = 64 * scale
     local uptime_x = base_x + 140 uptimenum_x = uptime_x + 76
     local info_color = {r = 105, g = 105, b = 105}
     return {
-      {id = "fps_num", dst = { mergeMap({x = base_x, y = y, w = nw, h = h}, info_color) }},
+      {id = "fps_num", dst = { utils.mergeMap({x = base_x, y = y, w = nw, h = h}, info_color) }},
 
-      {id = "uptime", dst = { mergeMap({x = uptime_x, y = y, w = 526 * scale, h = h}, info_color) }},
-      {id = "uptime_hour_num", dst = { mergeMap({x = uptimenum_x + 50 * 1, y = y, w = nw, h = h}, info_color) }},
-      {id = "colon", dst = { mergeMap({x = uptimenum_x + 32 + 50 * 1, y = y, w = nw, h = h}, info_color) }},
-      {id = "uptime_minute_num", dst = { mergeMap({x = uptimenum_x + 50 * 2, y = y, w = nw, h = h}, info_color) }},
-      {id = "colon", dst = { mergeMap({x = uptimenum_x + 32 + 50 * 2, y = y, w = nw, h = h}, info_color) }},
-      {id = "uptime_second_num", dst = { mergeMap({x = uptimenum_x + 50 * 3, y = y, w = nw, h = h}, info_color) }}
+      {id = "uptime", dst = { utils.mergeMap({x = uptime_x, y = y, w = 526 * scale, h = h}, info_color) }},
+      {id = "uptime_hour_num", dst = { utils.mergeMap({x = uptimenum_x + 50 * 1, y = y, w = nw, h = h}, info_color) }},
+      {id = "colon", dst = { utils.mergeMap({x = uptimenum_x + 32 + 50 * 1, y = y, w = nw, h = h}, info_color) }},
+      {id = "uptime_minute_num", dst = { utils.mergeMap({x = uptimenum_x + 50 * 2, y = y, w = nw, h = h}, info_color) }},
+      {id = "colon", dst = { utils.mergeMap({x = uptimenum_x + 32 + 50 * 2, y = y, w = nw, h = h}, info_color) }},
+      {id = "uptime_second_num", dst = { utils.mergeMap({x = uptimenum_x + 50 * 3, y = y, w = nw, h = h}, info_color) }}
     }
   end)())
 
