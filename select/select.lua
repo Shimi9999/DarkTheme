@@ -35,22 +35,22 @@ local function main()
   end
 
   skin.source = {
-    {id = 0, path = "bg.png"},
-    {id = 1, path = "bar.png"},
-    {id = 2, path = "number.png"},
-    {id = 3, path = "white.png"},
-    {id = 4, path = "text.png"},
-    {id = 5, path = "playbutton.png"},
-    {id = 6, path = "score.png"},
-    {id = 7, path = "label.png"},
-    {id = 8, path = "lampgraph.png"},
-    {id = 9, path = "trophy.png"},
-    {id = 10, path = "infotext.png"},
-    {id = 11, path = "option_selector.png"},
-    {id = 12, path = "option_play.png"},
-    {id = 13, path = "option_assist.png"},
-    {id = 14, path = "option_detailed.png"},
-    {id = 15, path = "target.png"},
+    {id = 0, path = "image/bg.png"},
+    {id = 1, path = "image/bar.png"},
+    {id = 2, path = "image/number.png"},
+    {id = 3, path = "image/white.png"},
+    {id = 4, path = "image/text.png"},
+    {id = 5, path = "image/playbutton.png"},
+    {id = 6, path = "image/score.png"},
+    {id = 8, path = "image/lampgraph.png"},
+    {id = 7, path = "image/label.png"},
+    {id = 9, path = "image/trophy.png"},
+    {id = 10, path = "image/infotext.png"},
+    {id = 11, path = "image/option_selector.png"},
+    {id = 12, path = "image/option_play.png"},
+    {id = 13, path = "image/option_assist.png"},
+    {id = 14, path = "image/option_detailed.png"},
+    {id = 15, path = "image/target.png"},
   }
   skin.font = {
     {id = 0, path = "../common/font/Koruri-Semibold.ttf"}
