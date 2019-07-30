@@ -6,6 +6,7 @@ local Score = require "score"
 local SongList = require "songlist"
 local Option = require "option"
 local ScrollBar = require "scrollbar"
+local PlayButton = require "playbutton"
 
 local function main()
   local skin = {}
@@ -39,6 +40,7 @@ local function main()
   local songlist = SongList.new()
   local score = Score.new()
   local scrollbar = ScrollBar.new()
+  local playbutton = PlayButton.new()
   local option = Option.new()
 
   skin.image = {
@@ -69,23 +71,12 @@ local function main()
   utils.mergeArray(skin.image, score.image())
   utils.mergeArray(skin.image, songlist.image())
   utils.mergeArray(skin.image, scrollbar.image())
+  utils.mergeArray(skin.image, playbutton.image())
   utils.mergeArray(skin.image, option.image())
   utils.mergeArray(skin.image, (function()
     local src = 10 local x = 0 local y = 0 local w = 526 local h = 64
     return {
       {id = "uptime", src = src, x = x, y = y + h * 0, w = w, h = h}
-    }
-  end)())
-  utils.mergeArray(skin.image, (function()
-    local src = 5 base_x = 0 y = 0 w = 64 h = 64
-    return {
-      {id = "play", src = src, x = base_x + w * 0, y = y, w = w, h = h, ref = 15, act = 15},
-      {id = "auto", src = src, x = base_x + w * 1, y = y, w = w, h = h, ref = 16, act = 16},
-      {id = "practice", src = src, x = base_x + w * 2, y = y, w = w, h = h, ref = 315, act = 315},
-      {id = "replay_1", src = src, x = base_x + w * 3, y = y, w = w, h = h, ref = 19, act = 19},
-      {id = "replay_2", src = src, x = base_x + w * 4, y = y, w = w, h = h, ref = 316, act = 316},
-      {id = "replay_3", src = src, x = base_x + w * 5, y = y, w = w, h = h, ref = 317, act = 317},
-      {id = "replay_4", src = src, x = base_x + w * 6, y = y, w = w, h = h, ref = 318, act = 318}
     }
   end)())
 
@@ -134,19 +125,7 @@ local function main()
   utils.mergeArray(skin.destination, songlist.destination())
   utils.mergeArray(skin.destination, songinfo.destination())
   utils.mergeArray(skin.destination, score.destination())
-  utils.mergeArray(skin.destination, (function()
-    local x = 50 y = 100 w = 38 h = 38 margin = 10
-    local function dst(pos) return { {x = x + (w + margin) * pos, y = y, w = w, h = h} } end
-    return {
-      {id = "play", op = {5}, filter = 1, dst = dst(0)},
-      {id = "auto", op = {5}, filter = 1, dst = dst(1)},
-      {id = "practice", op = {5}, filter = 1, dst = dst(2)},
-      {id = "replay_1", op = {5, 197}, filter = 1, dst = dst(3)},
-      {id = "replay_2", op = {5, 1197}, filter = 1, dst = dst(4)},
-      {id = "replay_3", op = {5, 1200}, filter = 1, dst = dst(5)},
-      {id = "replay_4", op = {5, 1203}, filter = 1, dst = dst(6)}
-    }
-  end)())
+  utils.mergeArray(skin.destination, playbutton.destination())
   utils.mergeArray(skin.destination, (function()
     local scale = 0.6
     local x = 800 y = 50 w = 150 * scale h = 64 * scale
