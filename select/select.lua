@@ -71,6 +71,12 @@ local function main()
   utils.mergeArray(skin.image, scrollbar.image())
   utils.mergeArray(skin.image, option.image())
   utils.mergeArray(skin.image, (function()
+    local src = 10 local x = 0 local y = 0 local w = 526 local h = 64
+    return {
+      {id = "uptime", src = src, x = x, y = y + h * 0, w = w, h = h}
+    }
+  end)())
+  utils.mergeArray(skin.image, (function()
     local src = 5 base_x = 0 y = 0 w = 64 h = 64
     return {
       {id = "play", src = src, x = base_x + w * 0, y = y, w = w, h = h, ref = 15, act = 15},
@@ -82,17 +88,6 @@ local function main()
       {id = "replay_4", src = src, x = base_x + w * 6, y = y, w = w, h = h, ref = 318, act = 318}
     }
   end)())
-  utils.mergeArray(skin.image, (function()
-    local src = 10 x = 0 y = 0 w = 526 h = 64
-    return {
-      {id = "uptime", src = src, x = x, y = y + h * 0, w = w, h = h},
-      {id = "total_playnotes", src = src, x = x, y = y + h * 1, w = w, h = h},
-      {id = "total_playcount", src = src, x = x, y = y + h * 2, w = w, h = h},
-      {id = "total_clearcount", src = src, x = x, y = y + h * 3, w = w, h = h},
-      {id = "total_playtime", src = src, x = x, y = y + h * 4, w = w, h = h},
-      {id = "songs", src = src, x = x, y = y + h * 6, w = w, h = h},
-    }
-  end)())
 
   skin.imageset = {}
   utils.mergeArray(skin.imageset, songlist.imageset())
@@ -100,16 +95,9 @@ local function main()
 
   skin.value = (function()
     local v = {
-      utils.generateValue({id = "songs_num", digit = 5, ref = 300}),
       utils.generateValue({id = "uptime_hour_num", digit = 2, ref = 27}),
       utils.generateValueX({id = "uptime_minute_num", digit = 2, ref = 28}, 11),
       utils.generateValueX({id = "uptime_second_num", digit = 2, ref = 29}, 11),
-      utils.generateValue({id = "total_playtime_hour_num", digit = 4, ref = 17}),
-      utils.generateValueX({id = "total_playtime_minute_num", digit = 2, ref = 18}, 11),
-      utils.generateValueX({id = "total_playtime_second_num", digit = 2, ref = 19}, 11),
-      utils.generateValue({id = "total_playnotes_num", digit = 10, ref = 333}),
-      utils.generateValue({id = "total_playcount_num", digit = 4, ref = 30}),
-      utils.generateValue({id = "total_clearcount_num", digit = 4, ref = 31}),
 
       utils.generateValue({id = "fps_num", digit = 4, ref = 20})
     }
@@ -168,34 +156,6 @@ local function main()
     }
   end)())
   utils.mergeArray(skin.destination, scrollbar.destination())
-  utils.mergeArray(skin.destination, (function()
-    local scale = 0.5 op = {1}
-    local base_x = 400 y = 640 w = 20 h = 64 * scale
-    return {
-      {id = "songs_num", op = op, dst = { {x = base_x, y = y, w = 48 * scale, h = h} }},
-      {id = "songs", op = op, dst = { {x = base_x + 100, y = y, w = 526 * scale, h = h} }},
-    }
-  end)())
-  utils.mergeArray(skin.destination, (function()
-    local scale = 0.5 op = {1}
-    local base_x = 300 base_y = 400 w = 526 * scale h = 64 * scale
-    local nx = base_x + w + 20 nw = 48 * scale
-    return {
-      {id = "total_playtime", op = op, dst = { {x = base_x, y = base_y - h * 0, w = w, h = h} }},
-      {id = "total_playnotes", op = op, dst = { {x = base_x, y = base_y - h * 1, w = w, h = h} }},
-      {id = "total_playcount", op = op, dst = { {x = base_x, y = base_y - h * 2, w = w, h = h} }},
-      {id = "total_clearcount", op = op, dst = { {x = base_x, y = base_y - h * 3, w = w, h = h} }},
-
-      {id = "total_playtime_hour_num", op = op, dst = { {x = nx, y = base_y - h * 0, w = nw, h = h} }},
-      {id = "colon", op = op, dst = { {x = nx + 10 + 60 * 1, y = base_y - h * 0, w = nw, h = h} }},
-      {id = "total_playtime_minute_num", op = op, dst = { {x = nx + 30 + 60 * 1, y = base_y - h * 0, w = nw, h = h} }},
-      {id = "colon", op = op, dst = { {x = nx + 10 + 60 * 2, y = base_y - h * 0, w = nw, h = h} }},
-      {id = "total_playtime_second_num", op = op, dst = { {x = nx + 30 + 60 * 2, y = base_y - h * 0, w = nw, h = h} }},
-      {id = "total_playnotes_num", op = op, dst = { {x = nx, y = base_y - h * 1, w = nw, h = h} }},
-      {id = "total_playcount_num", op = op, dst = { {x = nx, y = base_y - h * 2, w = nw, h = h} }},
-      {id = "total_clearcount_num", op = op, dst = { {x = nx, y = base_y - h * 3, w = nw, h = h} }},
-    }
-  end)())
   utils.mergeArray(skin.destination, (function()
     return {
       {id = "keys", dst = { {x = 700, y = 1000, w = 142, h = 32} }},

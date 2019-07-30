@@ -20,8 +20,8 @@ function SongText.text()
     {id = "coursetitle5", font = 0, size = 38, align = 1, overflow = 1, ref = 154}
   }
 end
-function SongText.destination()
-  local base_x = 540 local base_y = 706 local w = 1000 local h = 32
+function SongText.destination(base_x, base_y)
+  local w = 1000 local h = 32
   local course_h = 40
   return {
     {id = "directory", filter = 1, dst = { {x = base_x - 40, y = base_y + 140, w = w, h = h} }},
@@ -65,11 +65,10 @@ function SongParam.value()
     utils.generateValue({id = "total_num", digit = 3, ref = 368}),
   }
 end
-function SongParam.destination()
+function SongParam.destination(base_x, base_y)
   local scale = 0.5
   local text_w = SongParam.text_w * scale local num_w = SongParam.num_w * scale local h = SongParam.h * scale
-  local base_x = 480
-  local bpm_y = 560 local songtime_y = 520 local total_y = 480
+  local bpm_y = base_y local songtime_y = base_y - 40 * 1 local total_y = base_y - 40 * 2
   return {
     {id = "bpm", op = {2}, filter = 1, dst = { {x = base_x, y = bpm_y, w = text_w, h = h} }},
     {id = "bpm_num", op = {2,176}, filter = 1, dst = { {x = base_x + 100, y = bpm_y, w = num_w, h = h} }},
@@ -104,9 +103,9 @@ function Judge.image()
     {id = "veryeasy_judge", src = src, x = x, y = h * 4, w = w, h = h},
   }
 end
-function Judge.destination()
+function Judge.destination(x, y)
   local scale = 0.5
-  local dst = { {x = 850, y = 560, w = Judge.w * scale, h = Judge.h * scale} }
+  local dst = { {x = x, y = y, w = Judge.w * scale, h = Judge.h * scale} }
   return {
     {id = "veryhard_judge", op = {180}, dst = dst},
     {id = "hard_judge", op = {181}, dst = dst},
@@ -135,9 +134,9 @@ function Keys.image()
     {id = "48keys", src = src, x = x, y = h * 6, w = w, h = h}
   }
 end
-function Keys.destination()
+function Keys.destination(x, y)
   local scale = 0.5
-  local dst = { { x = 850, y = 520, w = Keys.w * scale, h = Keys.h * scale} }
+  local dst = { { x = x, y = y, w = Keys.w * scale, h = Keys.h * scale} }
   return {
     {id = "7keys", op = {160}, dst = dst},
     {id = "5keys", op = {161}, dst = dst},
@@ -275,6 +274,79 @@ function NotesType.destination(base_x, base_y)
   }
 end
 
+local FolderSongs = {}
+function FolderSongs.new()
+  local obj = {}
+  return setmetatable(obj, {__index = FolderSongs})
+end
+function FolderSongs.image()
+  local src = 10 local x = 0 local y = 0 local w = 526 local h = 64
+  return {
+    {id = "songs", src = src, x = x, y = y + h * 6, w = w, h = h},
+  }
+end
+function FolderSongs.value()
+  return {
+    utils.generateValue({id = "songs_num", digit = 5, ref = 300}),
+  }
+end
+function FolderSongs.destination(base_x, y)
+  local scale = 0.5 local op = {1}
+  local h = 64 * scale
+  return {
+    {id = "songs_num", op = op, dst = { {x = base_x, y = y, w = 48 * scale, h = h} }},
+    {id = "songs", op = op, dst = { {x = base_x + 100, y = y, w = 526 * scale, h = h} }},
+  }
+end
+
+local TotalInfo = {}
+TotalInfo.text_w = 526
+TotalInfo.num_w = 48
+TotalInfo.h = 64
+function TotalInfo.new()
+  local obj = {}
+  return setmetatable(obj, {__index = TotalInfo})
+end
+function TotalInfo.image()
+  local src = 10 local x = 0 local y = 0 local w = TotalInfo.text_w local h = TotalInfo.h
+  return {
+    {id = "total_playnotes", src = src, x = x, y = y + h * 1, w = w, h = h},
+    {id = "total_playcount", src = src, x = x, y = y + h * 2, w = w, h = h},
+    {id = "total_clearcount", src = src, x = x, y = y + h * 3, w = w, h = h},
+    {id = "total_playtime", src = src, x = x, y = y + h * 4, w = w, h = h},
+  }
+end
+function TotalInfo.value()
+  return {
+    utils.generateValue({id = "total_playtime_hour_num", digit = 4, ref = 17}),
+    utils.generateValueX({id = "total_playtime_minute_num", digit = 2, ref = 18}, 11),
+    utils.generateValueX({id = "total_playtime_second_num", digit = 2, ref = 19}, 11),
+    utils.generateValue({id = "total_playnotes_num", digit = 10, ref = 333}),
+    utils.generateValue({id = "total_playcount_num", digit = 4, ref = 30}),
+    utils.generateValue({id = "total_clearcount_num", digit = 4, ref = 31}),
+  }
+end
+function TotalInfo.destination(base_x, base_y)
+  local scale = 0.5 local op = {1}
+  local w = TotalInfo.text_w * scale local h = TotalInfo.h * scale
+  local nx = base_x + w + 20 local nw = TotalInfo.num_w * scale
+  return {
+    {id = "total_playtime", op = op, dst = { {x = base_x, y = base_y - h * 0, w = w, h = h} }},
+    {id = "total_playnotes", op = op, dst = { {x = base_x, y = base_y - h * 1, w = w, h = h} }},
+    {id = "total_playcount", op = op, dst = { {x = base_x, y = base_y - h * 2, w = w, h = h} }},
+    {id = "total_clearcount", op = op, dst = { {x = base_x, y = base_y - h * 3, w = w, h = h} }},
+
+    {id = "total_playtime_hour_num", op = op, dst = { {x = nx, y = base_y - h * 0, w = nw, h = h} }},
+    {id = "colon", op = op, dst = { {x = nx + 10 + 60 * 1, y = base_y - h * 0, w = nw, h = h} }},
+    {id = "total_playtime_minute_num", op = op, dst = { {x = nx + 30 + 60 * 1, y = base_y - h * 0, w = nw, h = h} }},
+    {id = "colon", op = op, dst = { {x = nx + 10 + 60 * 2, y = base_y - h * 0, w = nw, h = h} }},
+    {id = "total_playtime_second_num", op = op, dst = { {x = nx + 30 + 60 * 2, y = base_y - h * 0, w = nw, h = h} }},
+    {id = "total_playnotes_num", op = op, dst = { {x = nx, y = base_y - h * 1, w = nw, h = h} }},
+    {id = "total_playcount_num", op = op, dst = { {x = nx, y = base_y - h * 2, w = nw, h = h} }},
+    {id = "total_clearcount_num", op = op, dst = { {x = nx, y = base_y - h * 3, w = nw, h = h} }},
+  }
+end
+
 local SongInfo = {}
 SongInfo.songtext = SongText.new()
 SongInfo.songparam = SongParam.new()
@@ -283,6 +355,8 @@ SongInfo.keys = Keys.new()
 SongInfo.density = Density.new()
 SongInfo.notesgraph = NotesGraph.new()
 SongInfo.notestype = NotesType.new()
+SongInfo.foldersongs = FolderSongs.new()
+SongInfo.totalinfo = TotalInfo.new()
 function SongInfo.new()
   local obj = {}
   return setmetatable(obj, {__index = SongInfo})
@@ -294,6 +368,8 @@ function SongInfo.image()
   utils.mergeArray(t, SongInfo.keys.image())
   utils.mergeArray(t, SongInfo.density.image())
   utils.mergeArray(t, SongInfo.notestype.image())
+  utils.mergeArray(t, SongInfo.foldersongs.image())
+  utils.mergeArray(t, SongInfo.totalinfo.image())
   return t
 end
 function SongInfo.value()
@@ -301,6 +377,8 @@ function SongInfo.value()
   utils.mergeArray(t, SongInfo.songparam.value())
   utils.mergeArray(t, SongInfo.density.value())
   utils.mergeArray(t, SongInfo.notestype.value())
+  utils.mergeArray(t, SongInfo.foldersongs.value())
+  utils.mergeArray(t, SongInfo.totalinfo.value())
   return t
 end
 function SongInfo.text()
@@ -325,13 +403,16 @@ function SongInfo.destination()
     -- stagefile
     {id = -100, stretch = 1, filter = 1, dst = { {x = 50, y = 540, w = 400, h = 300} }},
   }
-  utils.mergeArray(t, SongInfo.songtext.destination())
-  utils.mergeArray(t, SongInfo.songparam.destination())
-  utils.mergeArray(t, SongInfo.judge.destination())
-  utils.mergeArray(t, SongInfo.keys.destination())
+  utils.mergeArray(t, SongInfo.songtext.destination(540, 706))
+  utils.mergeArray(t, SongInfo.songparam.destination(480, 560))
+  utils.mergeArray(t, SongInfo.judge.destination(850, 560))
+  utils.mergeArray(t, SongInfo.keys.destination(850, 520))
   utils.mergeArray(t, SongInfo.density.destination(550, 400))
   utils.mergeArray(t, SongInfo.notesgraph.destination(550, 200))
   utils.mergeArray(t, SongInfo.notestype.destination(550, 200))
+
+  utils.mergeArray(t, SongInfo.foldersongs.destination(400, 640))
+  utils.mergeArray(t, SongInfo.totalinfo.destination(300, 400))
   return t
 end
 
