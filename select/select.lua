@@ -7,6 +7,7 @@ local SongList = require "songlist"
 local Option = require "option"
 local ScrollBar = require "scrollbar"
 local PlayButton = require "playbutton"
+local BottomInfo = require "bottominfo"
 
 local function main()
   local skin = {}
@@ -42,6 +43,7 @@ local function main()
   local scrollbar = ScrollBar.new()
   local playbutton = PlayButton.new()
   local option = Option.new()
+  local bottominfo = BottomInfo.new()
 
   skin.image = {
     {id = "background", src = 0, x = 0, y = 0, w = -1, h = -1},
@@ -73,31 +75,18 @@ local function main()
   utils.mergeArray(skin.image, scrollbar.image())
   utils.mergeArray(skin.image, playbutton.image())
   utils.mergeArray(skin.image, option.image())
-  utils.mergeArray(skin.image, (function()
-    local src = 10 local x = 0 local y = 0 local w = 526 local h = 64
-    return {
-      {id = "uptime", src = src, x = x, y = y + h * 0, w = w, h = h}
-    }
-  end)())
+  utils.mergeArray(skin.image, bottominfo.image())
 
   skin.imageset = {}
   utils.mergeArray(skin.imageset, songlist.imageset())
   utils.mergeArray(skin.imageset, option.imageset())
 
-  skin.value = (function()
-    local v = {
-      utils.generateValue({id = "uptime_hour_num", digit = 2, ref = 27}),
-      utils.generateValueX({id = "uptime_minute_num", digit = 2, ref = 28}, 11),
-      utils.generateValueX({id = "uptime_second_num", digit = 2, ref = 29}, 11),
-
-      utils.generateValue({id = "fps_num", digit = 4, ref = 20})
-    }
-    return v
-  end)()
+  skin.value = {}
   utils.mergeArray(skin.value, songinfo.value())
   utils.mergeArray(skin.value, score.value())
   utils.mergeArray(skin.value, option.value())
   utils.mergeArray(skin.value, songlist.value())
+  utils.mergeArray(skin.value, bottominfo.value())
 
   skin.text = {
     {id = "search", font = 0, size = 32, ref = 30}
@@ -145,22 +134,7 @@ local function main()
     }
   end)())
   utils.mergeArray(skin.destination, option.destination())
-  utils.mergeArray(skin.destination, (function()
-    local scale = 0.45
-    local base_x = 4 y = 4 nw = 48 * scale h = 64 * scale
-    local uptime_x = base_x + 140 uptimenum_x = uptime_x + 76
-    local info_color = {r = 105, g = 105, b = 105}
-    return {
-      {id = "fps_num", dst = { utils.mergeMap({x = base_x, y = y, w = nw, h = h}, info_color) }},
-
-      {id = "uptime", dst = { utils.mergeMap({x = uptime_x, y = y, w = 526 * scale, h = h}, info_color) }},
-      {id = "uptime_hour_num", dst = { utils.mergeMap({x = uptimenum_x + 50 * 1, y = y, w = nw, h = h}, info_color) }},
-      {id = "colon", dst = { utils.mergeMap({x = uptimenum_x + 32 + 50 * 1, y = y, w = nw, h = h}, info_color) }},
-      {id = "uptime_minute_num", dst = { utils.mergeMap({x = uptimenum_x + 50 * 2, y = y, w = nw, h = h}, info_color) }},
-      {id = "colon", dst = { utils.mergeMap({x = uptimenum_x + 32 + 50 * 2, y = y, w = nw, h = h}, info_color) }},
-      {id = "uptime_second_num", dst = { utils.mergeMap({x = uptimenum_x + 50 * 3, y = y, w = nw, h = h}, info_color) }}
-    }
-  end)())
+  utils.mergeArray(skin.destination, bottominfo.destination())
 
   return skin
 end
