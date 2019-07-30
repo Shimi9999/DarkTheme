@@ -1,6 +1,7 @@
 local utils = require "utils"
 local header = require "header"
 
+local SongList = require "songlist"
 local ScrollBar = require "scrollbar"
 
 local function main()
@@ -32,11 +33,11 @@ local function main()
   }
 
   local scrollbar = ScrollBar.new()
+  local songlist = SongList.new()
 
   skin.image = {
     {id = "background", src = 0, x = 0, y = 0, w = -1, h = -1},
 
-    {id = "lamp", src = 3, x = 0, y = 0, w = 16, h = 60},
     {id = "search_frame", src = 3, x = 0, y = 0, w = 500, h = 32},
 
     {id = "keys", src = 4, x = 1410, y = 0, w = 284, h = 64*8, divy = 8, len = 8, ref = 11, act = 11},
@@ -52,31 +53,7 @@ local function main()
     {id = "option_bg_2", src = 0, x = 0, y = 0, w = -1, h = -1},
     {id = "option_bg_3", src = 0, x = 0, y = 0, w = -1, h = -1},
   }
-  utils.mergeArray(skin.image, (function()
-    local src = 11 x = 0 base_y = 540 diff_y = 60 w = 220
-    local t = {}
-    local function selector(selection_num)
-      local h = 10 + diff_y * selection_num
-      for i = 1, selection_num do
-        table.insert(t, {id = "option_selector_"..selection_num.."_"..i, src = src, x = x, y = base_y - diff_y * (i - 1), w = w, h = h})
-      end
-    end
-    selector(2)
-    selector(3)
-    selector(4)
-    selector(5)
-    selector(6)
-    selector(10)
-    return t
-  end)())
-  utils.mergeArray(skin.image, (function()
-    local src = 15 x = 0 base_y = 0 diff_y = 40 w = 310 h = 430
-    local t = {}
-    for i = 1, 11 do
-      table.insert(t, {id = "option_target_"..i, src = src, x = x, y = base_y + diff_y * (i - 1), w = w, h = h})
-    end
-    return t
-  end)())
+  utils.mergeArray(skin.image, songlist.image())
   utils.mergeArray(skin.image, scrollbar.image())
   utils.mergeArray(skin.image, (function()
     local src = 2 w = 48 h = 64
@@ -89,29 +66,6 @@ local function main()
       {id = "percent", src = src, x = w * 5, y = y, w = w, h = h},
 
       {id = "minus", src = src, x = w * 11, y = h, w = w, h = h},
-    }
-  end)())
-  utils.mergeArray(skin.image, (function()
-    local src = 1 x = 0 w = 800 h = 60
-    return {
-      {id = "bar_song", src = src, x = x, y = h * 0, w = w, h = h},
-      {id = "bar_nosong", src = src, x = x, y = h * 4, w = w, h = h},
-      {id = "bar_folder", src = src, x = x, y = h * 1 , w = w, h = h},
-      {id = "bar_table", src = src, x = x, y = h * 2, w = w, h = h},
-      {id = "bar_grade", src = src, x = x, y = h * 0, w = w, h = h},
-      {id = "bar_nograde", src = src, x = x, y = h * 4, w = w, h = h},
-      {id = "bar_command", src = src, x = x, y = h * 3, w = w, h = h},
-      {id = "bar_search", src = src, x = x, y = h * 0, w = w, h = h}
-    }
-  end)())
-  utils.mergeArray(skin.image, (function()
-    local src = 7 x = 0 w = 150 h = 64
-    return {
-      {id = "label_ln", src = src, x = x, y = h * 0, w = w, h = h},
-      {id = "label_cn", src = src, x = x, y = h * 1, w = w, h = h},
-      {id = "label_hcn", src = src, x = x, y = h * 2 , w = w, h = h},
-      {id = "label_mine", src = src, x = x, y = h * 3, w = w, h = h},
-      {id = "label_random", src = src, x = x, y = h * 4, w = w, h = h}
     }
   end)())
   utils.mergeArray(skin.image, (function()
@@ -195,14 +149,6 @@ local function main()
     return t
   end)())
   utils.mergeArray(skin.image, (function()
-    local src = 9 x = 0 y = 0 w = 60 h = 60
-    return {
-      {id = "trophy_bronze", src = src, x = x + w * 0, y = y, w = w, h = h},
-      {id = "trophy_silver", src = src, x = x + w * 1, y = y, w = w, h = h},
-      {id = "trophy_gold", src = src, x = x + w * 2, y = y, w = w, h = h}
-    }
-  end)())
-  utils.mergeArray(skin.image, (function()
     local src = 10 x = 0 y = 0 w = 526 h = 64
     return {
       {id = "uptime", src = src, x = x, y = y + h * 0, w = w, h = h},
@@ -213,120 +159,75 @@ local function main()
       {id = "songs", src = src, x = x, y = y + h * 6, w = w, h = h},
     }
   end)())
-  skin.imageset = {
-    {id = "bar", images = {"bar_song","bar_folder","bar_table","bar_grade","bar_nograde","bar_command","bar_search","bar_nosong"}},
 
-    {id = "option_target", ref = 77, images = (function()
-      local t = {}
-      for i = 1, 11 do
-        table.insert(t, "option_target_"..i)
-      end
-      return t
-    end)()},
-  }
-  utils.mergeArray(skin.imageset, (function()
-    local function optionSelector(num)
-      local t = {}
-      for i = 1, num do
-        table.insert(t, "option_selector_"..num.."_"..i)
-      end
-      return t
-    end
-    return {
-      {id = "option_random_1", ref = 42, images = optionSelector(10)},
-      {id = "option_random_2", ref = 43, images = optionSelector(10)},
-      {id = "option_gauge", ref = 40, images = optionSelector(6)},
-      {id = "option_hsfix", ref = 55, images = optionSelector(5)},
-      {id = "option_dp", ref = 54, images = optionSelector(4)},
+  skin.imageset = {}
+  utils.mergeArray(skin.imageset, songlist.imageset())
 
-      {id = "option_exjudge", ref = 301, images = optionSelector(2)},
-      {id = "option_constant", ref = 302, images = optionSelector(2)},
-      {id = "option_judgearea", ref = 303, images = optionSelector(2)},
-      {id = "option_legacy", ref = 304, images = optionSelector(2)},
-      {id = "option_marknote", ref = 305, images = optionSelector(2)},
-      {id = "option_bpmguide", ref = 306, images = optionSelector(2)},
-      {id = "option_nomine", ref = 307, images = optionSelector(2)},
-
-      {id = "option_bga", ref = 72, images = optionSelector(3)},
-      {id = "option_gas", ref = 78, images = optionSelector(5)},
-    }
-  end)())
   skin.value = (function()
-    local function value(param_table)
-      local src = 2 x = 0 y = 0 w = 480 h = 64 divx = 10 space = -4
-      local t = {src = src, x = x, y = y, w = w, h = h, divx = divx, space = space}
-      return utils.mergeMap(t, param_table)
-    end
     local v = {
-      value({id = "bar_level", digit = 2}),
+      utils.generateValue({id = "songs_num", digit = 5, ref = 300}),
+      utils.generateValue({id = "uptime_hour_num", digit = 2, ref = 27}),
+      utils.generateValueX({id = "uptime_minute_num", digit = 2, ref = 28}, 11),
+      utils.generateValueX({id = "uptime_second_num", digit = 2, ref = 29}, 11),
+      utils.generateValue({id = "total_playtime_hour_num", digit = 4, ref = 17}),
+      utils.generateValueX({id = "total_playtime_minute_num", digit = 2, ref = 18}, 11),
+      utils.generateValueX({id = "total_playtime_second_num", digit = 2, ref = 19}, 11),
+      utils.generateValue({id = "total_playnotes_num", digit = 10, ref = 333}),
+      utils.generateValue({id = "total_playcount_num", digit = 4, ref = 30}),
+      utils.generateValue({id = "total_clearcount_num", digit = 4, ref = 31}),
 
-      value({id = "songs_num", digit = 5, ref = 300}),
-      value({id = "uptime_hour_num", digit = 2, ref = 27}),
-      value({id = "uptime_minute_num", digit = 2, ref = 28, w = w + 48, divx = 11}),
-      value({id = "uptime_second_num", digit = 2, ref = 29, w = w + 48, divx = 11}),
-      value({id = "total_playtime_hour_num", digit = 4, ref = 17}),
-      value({id = "total_playtime_minute_num", digit = 2, ref = 18, w = w + 48, divx = 11}),
-      value({id = "total_playtime_second_num", digit = 2, ref = 19, w = w + 48, divx = 11}),
-      value({id = "total_playnotes_num", digit = 10, ref = 333}),
-      value({id = "total_playcount_num", digit = 4, ref = 30}),
-      value({id = "total_clearcount_num", digit = 4, ref = 31}),
+      utils.generateValue({id = "bpm_num", digit = 3, ref = 91}),
+      utils.generateValue({id = "bpm_max_num", digit = 3, ref = 90}),
+      utils.generateValue({id = "bpm_min_num", digit = 3, ref = 91}),
+      utils.generateValue({id = "bpm_main_num", digit = 3, ref = 92}),
 
-      value({id = "bpm_num", digit = 3, ref = 91}),
-      value({id = "bpm_max_num", digit = 3, ref = 90}),
-      value({id = "bpm_min_num", digit = 3, ref = 91}),
-      value({id = "bpm_main_num", digit = 3, ref = 92}),
+      utils.generateValue({id = "songtime_minute", digit = 2, ref = 1163}),
+      utils.generateValueX({id = "songtime_second", digit = 2, ref = 1164}, 11),
 
-      value({id = "songtime_minute", digit = 2, ref = 1163}),
-      value({id = "songtime_second", digit = 2, ref = 1164, w = w + 48, divx = 11}),
+      utils.generateValue({id = "density_peak", digit = 2, ref = 360}),
+      utils.generateValue({id = "density_end", digit = 2, ref = 362}),
+      utils.generateValueX({id = "density_end_afterdot", digit = 2, ref = 363}, 11),
+      utils.generateValue({id = "density_average", digit = 2, ref = 364}),
+      utils.generateValueX({id = "density_peak_afterdot", digit = 2, ref = 365}, 11),
 
-      value({id = "density_peak", digit = 2, ref = 360}),
-      value({id = "density_end", digit = 2, ref = 362}),
-      value({id = "density_end_afterdot", digit = 2, ref = 363, w = w + 48, divx = 11}),
-      value({id = "density_average", digit = 2, ref = 364}),
-      value({id = "density_peak_afterdot", digit = 2, ref = 365, w = w + 48, divx = 11}),
+      utils.generateValue({id = "total_num", digit = 3, ref = 368}),
 
-      value({id = "total_num", digit = 3, ref = 368}),
+      utils.generateValue({id = "note_num", digit = 4, ref = 350}),
+      utils.generateValue({id = "ln_num", digit = 4, ref = 351}),
+      utils.generateValue({id = "scratch_num", digit = 4, ref = 352}),
+      utils.generateValue({id = "bss_num", digit = 4, ref = 353}),
+      utils.generateValue({id = "mine_num", digit = 4, ref = 354}),
 
-      value({id = "note_num", digit = 4, ref = 350}),
-      value({id = "ln_num", digit = 4, ref = 351}),
-      value({id = "scratch_num", digit = 4, ref = 352}),
-      value({id = "bss_num", digit = 4, ref = 353}),
-      value({id = "mine_num", digit = 4, ref = 354}),
+      utils.generateValue({id = "exscore_num", digit = 4, ref = 71}),
+      utils.generateValue({id = "maxcombo_num", digit = 4, ref = 75}),
+      utils.generateValue({id = "totalnotes_num", digit = 4, ref = 74}),
+      utils.generateValue({id = "combobreak_num", digit = 4, ref = 425}),
+      utils.generateValue({id = "misscount_num", digit = 4, ref = 76}),
+      utils.generateValue({id = "clearcount_num", digit = 4, ref = 78}),
+      utils.generateValue({id = "playcount_num", digit = 4, ref = 77}),
+      utils.generateValue({id = "fast_num", digit = 4, ref = 423}),
+      utils.generateValue({id = "slow_num", digit = 4, ref = 424}),
+      utils.generateValue({id = "djpoint_num", digit = 6, ref = 100}),
+      utils.generateValue({id = "nextrank_num", digit = 4, ref = 154}),
 
-      value({id = "exscore_num", digit = 4, ref = 71}),
-      value({id = "maxcombo_num", digit = 4, ref = 75}),
-      value({id = "totalnotes_num", digit = 4, ref = 74}),
-      value({id = "combobreak_num", digit = 4, ref = 425}),
-      value({id = "misscount_num", digit = 4, ref = 76}),
-      value({id = "clearcount_num", digit = 4, ref = 78}),
-      value({id = "playcount_num", digit = 4, ref = 77}),
-      value({id = "fast_num", digit = 4, ref = 423}),
-      value({id = "slow_num", digit = 4, ref = 424}),
-      value({id = "djpoint_num", digit = 6, ref = 100}),
-      value({id = "nextrank_num", digit = 4, ref = 154}),
+      utils.generateValue({id = "exscore_rival_num", digit = 5, ref = 271}),
 
-      value({id = "exscore_rival_num", digit = 5, ref = 271}),
+      utils.generateValue({id = "scorerate_num", digit = 3, ref = 102}),
+      utils.generateValueX({id = "scorerate_afterdot_num", digit = 2, ref = 103}, 11),
 
-      value({id = "scorerate_num", digit = 3, ref = 102}),
-      value({id = "scorerate_afterdot_num", digit = 2, ref = 103, w = w + 48, divx = 11}),
-
-      value({id = "option_duration", digit = 4, ref = 312}),
-      value({id = "option_greennumber", digit = 4, ref = 313}),
-      value({id = "option_judgetiming", digit = 3, ref = 12, w = w + 48 * 2, h = h * 2, divx = 12, divy = 2}),
-
-      value({id = "fps_num", digit = 4, ref = 20})
+      utils.generateValue({id = "fps_num", digit = 4, ref = 20})
     }
     for i = 1, 6 do
       local ref = 109 + i
       if i == 6 then ref = 420 end
-      utils.mergeArray(v, { value({id = "judge_num_"..i, digit = 4, ref = ref}) } )
+      utils.mergeArray(v, { utils.generateValue({id = "judge_num_"..i, digit = 4, ref = ref}) } )
     end
 
     return v
   end)()
-  skin.text = {
-    {id = "bar_text", font = 0, size = 40},
+  utils.mergeArray(skin.value, songlist.value())
 
+  skin.text = {
     {id = "title", font = 0, size = 90, align = 1, overflow = 1, shadowOffsetX = 4, shadowOffsetY = 4, ref = 10},
     {id = "subtitle", font = 0, size = 48, align = 1, overflow = 1, shadowOffsetX = 2, shadowOffsetY = 2, ref = 11},
     {id = "artist", font = 0, size = 32, align = 1, overflow = 1, ref = 16},
@@ -341,142 +242,16 @@ local function main()
 
     {id = "search", font = 0, size = 32, ref = 30}
   }
-  skin.graph = {
-    {id = "graph_lamp", src = 8, x = 0, y = 0, w = 11, h = 10, divx = 11, type = -1}
-  }
+  utils.mergeArray(skin.text, songlist.text())
 
   skin.slider = {}
   utils.mergeArray(skin.slider, scrollbar.slider())
 
+  skin.graph = {}
+  utils.mergeArray(skin.graph, songlist.graph())
 
-  function generateSongList(x, y)
-    local base_x = 1150 base_y = 510 w = 800 h = 60
-    local list = {}
-    for i = 1, 22 do
-      list[i] = {id = "bar", dst = {
-			  {x = base_x + x, y = base_y + y - h * (i - 1), w = w, h = h},
-			}}
-    end
-    return list
-  end
-  skin.songlist = {
-    id = "songlist",
-    center = 10,
-    clickable = {2,3,4,5,6,7,8,9,10,11,12,13,14},
-    listoff = generateSongList(0, 600),
-    liston = generateSongList(-30, 600),
-		text = (function()
-      local base_x = 24
-      local function bartext(x, r, g, b)
-        local y = 8 w = 24 h = 36
-        return
-          {id = "bar_text", filter = 1, dst = {
-            {x = x, y = y, w = w, h = h, r = r, g = g, b = b}
-          }}
-      end
-      return {
-        -- normal song
-        bartext(base_x + 82, 255,255,255),
-        -- new song
-        bartext(base_x + 76, 255,255,200),
-        -- normal song (beatoraja)
-        bartext(base_x + 82, 255,255,255),
-        -- new song (beatoraja)
-        bartext(base_x + 82, 255,255,200),
-        -- normal folder
-        bartext(base_x, 255,255,255),
-  			-- new folder
-        bartext(base_x, 255,255,200),
-  			-- table folder
-        bartext(base_x, 255,255,255),
-  			-- class
-        bartext(base_x + 76, 255,255,255),
-  			-- no song
-        bartext(base_x + 76, 255,0,0),
-  			-- command, container
-        bartext(base_x, 255,255,255),
-  			-- search word
-        bartext(base_x, 255,255,255)
-      }
-    end)(),
-    level = (function()
-      local function barlevel(r, g, b)
-        local x = 24 y = 12 w = 30 h = 38
-        return {id = "bar_level", filter = 1, dst = {
-  				{x = x, y = y, w = w, h = h, r = r, g = g, b = b}
-  			}}
-      end
-      return {
-        -- unknown
-        barlevel(178,178,178),
-        -- biginner
-        barlevel(178,216,140),
-        -- normal
-        barlevel(140,178,216),
-        -- hyper
-        barlevel(216,216,140),
-        -- another
-        barlevel(216,140,140),
-        -- insane
-        barlevel(197,140,216)
-      }
-    end)(),
-    lamp = (function()
-      local function barlamp(r, g, b)
-        local x = -20 y = 0 w = 20 h = 60
-        return {id = "lamp", blend = 2, dst = {
-  				{x = x, y = y, w = w, h = h, r = r, g = g, b = b}
-  			}}
-      end
-      return {
-        -- noplay
-        barlamp(34,0,0),
-        -- failed
-        barlamp(68,68,68),
-        -- assist
-  			barlamp(204,0,204),
-        -- lassist
-  			barlamp(170,34,170),
-        -- easy
-  			barlamp(34,170,34),
-        -- normal
-  			barlamp(170,170,34),
-        -- hard
-  			barlamp(255,255,255),
-        -- exhard
-  			barlamp(250,0,0),
-        -- fc
-  			barlamp(34,170,170),
-        -- perfect
-  			barlamp(51,204,204),
-        -- max
-  			barlamp(71,224,224)
-      }
-    end)(),
-    trophy = (function()
-      local scale = 0.7 size = 60
-      local dst = { {x = 20, y = (size * (1 - scale)) / 2 , w = size * scale, h = size * scale} }
-      return {
-        {id = "trophy_bronze", filter = 1, dst = dst},
-        {id = "trophy_silver", filter = 1, dst = dst},
-        {id = "trophy_gold", filter = 1, dst = dst}
-      }
-    end)(),
-    label = (function()
-      local scale = 0.4
-      local y = 16 w = 150 * scale h = 64 * scale
-      return {
-        {id = "label_ln", dst = { {x = -110, y = y, w = w, h = h} }},
-        {id = "label_random", dst = { {x = -40, y = y, w = w, h = h} }},
-        {id = "label_mine", dst = { {x = -50, y = y, w = w, h = h} }},
-        {id = "label_cn", dst = { {x = -110, y = y, w = w, h = h} }},
-        {id = "label_hcn", dst = { {x = -110, y = y, w = w, h = h} }}
-      }
-    end)(),
-    graph = {
-			id = "graph_lamp", dst = { {x = 0, y = 0, w = 650, h = 8} }
-		}
-  }
+  skin.songlist = songlist.songlist()
+
   skin.judgegraph = {
     {id = "notesgraph", noGap = 1, type = 0}
   }
@@ -492,23 +267,25 @@ local function main()
 
     -- stagefile
     {id = -100, stretch = 1, filter = 1, dst = { {x = 50, y = 540, w = 400, h = 300} }},
-
-    {id = "songlist"},
-
-    {id = "bpm", op = {2}, filter = 1, dst = { {x = 480, y = 560, w = 350 * 0.5, h = 32} }},
-    {id = "bpm_num", op = {2,176}, filter = 1, dst = { {x = 480 + 100, y = 560, w = 22, h = 32} }},
-    {id = "bpm_min_num", op = {2,177}, filter = 1, dst = { {x = 480 + 100, y = 560, w = 22, h = 32} }},
-    {id = "wavedash", op = {2,177}, filter = 1, dst = { {x = 536 + 100, y = 560, w = 22, h = 32} }},
-    {id = "bpm_max_num", op = {2,177}, filter = 1, dst = { {x = 560 + 100, y = 560, w = 22, h = 32} }},
-    {id = "bpm_main_num", op = {2,177}, filter = 1, dst = { {x = 640 + 100, y = 560, w = 22, h = 32, r = 127, g = 204, b = 101} }},
-
-    {id = "songtime_minute", op = {2}, dst = { {x = 480, y = 520, w = 24, h = 32} }},
-    {id = "colon", op = {2}, dst = { {x = 520, y = 520, w = 24, h = 32} }},
-    {id = "songtime_second", op = {2}, dst = { {x = 540, y = 520, w = 24, h = 32} }},
-
-    {id = "total", op = {2}, filter = 1, dst = { {x = 480, y = 480, w = 350 * 0.5, h = 32} }},
-    {id = "total_num", op = {2}, dst = { {x = 480 + 120, y = 480, w = 24, h = 32} }}
   }
+  utils.mergeArray(skin.destination, songlist.destination())
+  utils.mergeArray(skin.destination, (function()
+    return {
+      {id = "bpm", op = {2}, filter = 1, dst = { {x = 480, y = 560, w = 350 * 0.5, h = 32} }},
+      {id = "bpm_num", op = {2,176}, filter = 1, dst = { {x = 480 + 100, y = 560, w = 22, h = 32} }},
+      {id = "bpm_min_num", op = {2,177}, filter = 1, dst = { {x = 480 + 100, y = 560, w = 22, h = 32} }},
+      {id = "wavedash", op = {2,177}, filter = 1, dst = { {x = 536 + 100, y = 560, w = 22, h = 32} }},
+      {id = "bpm_max_num", op = {2,177}, filter = 1, dst = { {x = 560 + 100, y = 560, w = 22, h = 32} }},
+      {id = "bpm_main_num", op = {2,177}, filter = 1, dst = { {x = 640 + 100, y = 560, w = 22, h = 32, r = 127, g = 204, b = 101} }},
+
+      {id = "songtime_minute", op = {2}, dst = { {x = 480, y = 520, w = 24, h = 32} }},
+      {id = "colon", op = {2}, dst = { {x = 520, y = 520, w = 24, h = 32} }},
+      {id = "songtime_second", op = {2}, dst = { {x = 540, y = 520, w = 24, h = 32} }},
+
+      {id = "total", op = {2}, filter = 1, dst = { {x = 480, y = 480, w = 350 * 0.5, h = 32} }},
+      {id = "total_num", op = {2}, dst = { {x = 480 + 120, y = 480, w = 24, h = 32} }}
+    }
+  end)())
   utils.mergeArray(skin.destination, (function()
     local base_x = 540 base_y = 706 w = 1000 h = 32
     local course_h = 40
