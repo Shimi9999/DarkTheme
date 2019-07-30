@@ -1,6 +1,7 @@
 local utils = require "utils"
 local header = require "header"
 
+local ScrollBar = require "scrollbar"
 
 local function main()
   local skin = {}
@@ -29,6 +30,9 @@ local function main()
   skin.font = {
     {id = 0, path = "../common/font/Koruri-Semibold.ttf"}
   }
+
+  local scrollbar = ScrollBar.new()
+
   skin.image = {
     {id = "background", src = 0, x = 0, y = 0, w = -1, h = -1},
 
@@ -40,8 +44,6 @@ local function main()
 
     {id = "lnmode", src = 7, x = 0, w = 150, h = 64 * 3, divy = 3, len = 3, ref = 308, act = 308},
     {id = "lnmode_frame", src = 3, x = 0, y = 0, w = 150, h = 64},
-
-    {id = "scrollbar_frame", src = 3, x = 0, y = 0, w = 50, h = 600},
 
     {id = "option_play", src = 12, x = 0, y = 0, w = header.w, h = header.h},
     {id = "option_assist", src = 13, x = 0, y = 0, w = header.w, h = header.h},
@@ -75,6 +77,7 @@ local function main()
     end
     return t
   end)())
+  utils.mergeArray(skin.image, scrollbar.image())
   utils.mergeArray(skin.image, (function()
     local src = 2 w = 48 h = 64
     local y = h * 2
@@ -338,12 +341,13 @@ local function main()
 
     {id = "search", font = 0, size = 32, ref = 30}
   }
-  skin.slider = {
-    {id = "scrollbar_thumb", src = 3, x = 0, y = 0, w = 50, h = 100, angle = 2, type = 1, range = 600}
-  }
   skin.graph = {
     {id = "graph_lamp", src = 8, x = 0, y = 0, w = 11, h = 10, divx = 11, type = -1}
   }
+
+  skin.slider = {}
+  utils.mergeArray(skin.slider, scrollbar.slider())
+
 
   function generateSongList(x, y)
     local base_x = 1150 base_y = 510 w = 800 h = 60
@@ -479,6 +483,7 @@ local function main()
   skin.bpmgraph = {
     {id = "bpmgraph"}
   }
+
   skin.destination = {
     {id = "background", dst = { {x = 0, y = 0, w = header.w, h = header.h} }},
 
@@ -699,15 +704,7 @@ local function main()
       {id = "lnmode", dst = { {x = x, y = y, w = w, h = h} }}
     }
   end)())
-  utils.mergeArray(skin.destination, (function()
-    local x = 1860 w = 20  thumb_h = 50
-    local frame_h = 600 + thumb_h
-    local y = (header.h - frame_h) / 2
-    return {
-      {id = "scrollbar_frame", dst = { {x = x, y = y, w = w, h = frame_h, r = 16, g = 16, b = 16} }},
-      {id = "scrollbar_thumb", dst = { {x = x, y = y + frame_h - thumb_h, w = w, h = thumb_h, r = 225, g = 225, b = 225} }}
-    }
-  end)())
+  utils.mergeArray(skin.destination, scrollbar.destination())
   utils.mergeArray(skin.destination, (function()
     local scale = 0.5 op = {1}
     local base_x = 400 y = 640 w = 20 h = 64 * scale
