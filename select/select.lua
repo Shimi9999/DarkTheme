@@ -1,6 +1,7 @@
 local utils = require "utils"
 local header = require "header"
 
+local SongInfo = require "songinfo"
 local SongList = require "songlist"
 local Option = require "option"
 local ScrollBar = require "scrollbar"
@@ -33,8 +34,9 @@ local function main()
     {id = 0, path = "../common/font/Koruri-Semibold.ttf"}
   }
 
-  local scrollbar = ScrollBar.new()
+  local songinfo = SongInfo.new()
   local songlist = SongList.new()
+  local scrollbar = ScrollBar.new()
   local option = Option.new()
 
   skin.image = {
@@ -48,11 +50,12 @@ local function main()
     {id = "lnmode", src = 7, x = 0, w = 150, h = 64 * 3, divy = 3, len = 3, ref = 308, act = 308},
     {id = "lnmode_frame", src = 3, x = 0, y = 0, w = 150, h = 64},
   }
+  utils.mergeArray(skin.image, songinfo.image())
   utils.mergeArray(skin.image, songlist.image())
   utils.mergeArray(skin.image, scrollbar.image())
   utils.mergeArray(skin.image, option.image())
   utils.mergeArray(skin.image, (function()
-    local src = 2 w = 48 h = 64
+    local src = 2 local w = 48 local h = 64
     local y = h * 2
     return {
       {id = "dot", src = src, x = w * 0, y = y, w = w, h = h},
@@ -65,49 +68,12 @@ local function main()
     }
   end)())
   utils.mergeArray(skin.image, (function()
-    local src = 4 x = 248 w = 350 h = 64
-    return {
-      {id = "veryhard_judge", src = src, x = x, y = h * 0, w = w, h = h},
-      {id = "hard_judge", src = src, x = x, y = h * 1 , w = w, h = h},
-      {id = "normal_judge", src = src, x = x, y = h * 2, w = w, h = h},
-      {id = "easy_judge", src = src, x = x, y = h * 3, w = w, h = h},
-      {id = "veryeasy_judge", src = src, x = x, y = h * 4, w = w, h = h},
-
-      {id = "bpm", src = src, x = x, y = h * 7, w = w, h = h},
-      {id = "total", src = src, x = x, y = h * 8, w = w, h = h},
-    }
-  end)())
-  utils.mergeArray(skin.image, (function()
-    local src = 4 x = 0 w = 250 h = 64
-    return {
-      {id = "7keys", src = src, x = x, y = h * 0, w = w, h = h},
-      {id = "5keys", src = src, x = x, y = h * 1 , w = w, h = h},
-      {id = "14keys", src = src, x = x, y = h * 2, w = w, h = h},
-      {id = "10keys", src = src, x = x, y = h * 3, w = w, h = h},
-      {id = "9keys", src = src, x = x, y = h * 4, w = w, h = h},
-      {id = "24keys", src = src, x = x, y = h * 4, w = w, h = h},
-      {id = "48keys", src = src, x = x, y = h * 4, w = w, h = h}
-    }
-  end)())
-  utils.mergeArray(skin.image, (function()
     local src = 4 x = 600 w = 400 h = 64
     local t = {}
     for i = 1, 11 do
       t[i] = {id = "cleartype_"..i, src = src, x = x, y = h * (i-1), w = w, h = h}
     end
     return t
-  end)())
-  utils.mergeArray(skin.image, (function()
-    local src = 4 x = 1700 w = 290 h = 64
-    return {
-      {id = "peak", src = src, x = x, y = h * 0, w = w, h = h},
-      {id = "end", src = src, x = x, y = h * 1 , w = w, h = h},
-      {id = "average", src = src, x = x, y = h * 2, w = w, h = h},
-      {id = "note", src = src, x = x, y = h * 4, w = w, h = h},
-      {id = "scratch", src = src, x = x, y = h * 5, w = w, h = h},
-      {id = "ln", src = src, x = x, y = h * 6, w = w, h = h},
-      {id = "bss", src = src, x = x, y = h * 7, w = w, h = h}
-    }
   end)())
   utils.mergeArray(skin.image, (function()
     local src = 5 base_x = 0 y = 0 w = 64 h = 64
@@ -173,28 +139,6 @@ local function main()
       utils.generateValue({id = "total_playcount_num", digit = 4, ref = 30}),
       utils.generateValue({id = "total_clearcount_num", digit = 4, ref = 31}),
 
-      utils.generateValue({id = "bpm_num", digit = 3, ref = 91}),
-      utils.generateValue({id = "bpm_max_num", digit = 3, ref = 90}),
-      utils.generateValue({id = "bpm_min_num", digit = 3, ref = 91}),
-      utils.generateValue({id = "bpm_main_num", digit = 3, ref = 92}),
-
-      utils.generateValue({id = "songtime_minute", digit = 2, ref = 1163}),
-      utils.generateValueX({id = "songtime_second", digit = 2, ref = 1164}, 11),
-
-      utils.generateValue({id = "density_peak", digit = 2, ref = 360}),
-      utils.generateValue({id = "density_end", digit = 2, ref = 362}),
-      utils.generateValueX({id = "density_end_afterdot", digit = 2, ref = 363}, 11),
-      utils.generateValue({id = "density_average", digit = 2, ref = 364}),
-      utils.generateValueX({id = "density_peak_afterdot", digit = 2, ref = 365}, 11),
-
-      utils.generateValue({id = "total_num", digit = 3, ref = 368}),
-
-      utils.generateValue({id = "note_num", digit = 4, ref = 350}),
-      utils.generateValue({id = "ln_num", digit = 4, ref = 351}),
-      utils.generateValue({id = "scratch_num", digit = 4, ref = 352}),
-      utils.generateValue({id = "bss_num", digit = 4, ref = 353}),
-      utils.generateValue({id = "mine_num", digit = 4, ref = 354}),
-
       utils.generateValue({id = "exscore_num", digit = 4, ref = 71}),
       utils.generateValue({id = "maxcombo_num", digit = 4, ref = 75}),
       utils.generateValue({id = "totalnotes_num", digit = 4, ref = 74}),
@@ -222,24 +166,14 @@ local function main()
 
     return v
   end)()
+  utils.mergeArray(skin.value, songinfo.value())
   utils.mergeArray(skin.value, option.value())
   utils.mergeArray(skin.value, songlist.value())
 
   skin.text = {
-    {id = "title", font = 0, size = 90, align = 1, overflow = 1, shadowOffsetX = 4, shadowOffsetY = 4, ref = 10},
-    {id = "subtitle", font = 0, size = 48, align = 1, overflow = 1, shadowOffsetX = 2, shadowOffsetY = 2, ref = 11},
-    {id = "artist", font = 0, size = 32, align = 1, overflow = 1, ref = 16},
-    {id = "subartist", font = 0, size = 44, align = 1, overflow = 1, ref = 15},
-    {id = "genre", font = 0, size = 32, align = 1, overflow = 1, ref = 13},
-    {id = "directory", font = 0, size = 32, align = 1, overflow = 1, ref = 1000},
-    {id = "coursetitle1", font = 0, size = 90, align = 1, overflow = 1, ref = 150},
-    {id = "coursetitle2", font = 0, size = 38, align = 1, overflow = 1, ref = 151},
-    {id = "coursetitle3", font = 0, size = 38, align = 1, overflow = 1, ref = 152},
-    {id = "coursetitle4", font = 0, size = 38, align = 1, overflow = 1, ref = 153},
-    {id = "coursetitle5", font = 0, size = 38, align = 1, overflow = 1, ref = 154},
-
     {id = "search", font = 0, size = 32, ref = 30}
   }
+  utils.mergeArray(skin.text, songinfo.text())
   utils.mergeArray(skin.text, songlist.text())
 
   skin.slider = {}
@@ -250,125 +184,17 @@ local function main()
 
   skin.songlist = songlist.songlist()
 
-  skin.judgegraph = {
-    {id = "notesgraph", noGap = 1, type = 0}
-  }
-  skin.bpmgraph = {
-    {id = "bpmgraph"}
-  }
+  skin.judgegraph = {}
+  utils.mergeArray(skin.judgegraph, songinfo.judgegraph())
+ 
+  skin.bpmgraph = {}
+  utils.mergeArray(skin.bpmgraph, songinfo.bpmgraph())
 
   skin.destination = {
     {id = "background", dst = { {x = 0, y = 0, w = header.w, h = header.h} }},
-
-    -- banner
-    {id = -102, stretch = 1, dst = { {x = 60, y = 940, w = 300, h = 80} }},
-
-    -- stagefile
-    {id = -100, stretch = 1, filter = 1, dst = { {x = 50, y = 540, w = 400, h = 300} }},
   }
   utils.mergeArray(skin.destination, songlist.destination())
-  utils.mergeArray(skin.destination, (function()
-    return {
-      {id = "bpm", op = {2}, filter = 1, dst = { {x = 480, y = 560, w = 350 * 0.5, h = 32} }},
-      {id = "bpm_num", op = {2,176}, filter = 1, dst = { {x = 480 + 100, y = 560, w = 22, h = 32} }},
-      {id = "bpm_min_num", op = {2,177}, filter = 1, dst = { {x = 480 + 100, y = 560, w = 22, h = 32} }},
-      {id = "wavedash", op = {2,177}, filter = 1, dst = { {x = 536 + 100, y = 560, w = 22, h = 32} }},
-      {id = "bpm_max_num", op = {2,177}, filter = 1, dst = { {x = 560 + 100, y = 560, w = 22, h = 32} }},
-      {id = "bpm_main_num", op = {2,177}, filter = 1, dst = { {x = 640 + 100, y = 560, w = 22, h = 32, r = 127, g = 204, b = 101} }},
-
-      {id = "songtime_minute", op = {2}, dst = { {x = 480, y = 520, w = 24, h = 32} }},
-      {id = "colon", op = {2}, dst = { {x = 520, y = 520, w = 24, h = 32} }},
-      {id = "songtime_second", op = {2}, dst = { {x = 540, y = 520, w = 24, h = 32} }},
-
-      {id = "total", op = {2}, filter = 1, dst = { {x = 480, y = 480, w = 350 * 0.5, h = 32} }},
-      {id = "total_num", op = {2}, dst = { {x = 480 + 120, y = 480, w = 24, h = 32} }}
-    }
-  end)())
-  utils.mergeArray(skin.destination, (function()
-    local base_x = 540 base_y = 706 w = 1000 h = 32
-    local course_h = 40
-    return {
-      {id = "directory", filter = 1, dst = { {x = base_x - 40, y = base_y + 140, w = w, h = h} }},
-      {id = "genre", filter = 1, dst = { {x = base_x, y = base_y + 92, w = w, h = h} }},
-      {id = "title", filter = 1, dst = { {x = base_x, y = base_y, w = w, h = 76} }},
-      {id = "subtitle", filter = 1, dst = { {x = base_x, y = base_y - 44, w = w, h = 48} }},
-      {id = "artist", filter = 1, dst = { {x = base_x, y = base_y - 84, w = w, h = h} }},
-      {id = "coursetitle1", filter = 1, dst = { {x = base_x, y = base_y - (course_h + 4) * 0, w = w, h = course_h} }},
-      {id = "coursetitle2", filter = 1, dst = { {x = base_x, y = base_y - (course_h + 4) * 1, w = w, h = course_h} }},
-      {id = "coursetitle3", filter = 1, dst = { {x = base_x, y = base_y - (course_h + 4) * 2, w = w, h = course_h} }},
-      {id = "coursetitle4", filter = 1, dst = { {x = base_x, y = base_y - (course_h + 4) * 3, w = w, h = course_h} }},
-      {id = "coursetitle5", filter = 1, dst = { {x = base_x, y = base_y - (course_h + 4) * 4, w = w, h = course_h} }}
-    }
-  end)())
-  utils.mergeArray(skin.destination, (function()
-    local base_x = 550 y = 400 w = 30 h = 40 op = {2, 5}
-    local peak_color = {r = 201, g = 101, b = 101}
-    local end_color = {r = 204, g = 204, b = 101}
-    local average_color = {r = 101, g = 178, b = 204}
-    local tscale = 0.3
-    local tw = 290 * tscale th = 64 * tscale
-    local ty = y - 20
-    return {
-      {id = "density_peak", op = op, filter = 1, dst = { utils.mergeMap({x = base_x, y = y, w = w, h = h}, peak_color) }},
-      {id = "density_end", op = op, filter = 1, dst = { utils.mergeMap({x = base_x + 100, y = y, w = w, h = h}, end_color) }},
-      {id = "dot", op = op, filter = 1, dst = { utils.mergeMap({x = base_x + 140, y = y, w = w, h = h}, end_color) }},
-      {id = "density_end_afterdot", op = op, filter = 1, dst = { utils.mergeMap({x = base_x + 160, y = y, w = w*0.7, h = h*0.7}, end_color) }},
-      {id = "density_average", op = op, filter = 1, dst = { utils.mergeMap({x = base_x + 240, y = y, w = w, h = h}, average_color) }},
-      {id = "dot", op = op, filter = 1, dst = { utils.mergeMap({x = base_x + 280, y = y, w = w, h = w}, average_color) }},
-      {id = "density_peak_afterdot", filter = 1, op = op, dst = { utils.mergeMap({x = base_x + 300, y = y, w = w*0.7, h = h*0.7}, average_color) }},
-
-      {id = "peak", op = op, dst = { utils.mergeMap({x = base_x, y = ty, w = tw, h = th}, peak_color) }},
-      {id = "end", op = op, dst = { utils.mergeMap({x = base_x + 140, y = ty, w = tw, h = th}, end_color) }},
-      {id = "average", op = op, dst = { utils.mergeMap({x = base_x + 260, y = ty, w = tw, h = th}, average_color) }}
-    }
-  end)())
-  utils.mergeArray(skin.destination, (function()
-    local dst = { {x = 850, y = 560, w = 170, h = 32} }
-    return {
-      {id = "veryhard_judge", op = {180}, dst = dst},
-      {id = "hard_judge", op = {181}, dst = dst},
-      {id = "normal_judge", op = {182}, dst = dst},
-      {id = "easy_judge", op = {183}, dst = dst},
-      {id = "veryeasy_judge", op = {184}, dst = dst}
-    }
-  end)())
-  utils.mergeArray(skin.destination, (function()
-    local dst = { { x = 850, y = 520, w = 125, h = 32} }
-    return {
-      {id = "7keys", op = {160}, dst = dst},
-      {id = "5keys", op = {161}, dst = dst},
-      {id = "14keys", op = {162}, dst = dst},
-      {id = "10keys", op = {163}, dst = dst},
-      {id = "9keys", op = {164}, dst = dst},
-      {id = "24keys", op = {1160}, dst = dst},
-      {id = "48keys", op = {1161}, dst = dst},
-    }
-  end)())
-  utils.mergeArray(skin.destination, (function()
-    local base_x = 550 base_y = 200 num_y = base_y - 40 w = 24 h = 32 margin = 100
-    local tscale = 0.3
-    local tw = 290 * tscale th = 64 * tscale
-    local ty = num_y - 20
-    local color_note = {r = 255, g = 255, b = 255}
-    local color_scratch = {r = 204, g = 101, b = 101}
-    local color_ln = {r = 101, g = 153, b = 204}
-    local color_bss = {r = 204, g = 127, b = 101}
-    return {
-      {id = "notesgraph", op = {2}, dst = { {x = base_x, y = base_y, w = 500, h = 140} }},
-      {id = "bpmgraph", op = {2, 177}, dst = { {x = base_x, y = base_y, w = 500, h = 140} }},
-
-      {id = "note_num", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 0, y = num_y, w = w, h = h}, color_note) }},
-      {id = "scratch_num", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 1, y = num_y, w = w, h = h}, color_scratch) }},
-      {id = "ln_num", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 2, y = num_y, w = w, h = h}, color_ln) }},
-      {id = "bss_num", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 3, y = num_y, w = w, h = h, }, color_bss) }},
-      --{id = "mine_num", op = {5}, dst = { {x = base_x + 400, y = num_y, w = w, h = h} }}
-
-      {id = "note", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 0, y = ty, w = tw, h = th}, color_note) }},
-      {id = "scratch", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 1, y = ty, w = tw, h = th}, color_scratch) }},
-      {id = "ln", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 2, y = ty, w = tw, h = th}, color_ln) }},
-      {id = "bss", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 3, y = ty, w = tw, h = th, }, color_bss) }},
-    }
-  end)())
+  utils.mergeArray(skin.destination, songinfo.destination())
   utils.mergeArray(skin.destination, (function()
     local base_x = 50 base_y = 460 w = 24 h = 32
     return {
