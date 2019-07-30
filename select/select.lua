@@ -2,6 +2,7 @@ local utils = require "utils"
 local header = require "header"
 
 local SongInfo = require "songinfo"
+local Score = require "score"
 local SongList = require "songlist"
 local Option = require "option"
 local ScrollBar = require "scrollbar"
@@ -36,6 +37,7 @@ local function main()
 
   local songinfo = SongInfo.new()
   local songlist = SongList.new()
+  local score = Score.new()
   local scrollbar = ScrollBar.new()
   local option = Option.new()
 
@@ -50,10 +52,6 @@ local function main()
     {id = "lnmode", src = 7, x = 0, w = 150, h = 64 * 3, divy = 3, len = 3, ref = 308, act = 308},
     {id = "lnmode_frame", src = 3, x = 0, y = 0, w = 150, h = 64},
   }
-  utils.mergeArray(skin.image, songinfo.image())
-  utils.mergeArray(skin.image, songlist.image())
-  utils.mergeArray(skin.image, scrollbar.image())
-  utils.mergeArray(skin.image, option.image())
   utils.mergeArray(skin.image, (function()
     local src = 2 local w = 48 local h = 64
     local y = h * 2
@@ -67,14 +65,11 @@ local function main()
       {id = "minus", src = src, x = w * 11, y = h, w = w, h = h},
     }
   end)())
-  utils.mergeArray(skin.image, (function()
-    local src = 4 x = 600 w = 400 h = 64
-    local t = {}
-    for i = 1, 11 do
-      t[i] = {id = "cleartype_"..i, src = src, x = x, y = h * (i-1), w = w, h = h}
-    end
-    return t
-  end)())
+  utils.mergeArray(skin.image, songinfo.image())
+  utils.mergeArray(skin.image, score.image())
+  utils.mergeArray(skin.image, songlist.image())
+  utils.mergeArray(skin.image, scrollbar.image())
+  utils.mergeArray(skin.image, option.image())
   utils.mergeArray(skin.image, (function()
     local src = 5 base_x = 0 y = 0 w = 64 h = 64
     return {
@@ -86,29 +81,6 @@ local function main()
       {id = "replay_3", src = src, x = base_x + w * 5, y = y, w = w, h = h, ref = 317, act = 317},
       {id = "replay_4", src = src, x = base_x + w * 6, y = y, w = w, h = h, ref = 318, act = 318}
     }
-  end)())
-  utils.mergeArray(skin.image, (function()
-    local src = 6 y = 0 h = 64
-    return {
-      {id = "judges", src = src, x = 0, y = y, w = 254, h = h * 6},
-      {id = "scores", src = src, x = 300, y = y, w = 400, h = h * 5}
-    }
-  end)())
-  utils.mergeArray(skin.image, (function()
-    local src = 6 x = 740 y = 0 w = 140 h = 64
-    local t = {}
-    for i = 1, 9 do
-      t[i] = {id = "rank_"..i, src = src, x = x, y = h * (i-1), w = w, h = h}
-    end
-    return t
-  end)())
-  utils.mergeArray(skin.image, (function()
-    local src = 6 x = 900 y = 0 w = 450 h = 64
-    local t = {}
-    for i = 1, 10 do
-      t[i] = {id = "clearoption_"..i, src = src, x = x, y = h * (i-1), w = w, h = h}
-    end
-    return t
   end)())
   utils.mergeArray(skin.image, (function()
     local src = 10 x = 0 y = 0 w = 526 h = 64
@@ -139,34 +111,12 @@ local function main()
       utils.generateValue({id = "total_playcount_num", digit = 4, ref = 30}),
       utils.generateValue({id = "total_clearcount_num", digit = 4, ref = 31}),
 
-      utils.generateValue({id = "exscore_num", digit = 4, ref = 71}),
-      utils.generateValue({id = "maxcombo_num", digit = 4, ref = 75}),
-      utils.generateValue({id = "totalnotes_num", digit = 4, ref = 74}),
-      utils.generateValue({id = "combobreak_num", digit = 4, ref = 425}),
-      utils.generateValue({id = "misscount_num", digit = 4, ref = 76}),
-      utils.generateValue({id = "clearcount_num", digit = 4, ref = 78}),
-      utils.generateValue({id = "playcount_num", digit = 4, ref = 77}),
-      utils.generateValue({id = "fast_num", digit = 4, ref = 423}),
-      utils.generateValue({id = "slow_num", digit = 4, ref = 424}),
-      utils.generateValue({id = "djpoint_num", digit = 6, ref = 100}),
-      utils.generateValue({id = "nextrank_num", digit = 4, ref = 154}),
-
-      utils.generateValue({id = "exscore_rival_num", digit = 5, ref = 271}),
-
-      utils.generateValue({id = "scorerate_num", digit = 3, ref = 102}),
-      utils.generateValueX({id = "scorerate_afterdot_num", digit = 2, ref = 103}, 11),
-
       utils.generateValue({id = "fps_num", digit = 4, ref = 20})
     }
-    for i = 1, 6 do
-      local ref = 109 + i
-      if i == 6 then ref = 420 end
-      utils.mergeArray(v, { utils.generateValue({id = "judge_num_"..i, digit = 4, ref = ref}) } )
-    end
-
     return v
   end)()
   utils.mergeArray(skin.value, songinfo.value())
+  utils.mergeArray(skin.value, score.value())
   utils.mergeArray(skin.value, option.value())
   utils.mergeArray(skin.value, songlist.value())
 
@@ -186,7 +136,7 @@ local function main()
 
   skin.judgegraph = {}
   utils.mergeArray(skin.judgegraph, songinfo.judgegraph())
- 
+
   skin.bpmgraph = {}
   utils.mergeArray(skin.bpmgraph, songinfo.bpmgraph())
 
@@ -195,95 +145,7 @@ local function main()
   }
   utils.mergeArray(skin.destination, songlist.destination())
   utils.mergeArray(skin.destination, songinfo.destination())
-  utils.mergeArray(skin.destination, (function()
-    local base_x = 50 base_y = 460 w = 24 h = 32
-    return {
-      {id = "scorerate_num", op = {5, -100}, dst = { {x = base_x, y = base_y - 40 , w = w, h = h} }},
-      {id = "dot", op = {5, -100}, dst = { {x = base_x + 50, y = base_y - 40 , w = w, h = h} }},
-      {id = "scorerate_afterdot_num", op = {5, -100}, dst = { {x = base_x + 70, y = base_y - 40, w = w, h = h} }},
-      {id = "percent", op = {5, -100}, dst = { {x = base_x + 110, y = base_y - 40 , w = w, h = h} }}
-    }
-  end)())
-  utils.mergeArray(skin.destination, (function()
-    local scale = 0.4
-    local base_x = 30 base_y = 250 h = 64 * scale
-    return {
-      {id = "judges", op = {5}, dst = { {x = base_x, y = base_y, w = 254 * scale, h = h * 6} }},
-      {id = "scores", op = {5}, dst = { {x = base_x + 200, y = base_y + h, w = 400 * scale, h = h * 5} }}
-    }
-  end)())
-  utils.mergeArray(skin.destination, (function()
-    local scale = 0.4
-    local x = 140 base_y = 250 w = 48 * scale h = 64 * scale
-    local t = {}
-    for i = 1, 6 do
-      t[i] = {id = "judge_num_"..i, op = {5}, dst = { {x = x, y = base_y + h * (i - 1), w = w, h = h} }}
-    end
-    return t
-  end)())
-  utils.mergeArray(skin.destination, (function()
-    local scale = 0.4
-    local x = 400 m = 70 w = 48 * scale h = 64 * scale
-    local base_y = 250 + h * 5
-    return {
-      {id = "exscore_num", op = {2}, dst = { {x = x, y = base_y - h * 0, w = w, h = h} }},
-      {id = "maxcombo_num", op = {5}, dst = { {x = x, y = base_y - h * 1, w = w, h = h} }},
-      {id = "totalnotes_num", op = {5}, dst = { {x = x + m, y = base_y - h * 1, w = w, h = h} }},
-      {id = "combobreak_num", op = {5}, dst = { {x = x, y = base_y - h * 2, w = w, h = h} }},
-      {id = "misscount_num", op = {5}, dst = { {x = x + m, y = base_y - h * 2, w = w, h = h} }},
-      {id = "clearcount_num", op = {5}, dst = { {x = x, y = base_y - h * 3, w = w, h = h} }},
-      {id = "playcount_num", op = {5}, dst = { {x = x + m, y = base_y - h * 3, w = w, h = h} }},
-      {id = "fast_num", op = {5}, dst = { {x = x, y = base_y - h * 4, w = w, h = h} }},
-      {id = "slow_num", op = {5}, dst = { {x = x + m, y = base_y - h * 4, w = w, h = h} }},
-
-      {id = "djpoint_num", op = {5}, dst = { {x = x - 100, y = base_y - h * 5, w = w, h = h} }},
-    }
-  end)())
-  utils.mergeArray(skin.destination, (function()
-    local x = 30 y = 460 w = 200 h = 32
-    local ops = {100, 101, 1100, 1101, 102, 103, 104, 1102, 105, 1103, 1104}
-    local t = {}
-    for i = 1, 11 do
-      t[i] = {id = "cleartype_"..i, op = {5, ops[i]}, dst = { {x = x, y = y, w = w, h = h} }}
-    end
-    return t
-  end)())
-  utils.mergeArray(skin.destination, (function()
-    -- OK : NORMAL,MIRROR,RANDOM,SRANDOM,RRANDOM,SPIRAL
-    -- NG : HRANDOM,ALLSCR,ECRANDOM,EXSRANDOM
-    local scale = 0.3
-    local x = 50 y = 220 w = 450 * scale h = 64 * scale
-    local ops = {126, 127, 128, 129, 130, 131, 1128, 1129, 1130, 1131}
-    local t = {}
-    for i = 1, 10 do
-      t[i] = {id = "clearoption_"..i, op = {5, ops[i]}, dst = {
-         {x = x + (w + 10) * math.floor(i / 5) , y = y - h * (i % 5 - 1), w = w, h = h}
-      }}
-    end
-    return t
-  end)())
-  utils.mergeArray(skin.destination, (function()
-    local x = 240 y = 430 w = 130 h = 64
-    local t = {}
-    for i = 1, 8 do
-      t[i] = {id = "rank_"..i + 1, op = {199 + i}, dst = { {x = x, y = y, w = w, h = h} }}
-    end
-    return t
-  end)())
-  utils.mergeArray(skin.destination, (function()
-    local scale = 0.4
-    local x = 360 y = 420 w = 48 * scale h = 64 * scale
-    local t = {
-      {id = "minus", op = {5, -100}, dst = { {x = x + 48, y = y, w = w, h = h} }},
-      {id = "nextrank_num", op = {5, -100}, dst = { {x = x + 50, y = y, w = w, h = h} }}
-    }
-    for i = 1, 8 do
-      utils.mergeArray(t, {
-        {id = "rank_"..i, op = {199 + i, -100}, dst = { {x = x, y = y, w = 140 * scale, h = h} }}
-      })
-    end
-    return t
-  end)())
+  utils.mergeArray(skin.destination, score.destination())
   utils.mergeArray(skin.destination, (function()
     local x = 50 y = 100 w = 38 h = 38 margin = 10
     local function dst(pos) return { {x = x + (w + margin) * pos, y = y, w = w, h = h} } end
