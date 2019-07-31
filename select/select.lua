@@ -6,7 +6,7 @@ local Score = require "score"
 local SongList = require "songlist"
 local Option = require "option"
 local ScrollBar = require "scrollbar"
-local PlayButton = require "playbutton"
+local Button = require "button"
 local BottomInfo = require "bottominfo"
 
 local function main()
@@ -41,20 +41,17 @@ local function main()
   local songlist = SongList.new()
   local score = Score.new()
   local scrollbar = ScrollBar.new()
-  local playbutton = PlayButton.new()
   local option = Option.new()
   local bottominfo = BottomInfo.new()
+  local playbutton = Button.PlayButton.new()
+  local sortbutton = Button.SortButton.new()
+  local keymodebutton = Button.KeyModeButton.new()
+  local lnmodebutton = Button.LNModeButton.new()
 
   skin.image = {
     {id = "background", src = 0, x = 0, y = 0, w = -1, h = -1},
 
     {id = "search_frame", src = 3, x = 0, y = 0, w = 500, h = 32},
-
-    {id = "keys", src = 4, x = 1410, y = 0, w = 284, h = 64*8, divy = 8, len = 8, ref = 11, act = 11},
-    {id = "sort", src = 4, x = 1010, y = 0, w = 400, h = 64*8, divy = 8, len = 8, ref = 12, act = 12},
-
-    {id = "lnmode", src = 7, x = 0, w = 150, h = 64 * 3, divy = 3, len = 3, ref = 308, act = 308},
-    {id = "lnmode_frame", src = 3, x = 0, y = 0, w = 150, h = 64},
   }
   utils.mergeArray(skin.image, (function()
     local src = 2 local w = 48 local h = 64
@@ -74,6 +71,9 @@ local function main()
   utils.mergeArray(skin.image, songlist.image())
   utils.mergeArray(skin.image, scrollbar.image())
   utils.mergeArray(skin.image, playbutton.image())
+  utils.mergeArray(skin.image, sortbutton.image())
+  utils.mergeArray(skin.image, keymodebutton.image())
+  utils.mergeArray(skin.image, lnmodebutton.image())
   utils.mergeArray(skin.image, option.image())
   utils.mergeArray(skin.image, bottominfo.image())
 
@@ -115,14 +115,9 @@ local function main()
   utils.mergeArray(skin.destination, songinfo.destination())
   utils.mergeArray(skin.destination, score.destination())
   utils.mergeArray(skin.destination, playbutton.destination())
-  utils.mergeArray(skin.destination, (function()
-    local scale = 0.6
-    local x = 800 y = 50 w = 150 * scale h = 64 * scale
-    return {
-      {id = "lnmode_frame", dst = { {x = x, y = y, w = w, h = h, r = 16, g = 16, b = 16} }},
-      {id = "lnmode", dst = { {x = x, y = y, w = w, h = h} }}
-    }
-  end)())
+  utils.mergeArray(skin.destination, sortbutton.destination())
+  utils.mergeArray(skin.destination, keymodebutton.destination())
+  utils.mergeArray(skin.destination, lnmodebutton.destination())
   utils.mergeArray(skin.destination, scrollbar.destination())
   utils.mergeArray(skin.destination, (function()
     return {
