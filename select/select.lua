@@ -7,6 +7,7 @@ local SongList = require "songlist"
 local Option = require "option"
 local ScrollBar = require "scrollbar"
 local Button = require "button"
+local Search = require "search"
 local BottomInfo = require "bottominfo"
 
 local function main()
@@ -47,11 +48,10 @@ local function main()
   local sortbutton = Button.SortButton.new()
   local keymodebutton = Button.KeyModeButton.new()
   local lnmodebutton = Button.LNModeButton.new()
+  local search = Search.new()
 
   skin.image = {
     {id = "background", src = 0, x = 0, y = 0, w = -1, h = -1},
-
-    {id = "search_frame", src = 3, x = 0, y = 0, w = 500, h = 32},
   }
   utils.mergeArray(skin.image, (function()
     local src = 2 local w = 48 local h = 64
@@ -76,6 +76,7 @@ local function main()
   utils.mergeArray(skin.image, lnmodebutton.image())
   utils.mergeArray(skin.image, option.image())
   utils.mergeArray(skin.image, bottominfo.image())
+  utils.mergeArray(skin.image, search.image())
 
   skin.imageset = {}
   utils.mergeArray(skin.imageset, songlist.imageset())
@@ -88,11 +89,10 @@ local function main()
   utils.mergeArray(skin.value, songlist.value())
   utils.mergeArray(skin.value, bottominfo.value())
 
-  skin.text = {
-    {id = "search", font = 0, size = 32, ref = 30}
-  }
+  skin.text = {}
   utils.mergeArray(skin.text, songinfo.text())
   utils.mergeArray(skin.text, songlist.text())
+  utils.mergeArray(skin.text, search.text())
 
   skin.slider = {}
   utils.mergeArray(skin.slider, scrollbar.slider())
@@ -119,15 +119,7 @@ local function main()
   utils.mergeArray(skin.destination, keymodebutton.destination())
   utils.mergeArray(skin.destination, lnmodebutton.destination())
   utils.mergeArray(skin.destination, scrollbar.destination())
-  utils.mergeArray(skin.destination, (function()
-    return {
-      {id = "keys", dst = { {x = 700, y = 1000, w = 142, h = 32} }},
-      {id = "sort", dst = { {x = 880, y = 1000, w = 200, h = 32} }},
-
-      {id = "search_frame", dst = { {x = 42, y = 42, w = 500, h = 46, r = 16, g = 16, b = 16} }},
-      {id = "search", filter = 1, dst = { {x = 50, y = 50, w = 500, h = 32} }},
-    }
-  end)())
+  utils.mergeArray(skin.destination, search.destination())
   utils.mergeArray(skin.destination, option.destination())
   utils.mergeArray(skin.destination, bottominfo.destination())
 
