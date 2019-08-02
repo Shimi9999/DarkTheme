@@ -1,10 +1,8 @@
 local utils = require "utils"
+local Object = require "object"
+local Objects = require "objects"
 
-local SongText = {}
-function SongText.new()
-  local obj = {}
-  return setmetatable(obj, {__index = SongText})
-end
+local SongText = Object.new()
 function SongText.text()
   return {
     {id = "title", font = 0, size = 90, align = 1, overflow = 1, shadowOffsetX = 4, shadowOffsetY = 4, ref = 10},
@@ -37,14 +35,10 @@ function SongText.destination(base_x, base_y)
   }
 end
 
-local SongParam = {}
+local SongParam = Object.new()
 SongParam.text_w = 350
 SongParam.num_w = 48
 SongParam.h = 64
-function SongParam.new()
-  local obj = {}
-  return setmetatable(obj, {__index = SongParam})
-end
 function SongParam.image()
   local src = 4 local x = 248 local w = SongParam.text_w local h = SongParam.h
   return {
@@ -86,13 +80,9 @@ function SongParam.destination(base_x, base_y)
   }
 end
 
-local Judge = {}
+local Judge = Object.new()
 Judge.w = 350
 Judge.h = 64
-function Judge.new()
-  local obj = {}
-  return setmetatable(obj, {__index = Judge})
-end
 function Judge.image()
   local src = 4 local x = 248 local w = Judge.w local h = Judge.h
   return {
@@ -115,13 +105,9 @@ function Judge.destination(x, y)
   }
 end
 
-local Keys = {}
+local Keys = Object.new()
 Keys.w = 250
 Keys.h = 64
-function Keys.new()
-  local obj = {}
-  return setmetatable(obj, {__index = Keys})
-end
 function Keys.image()
   local src = 4 local x = 0 local w = Keys.w local h = Keys.h
   return {
@@ -148,14 +134,10 @@ function Keys.destination(x, y)
   }
 end
 
-local Density = {}
+local Density = Object.new()
 Density.text_w = 290
 Density.num_w = 48
 Density.h = 64
-function Density.new()
-  local obj = {}
-  return setmetatable(obj, {__index = Density})
-end
 function Density.image()
   local src = 4 local x = 1700 local w = Density.text_w local h = Density.h
   return {
@@ -200,11 +182,7 @@ function Density.destination(base_x, y)
   }
 end
 
-local NotesGraph = {}
-function NotesGraph.new()
-  local obj = {}
-  return setmetatable(obj, {__index = NotesGraph})
-end
+local NotesGraph = Object.new()
 function NotesGraph.judgegraph()
   return {
     {id = "notesgraph", noGap = 1, type = 0}
@@ -222,14 +200,10 @@ function NotesGraph.destination(x, y)
   }
 end
 
-local NotesType = {}
+local NotesType = Object.new()
 NotesType.text_w = 290
 NotesType.num_w = 48
 NotesType.h = 64
-function NotesType.new()
-  local obj = {}
-  return setmetatable(obj, {__index = NotesType})
-end
 function NotesType.image()
   local src = 4 local x = 1700 local w = NotesType.text_w local h = NotesType.h
   return {
@@ -274,11 +248,7 @@ function NotesType.destination(base_x, base_y)
   }
 end
 
-local FolderSongs = {}
-function FolderSongs.new()
-  local obj = {}
-  return setmetatable(obj, {__index = FolderSongs})
-end
+local FolderSongs = Object.new()
 function FolderSongs.image()
   local src = 10 local x = 0 local y = 0 local w = 526 local h = 64
   return {
@@ -299,14 +269,10 @@ function FolderSongs.destination(base_x, y)
   }
 end
 
-local TotalInfo = {}
+local TotalInfo = Object.new()
 TotalInfo.text_w = 526
 TotalInfo.num_w = 48
 TotalInfo.h = 64
-function TotalInfo.new()
-  local obj = {}
-  return setmetatable(obj, {__index = TotalInfo})
-end
 function TotalInfo.image()
   local src = 10 local x = 0 local y = 0 local w = TotalInfo.text_w local h = TotalInfo.h
   return {
@@ -347,7 +313,7 @@ function TotalInfo.destination(base_x, base_y)
   }
 end
 
-local SongInfo = {}
+local SongInfo = Objects.new({SongText, SongParam, Judge, Keys, Density, NotesGraph, NotesType, FolderSongs, TotalInfo})
 SongInfo.songtext = SongText.new()
 SongInfo.songparam = SongParam.new()
 SongInfo.judge = Judge.new()
@@ -357,35 +323,6 @@ SongInfo.notesgraph = NotesGraph.new()
 SongInfo.notestype = NotesType.new()
 SongInfo.foldersongs = FolderSongs.new()
 SongInfo.totalinfo = TotalInfo.new()
-function SongInfo.new()
-  local obj = {}
-  return setmetatable(obj, {__index = SongInfo})
-end
-function SongInfo.image()
-  local t = {}
-  utils.mergeArray(t, SongInfo.songparam.image())
-  utils.mergeArray(t, SongInfo.judge.image())
-  utils.mergeArray(t, SongInfo.keys.image())
-  utils.mergeArray(t, SongInfo.density.image())
-  utils.mergeArray(t, SongInfo.notestype.image())
-  utils.mergeArray(t, SongInfo.foldersongs.image())
-  utils.mergeArray(t, SongInfo.totalinfo.image())
-  return t
-end
-function SongInfo.value()
-  local t = {}
-  utils.mergeArray(t, SongInfo.songparam.value())
-  utils.mergeArray(t, SongInfo.density.value())
-  utils.mergeArray(t, SongInfo.notestype.value())
-  utils.mergeArray(t, SongInfo.foldersongs.value())
-  utils.mergeArray(t, SongInfo.totalinfo.value())
-  return t
-end
-function SongInfo.text()
-  local t = {}
-  utils.mergeArray(t, SongInfo.songtext.text())
-  return t
-end
 function SongInfo.judgegraph()
   local t = {}
   utils.mergeArray(t, SongInfo.notesgraph.judgegraph())

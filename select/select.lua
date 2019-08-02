@@ -1,6 +1,7 @@
 local utils = require "utils"
 local header = require "header"
 
+local Objects = require "objects"
 local SongInfo = require "songinfo"
 local Score = require "score"
 local SongList = require "songlist"
@@ -50,6 +51,9 @@ local function main()
   local lnmodebutton = Button.LNModeButton.new()
   local search = Search.new()
 
+  local parts = Objects.new({SongInfo, SongList, Score, ScrollBar, Option, BottomInfo,
+    Button.PlayButton, Button.SortButton, Button.KeyModeButton, Button.LNModeButton, Search})
+
   skin.image = {
     {id = "background", src = 0, x = 0, y = 0, w = -1, h = -1},
   }
@@ -66,47 +70,30 @@ local function main()
       {id = "minus", src = src, x = w * 11, y = h, w = w, h = h},
     }
   end)())
-  utils.mergeArray(skin.image, songinfo.image())
-  utils.mergeArray(skin.image, score.image())
-  utils.mergeArray(skin.image, songlist.image())
-  utils.mergeArray(skin.image, scrollbar.image())
-  utils.mergeArray(skin.image, playbutton.image())
-  utils.mergeArray(skin.image, sortbutton.image())
-  utils.mergeArray(skin.image, keymodebutton.image())
-  utils.mergeArray(skin.image, lnmodebutton.image())
-  utils.mergeArray(skin.image, option.image())
-  utils.mergeArray(skin.image, bottominfo.image())
-  utils.mergeArray(skin.image, search.image())
+  utils.mergeArray(skin.image, parts:image())
 
   skin.imageset = {}
-  utils.mergeArray(skin.imageset, songlist.imageset())
-  utils.mergeArray(skin.imageset, option.imageset())
+  utils.mergeArray(skin.imageset, parts:imageset())
 
   skin.value = {}
-  utils.mergeArray(skin.value, songinfo.value())
-  utils.mergeArray(skin.value, score.value())
-  utils.mergeArray(skin.value, option.value())
-  utils.mergeArray(skin.value, songlist.value())
-  utils.mergeArray(skin.value, bottominfo.value())
+  utils.mergeArray(skin.value, parts:value())
 
   skin.text = {}
-  utils.mergeArray(skin.text, songinfo.text())
-  utils.mergeArray(skin.text, songlist.text())
-  utils.mergeArray(skin.text, search.text())
+  utils.mergeArray(skin.text, parts:text())
 
   skin.slider = {}
-  utils.mergeArray(skin.slider, scrollbar.slider())
+  utils.mergeArray(skin.slider, parts:slider())
 
   skin.graph = {}
-  utils.mergeArray(skin.graph, songlist.graph())
+  utils.mergeArray(skin.graph, parts:graph())
 
-  skin.songlist = songlist.songlist()
+  skin.songlist = SongList.songlist()
 
   skin.judgegraph = {}
-  utils.mergeArray(skin.judgegraph, songinfo.judgegraph())
+  utils.mergeArray(skin.judgegraph, SongInfo.judgegraph())
 
   skin.bpmgraph = {}
-  utils.mergeArray(skin.bpmgraph, songinfo.bpmgraph())
+  utils.mergeArray(skin.bpmgraph, SongInfo.bpmgraph())
 
   skin.destination = {
     {id = "background", dst = { {x = 0, y = 0, w = header.w, h = header.h} }},

@@ -1,14 +1,11 @@
 local header = require "header"
+local Object = require "object"
 
-local ScrollBar = {}
+local ScrollBar = Object.new()
 ScrollBar.src = 3
 ScrollBar.w = 20
 ScrollBar.frame_h = 600
 ScrollBar.thumb_h = 50
-function ScrollBar.new()
-  local obj = {}
-  return setmetatable(obj, {__index = ScrollBar})
-end
 function ScrollBar.image()
   return {
     {id = "scrollbar_frame", src = ScrollBar.src, x = 0, y = 0, w = ScrollBar.w, h = ScrollBar.frame_h}

@@ -1,8 +1,6 @@
-local PlayButton = {}
-function PlayButton.new()
-  local obj = {}
-  return setmetatable(obj, {__index = PlayButton})
-end
+local Object = require "object"
+
+local PlayButton = Object.new()
 function PlayButton.image()
   local src = 5 local base_x = 0 local y = 0 local w = 64 local h = 64
   return {
@@ -29,13 +27,9 @@ function PlayButton.destination()
   }
 end
 
-local SortButton = {}
+local SortButton = Object.new()
 SortButton.w = 400
 SortButton.h = 64
-function SortButton.new()
-  local obj = {}
-  return setmetatable(obj, {__index = SortButton})
-end
 function SortButton.image()
   local w = SortButton.w local h = SortButton.h
   return {
@@ -50,13 +44,9 @@ function SortButton.destination()
   }
 end
 
-local KeyModeButton = {}
+local KeyModeButton = Object.new()
 KeyModeButton.w = 284
 KeyModeButton.h = 64
-function KeyModeButton.new()
-  local obj = {}
-  return setmetatable(obj, {__index = KeyModeButton})
-end
 function KeyModeButton.image()
   local w = KeyModeButton.w  local h = KeyModeButton.h
   return {
@@ -71,13 +61,9 @@ function KeyModeButton.destination()
   }
 end
 
-local LNModeButton = {}
+local LNModeButton = Object.new()
 LNModeButton.w = 150
 LNModeButton.h = 64
-function LNModeButton.new()
-  local obj = {}
-  return setmetatable(obj, {__index = LNModeButton})
-end
 function LNModeButton.image()
   local w = LNModeButton.w local h = LNModeButton.h
   return {

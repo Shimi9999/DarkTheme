@@ -1,10 +1,7 @@
 local utils = require "utils"
+local Object = require "object"
 
-local BottomInfo = {}
-function BottomInfo.new()
-  local obj = {}
-  return setmetatable(obj, {__index = BottomInfo})
-end
+local BottomInfo = Object.new()
 function BottomInfo.image()
   local src = 10 local x = 0 local y = 0 local w = 526 local h = 64
   return {

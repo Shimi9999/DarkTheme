@@ -1,13 +1,10 @@
 local utils = require "utils"
 local header = require "header"
+local Object = require "object"
 
-local Selector = {}
+local Selector = Object.new()
 Selector.w = 220
 function Selector.h(selection_num) return 10 + 60 * selection_num end
-function Selector.new()
-  local obj = {}
-  return setmetatable(obj, {__index = Selector})
-end
 function Selector.image()
   local src = 11 local x = 0 local base_y = 540 local diff_y = 60
   local t = {}
@@ -85,13 +82,9 @@ function Selector.destination(option_num, op)
   end
 end
 
-local Target = {}
+local Target = Object.new()
 Target.w = 310
 Target.h = 430
-function Target.new()
-  local obj = {}
-  return setmetatable(obj, {__index = Target})
-end
 function Target.image()
   local src = 15 local x = 0 local base_y = 0 local diff_y = 40
   local t = {}
@@ -119,13 +112,9 @@ function Target.destination(op)
   }
 end
 
-local Option = {}
+local Option = Object.new()
 Option.selector = Selector.new()
 Option.target = Target.new()
-function Option.new()
-  local obj = {}
-  return setmetatable(obj, {__index = Option})
-end
 function Option.image()
   local t = {
     {id = "option_play", src = 12, x = 0, y = 0, w = -1, h = -1},

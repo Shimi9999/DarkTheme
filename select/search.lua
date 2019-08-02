@@ -1,4 +1,6 @@
-local Search = {}
+local Object = require "object"
+
+local Search = Object.new()
 Search.w = 500
 Search.frame_h = 46
 Search.text_h = 32

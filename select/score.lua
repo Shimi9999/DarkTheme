@@ -1,12 +1,10 @@
 local utils = require "utils"
+local Object = require "object"
+local Objects = require "objects"
 
-local ClearType = {}
+local ClearType = Object.new()
 ClearType.w = 400
 ClearType.h = 64
-function ClearType.new()
-  local obj = {}
-  return setmetatable(obj, {__index = ClearType})
-end
 function ClearType.image()
   local src = 4 local x = 600 local w = ClearType.w local h = ClearType.h
   local t = {}
@@ -26,14 +24,10 @@ function ClearType.destination(x, y)
   return t
 end
 
-local JudgeNumbers = {}
+local JudgeNumbers = Object.new()
 JudgeNumbers.text_w = 254
 JudgeNumbers.num_w = 48
 JudgeNumbers.h = 64
-function JudgeNumbers.new()
-  local obj = {}
-  return setmetatable(obj, {__index = JudgeNumbers})
-end
 function JudgeNumbers.image()
   local src = 6 local w = JudgeNumbers.text_w local h = JudgeNumbers.h
   return {
@@ -70,14 +64,10 @@ function JudgeNumbers.destination(base_x, base_y)
   return t
 end
 
-local ScoreParams = {}
+local ScoreParams = Object.new()
 ScoreParams.text_w = 400
 ScoreParams.num_w = 48
 ScoreParams.h = 64
-function ScoreParams.new()
-  local obj = {}
-  return setmetatable(obj, {__index = ScoreParams})
-end
 function ScoreParams.image()
   local src = 6 local w = ScoreParams.text_w local h = ScoreParams.h
   return {
@@ -130,11 +120,7 @@ function ScoreParams.destination(base_x, base_y)
   return t
 end
 
-local ScoreRate = {}
-function ScoreRate.new()
-  local obj = {}
-  return setmetatable(obj, {__index = ScoreRate})
-end
+local ScoreRate = Object.new()
 function ScoreRate.value()
   return {
     utils.generateValue({id = "scorerate_num", digit = 3, ref = 102}),
@@ -151,13 +137,9 @@ function ScoreRate.destination(base_x, base_y)
   }
 end
 
-local Rank = {}
+local Rank = Object.new()
 Rank.w = 140
 Rank.h = 64
-function Rank.new()
-  local obj = {}
-  return setmetatable(obj, {__index = Rank})
-end
 function Rank.image()
   local src = 6 local x = 740 local w = Rank.w local h = Rank.h
   local t = {}
@@ -175,11 +157,7 @@ function Rank.destination(x, y)
   return t
 end
 
-local NextRank = {}
-function NextRank.new()
-  local obj = {}
-  return setmetatable(obj, {__index = NextRank})
-end
+local NextRank = Object.new()
 function NextRank.value()
   return {
     utils.generateValue({id = "nextrank_num", digit = 4, ref = 154})
@@ -200,13 +178,9 @@ function NextRank.destination(x, y)
   return t
 end
 
-local ClearOption = {}
+local ClearOption = Object.new()
 ClearOption.w = 450
 ClearOption.h = 64
-function ClearOption.new()
-  local obj = {}
-  return setmetatable(obj, {__index = ClearOption})
-end
 function ClearOption.image()
   local src = 6 local x = 900 local w = ClearOption.w local h = ClearOption.h
   local t = {}
@@ -230,7 +204,7 @@ function ClearOption.destination(x, y)
   return t
 end
 
-local Score = {}
+local Score = Objects.new({ClearType, JudgeNumbers, ScoreParams, ScoreRate, Rank, NextRank, ClearOption})
 Score.cleartype = ClearType.new()
 Score.judgenumbers = JudgeNumbers.new()
 Score.scoreparams = ScoreParams.new()
@@ -238,27 +212,6 @@ Score.scorerate = ScoreRate.new()
 Score.rank = Rank.new()
 Score.nextrank = NextRank.new()
 Score.clearoption = ClearOption.new()
-function Score.new()
-  local obj = {}
-  return setmetatable(obj, {__index = Score})
-end
-function Score.image()
-  local t = {}
-  utils.mergeArray(t, Score.cleartype.image())
-  utils.mergeArray(t, Score.judgenumbers.image())
-  utils.mergeArray(t, Score.scoreparams.image())
-  utils.mergeArray(t, Score.rank.image())
-  utils.mergeArray(t, Score.clearoption.image())
-  return t
-end
-function Score.value()
-  local t = {}
-  utils.mergeArray(t, Score.judgenumbers.value())
-  utils.mergeArray(t, Score.scoreparams.value())
-  utils.mergeArray(t, Score.scorerate.value())
-  utils.mergeArray(t, Score.nextrank.value())
-  return t
-end
 function Score.destination()
   local t = {}
   utils.mergeArray(t, Score.scorerate.destination(50, 460))

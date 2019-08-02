@@ -1,12 +1,10 @@
 local utils = require "utils"
+local Object = require "object"
+local Objects = require "objects"
 
-local Bar = {}
+local Bar = Object.new()
 Bar.w = 800
 Bar.h = 60
-function Bar.new()
-  local obj = {}
-  return setmetatable(obj, {__index = Bar})
-end
 function Bar.image()
   local function img(id, num)
     return {id = id, src = 1, x = 0, y = Bar.h * num, w = Bar.w, h = Bar.h}
@@ -38,11 +36,7 @@ function Bar.destination(num, x, y)
   return list
 end
 
-local BarText = {}
-function BarText.new()
-  local obj = {}
-  return setmetatable(obj, {__index = BarText})
-end
+local BarText = Object.new()
 function BarText.text()
   return {
     {id = "bar_text", font = 0, size = 40}
@@ -83,13 +77,9 @@ function BarText.destination()
   }
 end
 
-local BarLevel = {}
+local BarLevel = Object.new()
 BarLevel.w = 30
 BarLevel.h = 38
-function BarLevel.new()
-  local obj = {}
-  return setmetatable(obj, {__index = BarLevel})
-end
 function BarLevel.value()
   return {
     utils.generateValue({id = "bar_level", digit = 2})
@@ -118,23 +108,18 @@ function BarLevel.destination()
   }
 end
 
-local BarLamp = {}
+local BarLamp = Object.new()
 BarLamp.w = 20
 BarLamp.h = 60
-function BarLamp.new()
-  local obj = {}
-  return setmetatable(obj, {__index = BarLamp})
-end
 function BarLamp.image()
   return {
     {id = "lamp", src = 3, x = 0, y = 0, w = BarLamp.w, h = BarLamp.h}
   }
 end
-function BarLamp.destination()
+function BarLamp.destination(x, y, h)
   local function barlamp(r, g, b)
-    local x = -20 local y = 0
     return {id = "lamp", blend = 2, dst = {
-      {x = x, y = y, w = BarLamp.w, h = BarLamp.h, r = r, g = g, b = b}
+      {x = x, y = y, w = BarLamp.w, h = h, r = r, g = g, b = b}
     }}
   end
   return {
@@ -163,13 +148,9 @@ function BarLamp.destination()
   }
 end
 
-local Label = {}
+local Label = Object.new()
 Label.w = 150
 Label.h = 64
-function Label.new()
-  local obj = {}
-  return setmetatable(obj, {__index = Label})
-end
 function Label.image()
   local src = 7 local x = 0 local w = Label.w local h = Label.h
   return {
@@ -192,12 +173,8 @@ function Label.destination()
   }
 end
 
-local Trophy = {}
+local Trophy = Object.new()
 Trophy.size = 60
-function Trophy.new()
-  local obj = {}
-  return setmetatable(obj, {__index = Trophy})
-end
 function Trophy.image()
   local src = 9 local x = 0 local y = 0 local w = Trophy.size local h = Trophy.size
   return {
@@ -216,12 +193,8 @@ function Trophy.destination()
   }
 end
 
-local LampGraph = {}
+local LampGraph = Object.new()
 LampGraph.h = 8
-function LampGraph.new()
-  local obj = {}
-  return setmetatable(obj, {__index = LampGraph})
-end
 function LampGraph.graph()
   return {
     {id = "graph_lamp", src = 8, x = 0, y = 0, w = 11, h = LampGraph.h, divx = 11, type = -1}
@@ -231,46 +204,16 @@ function LampGraph.destination()
   return {id = "graph_lamp", dst = { {x = 0, y = 0, w = 650, h = LampGraph.h} }}
 end
 
-local SongList = {}
+local SongList = Objects.new({Bar, BarText, BarLevel, BarLamp, Label, Trophy, LampGraph})
 SongList.bar = Bar.new()
 SongList.bartext = BarText.new()
 SongList.barlevel = BarLevel.new()
 SongList.barlamp = BarLamp.new()
+SongList.playerlamp = BarLamp.new()
+SongList.rivallamp = BarLamp.new()
 SongList.label = Label.new()
 SongList.trophy = Trophy.new()
 SongList.lampgraph = LampGraph.new()
-function SongList.new()
-  local obj = {}
-  return setmetatable(obj, {__index = SongList})
-end
-function SongList.image()
-  local t = {}
-  utils.mergeArray(t, SongList.bar.image())
-  utils.mergeArray(t, SongList.barlamp.image())
-  utils.mergeArray(t, SongList.label.image())
-  utils.mergeArray(t, SongList.trophy.image())
-  return t
-end
-function SongList.imageset()
-  local t = {}
-  utils.mergeArray(t, SongList.bar.imageset())
-  return t
-end
-function SongList.value()
-  local t = {}
-  utils.mergeArray(t, SongList.barlevel.value())
-  return t
-end
-function SongList.text()
-  local t = {}
-  utils.mergeArray(t, SongList.bartext.text())
-  return t
-end
-function SongList.graph()
-  local t = {}
-  utils.mergeArray(t, SongList.lampgraph.graph())
-  return t
-end
 function SongList.songlist()
   return {
     id = "songlist",
@@ -280,7 +223,9 @@ function SongList.songlist()
     liston = SongList.bar.destination(22, -30, 600),
     text = SongList.bartext.destination(),
     level = SongList.barlevel.destination(),
-    lamp = SongList.barlamp.destination(),
+    lamp = SongList.barlamp.destination(-20, 0, 60),
+    playerlamp = SongList.playerlamp.destination(-20, 0, 30),
+    rivallamp = SongList.rivallamp.destination(-20, 30, 30),
     trophy = SongList.trophy.destination(),
     label = SongList.label.destination(),
     graph = SongList.lampgraph.destination()
