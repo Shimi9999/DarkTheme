@@ -86,8 +86,6 @@ function ScoreParams.value()
     utils.generateValue({id = "fast_num", digit = 4, ref = 423}),
     utils.generateValue({id = "slow_num", digit = 4, ref = 424}),
     utils.generateValue({id = "djpoint_num", digit = 6, ref = 100}),
-
-    utils.generateValue({id = "exscore_rival_num", digit = 5, ref = 271}),
   }
 end
 function ScoreParams.destination(base_x, base_y)
@@ -197,14 +195,47 @@ function ClearOption.destination(x, y)
   local ops = {126, 127, 128, 129, 130, 131, 1128, 1129, 1130, 1131}
   local t = {}
   for i = 1, 10 do
-    t[i] = {id = "clearoption_"..i, op = {5, ops[i]}, dst = {
+    t[i] = {id = "clearoption_"..i, op = {5, 624, ops[i]}, dst = {
        {x = x + (w + 10) * math.floor(i / 5) , y = y - h * (i % 5 - 1), w = w, h = h}
     }}
   end
   return t
 end
 
-local Score = Objects.new({ClearType, JudgeNumbers, ScoreParams, ScoreRate, Rank, NextRank, ClearOption})
+local RivalScore = Object.new()
+RivalScore.num_w = 48
+RivalScore.img_w = 400
+RivalScore.h = 64
+function RivalScore.image()
+  local src = 6 local w = RivalScore.img_w local h = RivalScore.h
+  return {
+    {id = "rival_exscore", src = src, x = 300, y = 0, w = w, h = h}
+  }
+end
+function RivalScore.value()
+  return {
+    utils.generateValue({id = "rival_exscore_num", digit = 4, ref = 271}),
+  }
+end
+function RivalScore.text()
+  return {
+    {id = "rival_name", font = 0, size = RivalScore.h, overflow = 1, ref = 1},
+  }
+end
+function RivalScore.destination(base_x, base_y)
+  local scale = 0.4
+  local num_w = RivalScore.num_w * scale local img_w = RivalScore.img_w * scale
+  local h = RivalScore.h * scale
+  local op = {625}
+  local color = {r = 255, g = 153, b = 153}
+  return {
+    {id = "rival_name", op = op, dst = { utils.mergeMap({x = base_x + 2, y = base_y - 4, w = 200, h = h}, color) }},
+    {id = "rival_exscore", op = op, dst = { utils.mergeMap({x = base_x + 150, y = base_y, w = img_w, h = h}, color) }},
+    {id = "rival_exscore_num", op = op, dst = { utils.mergeMap({x = base_x + 300, y = base_y, w = num_w, h = h}, color) }},
+  }
+end
+
+local Score = Objects.new({ClearType, JudgeNumbers, ScoreParams, ScoreRate, Rank, NextRank, ClearOption, RivalScore})
 Score.cleartype = ClearType.new()
 Score.judgenumbers = JudgeNumbers.new()
 Score.scoreparams = ScoreParams.new()
@@ -212,6 +243,7 @@ Score.scorerate = ScoreRate.new()
 Score.rank = Rank.new()
 Score.nextrank = NextRank.new()
 Score.clearoption = ClearOption.new()
+Score.rivalscore = RivalScore.new()
 function Score.destination()
   local t = {}
   utils.mergeArray(t, Score.scorerate.destination(50, 460))
@@ -221,6 +253,7 @@ function Score.destination()
   utils.mergeArray(t, Score.judgenumbers.destination(30, 250))
   utils.mergeArray(t, Score.scoreparams.destination(230, 250))
   utils.mergeArray(t, Score.clearoption.destination(50, 220))
+  utils.mergeArray(t, Score.rivalscore.destination(30, 210))
   return t
 end
 
