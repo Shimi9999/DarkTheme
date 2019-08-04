@@ -1,4 +1,6 @@
 local utils = require "utils"
+local property = require "property"
+local header = require "header"
 local Object = require "object"
 local Objects = require "objects"
 
@@ -323,6 +325,12 @@ SongInfo.notesgraph = NotesGraph.new()
 SongInfo.notestype = NotesType.new()
 SongInfo.foldersongs = FolderSongs.new()
 SongInfo.totalinfo = TotalInfo.new()
+SongInfo.superimage = SongInfo:image()
+function SongInfo.image()
+  local t = SongInfo.superimage
+  table.insert(t, {id = "stagefile_darkness", src = 3, x = 0, y = 0, w = -1, h = -1})
+  return t
+end
 function SongInfo.judgegraph()
   local t = {}
   utils.mergeArray(t, SongInfo.notesgraph.judgegraph())
@@ -337,9 +345,20 @@ function SongInfo.destination()
   local t = {
     -- banner
     {id = -102, stretch = 1, dst = { {x = 60, y = 940, w = 300, h = 80} }},
-    -- stagefile
-    {id = -100, stretch = 1, filter = 1, dst = { {x = 50, y = 540, w = 400, h = 300} }},
   }
+  -- stagefile
+  utils.mergeArray(t, (function()
+    if property.isStagefileFull() or (property.isStagefileRandom() and math.random(2) == 1) then
+      return {
+        {id = -100, stretch = 4, filter = 1, dst = { {x = 0, y = 0, w = header.w, h = header.h} }},
+        {id = "stagefile_darkness", dst = { {x = 0, y = 0, w = header.w, h = header.h, r = 0, g = 0, b = 0, a = property.backgroundDarkness()} }}
+      }
+    else
+      return {
+        {id = -100, stretch = 1, filter = 1, dst = { {x = 50, y = 540, w = 400, h = 300} }}
+      }
+    end
+  end)())
   utils.mergeArray(t, SongInfo.songtext.destination(540, 706))
   utils.mergeArray(t, SongInfo.songparam.destination(480, 560))
   utils.mergeArray(t, SongInfo.judge.destination(850, 560))

@@ -118,7 +118,7 @@ function BarLamp.image()
 end
 function BarLamp.destination(x, y, h)
   local function barlamp(r, g, b)
-    return {id = "lamp", blend = 2, dst = {
+    return {id = "lamp", blend = 0, dst = {
       {x = x, y = y, w = BarLamp.w, h = h, r = r, g = g, b = b}
     }}
   end

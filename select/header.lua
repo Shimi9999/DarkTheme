@@ -1,6 +1,4 @@
-local property = {}
-
-local filepath = {}
+local property = require "property"
 
 local header = {
   type = 5,
@@ -10,8 +8,9 @@ local header = {
   input = 2000,
   fadeout = 500,
   scene =  3600000,
-  property = property,
-  filepath = filepath
+  property = property.property,
+  filepath = property.filepath,
+  offset = property.offset,
 }
 
 return header

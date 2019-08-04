@@ -1,5 +1,6 @@
 local utils = require "utils"
 local header = require "header"
+local property = require "property"
 
 local Objects = require "objects"
 local SongInfo = require "songinfo"
@@ -35,6 +36,10 @@ local function main()
     {id = 14, path = "image/option_detailed.png"},
     {id = 15, path = "image/target.png"},
   }
+  if property.isBackgroundCustomize() then
+    table.insert(skin.source, {id = "source_background_custom", path = "customize/background/*.png"})
+  end
+
   skin.font = {
     {id = 0, path = "../common/font/Koruri-Semibold.ttf"}
   }
@@ -54,9 +59,12 @@ local function main()
   local parts = Objects.new({SongInfo, SongList, Score, ScrollBar, Option, BottomInfo,
     Button.PlayButton, Button.SortButton, Button.KeyModeButton, Button.LNModeButton, Search})
 
-  skin.image = {
-    {id = "background", src = 0, x = 0, y = 0, w = -1, h = -1},
-  }
+  skin.image = {}
+  do
+    local src = 0
+    if property.isBackgroundCustomize() then src = "source_background_custom" end
+    table.insert(skin.image, {id = "background", src = src, x = 0, y = 0, w = -1, h = -1})
+  end
   utils.mergeArray(skin.image, (function()
     local src = 2 local w = 48 local h = 64
     local y = h * 2
@@ -96,11 +104,11 @@ local function main()
   utils.mergeArray(skin.bpmgraph, SongInfo.bpmgraph())
 
   skin.destination = {
-    {id = "background", dst = { {x = 0, y = 0, w = header.w, h = header.h} }},
+    {id = "background", dst = { {x = 0, y = 0, w = header.w, h = header.h, a = 255 - property.backgroundDarkness()} }},
   }
-  utils.mergeArray(skin.destination, songlist.destination())
   utils.mergeArray(skin.destination, songinfo.destination())
   utils.mergeArray(skin.destination, score.destination())
+  utils.mergeArray(skin.destination, songlist.destination())
   utils.mergeArray(skin.destination, playbutton.destination())
   utils.mergeArray(skin.destination, sortbutton.destination())
   utils.mergeArray(skin.destination, keymodebutton.destination())
