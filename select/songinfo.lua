@@ -197,8 +197,8 @@ function NotesGraph.bpmgraph()
 end
 function NotesGraph.destination(x, y)
   return {
-    {id = "notesgraph", op = {2}, dst = { {x = x, y = y, w = 500, h = 140} }},
-    {id = "bpmgraph", op = {2, 177}, dst = { {x = x, y = y, w = 500, h = 140} }},
+    {id = "notesgraph", op = {2, 5}, dst = { {x = x, y = y, w = 500, h = 140} }},
+    {id = "bpmgraph", op = {2, 5, 177}, dst = { {x = x, y = y, w = 500, h = 140} }},
   }
 end
 
@@ -232,21 +232,71 @@ function NotesType.destination(base_x, base_y)
   local tw = NotesType.text_w * text_scale local th = NotesType.h * text_scale
   local ty = num_y - 20
   local margin = 100
+  local op = {2, 5}
   local color_note = {r = 255, g = 255, b = 255}
   local color_scratch = {r = 204, g = 101, b = 101}
   local color_ln = {r = 101, g = 153, b = 204}
   local color_bss = {r = 204, g = 127, b = 101}
   return {
-    {id = "note_num", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 0, y = num_y, w = nw, h = nh}, color_note) }},
-    {id = "scratch_num", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 1, y = num_y, w = nw, h = nh}, color_scratch) }},
-    {id = "ln_num", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 2, y = num_y, w = nw, h = nh}, color_ln) }},
-    {id = "bss_num", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 3, y = num_y, w = nw, h = nh, }, color_bss) }},
-    --{id = "mine_num", op = {5}, dst = { {x = base_x + 400, y = num_y, w = w, h = h} }}
+    {id = "note_num", op = op, dst = { utils.mergeMap({x = base_x + margin * 0, y = num_y, w = nw, h = nh}, color_note) }},
+    {id = "scratch_num", op = op, dst = { utils.mergeMap({x = base_x + margin * 1, y = num_y, w = nw, h = nh}, color_scratch) }},
+    {id = "ln_num", op = op, dst = { utils.mergeMap({x = base_x + margin * 2, y = num_y, w = nw, h = nh}, color_ln) }},
+    {id = "bss_num", op = op, dst = { utils.mergeMap({x = base_x + margin * 3, y = num_y, w = nw, h = nh, }, color_bss) }},
+    --{id = "mine_num", op = op, dst = { {x = base_x + 400, y = num_y, w = w, h = h} }}
 
-    {id = "note", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 0, y = ty, w = tw, h = th}, color_note) }},
-    {id = "scratch", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 1, y = ty, w = tw, h = th}, color_scratch) }},
-    {id = "ln", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 2, y = ty, w = tw, h = th}, color_ln) }},
-    {id = "bss", op = {5}, dst = { utils.mergeMap({x = base_x + margin * 3, y = ty, w = tw, h = th, }, color_bss) }},
+    {id = "note", op = op, dst = { utils.mergeMap({x = base_x + margin * 0, y = ty, w = tw, h = th}, color_note) }},
+    {id = "scratch", op = op, dst = { utils.mergeMap({x = base_x + margin * 1, y = ty, w = tw, h = th}, color_scratch) }},
+    {id = "ln", op = op, dst = { utils.mergeMap({x = base_x + margin * 2, y = ty, w = tw, h = th}, color_ln) }},
+    {id = "bss", op = op, dst = { utils.mergeMap({x = base_x + margin * 3, y = ty, w = tw, h = th, }, color_bss) }},
+  }
+end
+
+local CourseConstraint = Object.new()
+CourseConstraint.w = 500
+CourseConstraint.h = 64
+function CourseConstraint.image()
+  local src = 16 local x = 0 local y = 0 local w = CourseConstraint.w local h = CourseConstraint.h
+  local function img(id, num)
+    return {id = id, src = src, x = x, y = y + h * num, w = w, h = h}
+  end
+  return {
+    img("const_class", 0),
+    img("const_mirror", 1),
+    img("const_random", 2),
+    img("const_nospeed", 3),
+    img("const_nogood", 4),
+    img("const_nogreat", 5),
+    img("const_gauge_lr2", 6),
+    img("const_gauge_5keys", 7),
+    img("const_gauge_7keys", 8),
+    img("const_gauge_9keys", 9),
+    img("const_gauge_24keys", 10),
+    img("const_ln", 11),
+    img("const_cn", 12),
+    img("const_hcn", 13)
+  }
+end
+function CourseConstraint.destination(base_x, y)
+  local scale = 0.5
+  local w = CourseConstraint.w * scale local h = CourseConstraint.h * scale
+  return {
+    {id = "const_class", op = {1002}, dst = { {x = base_x, y = y, w = w, h = h} }},
+    {id = "const_mirror", op = {1003}, dst = { {x = base_x, y = y, w = w, h = h} }},
+    {id = "const_random", op = {1004}, dst = { {x = base_x, y = y, w = w, h = h} }},
+
+    {id = "const_nospeed", op = {1005}, dst = { {x = base_x, y = y - h, w = w, h = h} }},
+    {id = "const_nogood", op = {1006}, dst = { {x = base_x, y = y - h, w = w, h = h} }},
+    {id = "const_nogreat", op = {1007}, dst = { {x = base_x, y = y - h, w = w, h = h} }},
+
+    {id = "const_gauge_lr2", op = {1010}, dst = { {x = base_x, y = y - h * 2, w = w, h = h} }},
+    {id = "const_gauge_5keys", op = {1011}, dst = { {x = base_x, y = y - h * 2, w = w, h = h} }},
+    {id = "const_gauge_7keys", op = {1012}, dst = { {x = base_x, y = y - h * 2, w = w, h = h} }},
+    {id = "const_gauge_9keys", op = {1013}, dst = { {x = base_x, y = y - h * 2, w = w, h = h} }},
+    {id = "const_gauge_24keys", op = {1014}, dst = { {x = base_x, y = y - h * 2, w = w, h = h} }},
+
+    {id = "const_ln", op = {1015}, dst = { {x = base_x, y = y - h * 3, w = w, h = h} }},
+    {id = "const_cn", op = {1016}, dst = { {x = base_x, y = y - h * 3, w = w, h = h} }},
+    {id = "const_hcn", op = {1017}, dst = { {x = base_x, y = y - h * 3, w = w, h = h} }},
   }
 end
 
@@ -315,7 +365,7 @@ function TotalInfo.destination(base_x, base_y)
   }
 end
 
-local SongInfo = Objects.new({SongText, SongParam, Judge, Keys, Density, NotesGraph, NotesType, FolderSongs, TotalInfo})
+local SongInfo = Objects.new({SongText, SongParam, Judge, Keys, Density, NotesGraph, NotesType, CourseConstraint, FolderSongs, TotalInfo})
 SongInfo.songtext = SongText.new()
 SongInfo.songparam = SongParam.new()
 SongInfo.judge = Judge.new()
@@ -323,6 +373,7 @@ SongInfo.keys = Keys.new()
 SongInfo.density = Density.new()
 SongInfo.notesgraph = NotesGraph.new()
 SongInfo.notestype = NotesType.new()
+SongInfo.courseconstraint = CourseConstraint.new()
 SongInfo.foldersongs = FolderSongs.new()
 SongInfo.totalinfo = TotalInfo.new()
 SongInfo.superimage = SongInfo:image()
@@ -366,6 +417,7 @@ function SongInfo.destination()
   utils.mergeArray(t, SongInfo.density.destination(550, 400))
   utils.mergeArray(t, SongInfo.notesgraph.destination(550, 200))
   utils.mergeArray(t, SongInfo.notestype.destination(550, 200))
+  utils.mergeArray(t, SongInfo.courseconstraint.destination(550, 400))
 
   utils.mergeArray(t, SongInfo.foldersongs.destination(400, 640))
   utils.mergeArray(t, SongInfo.totalinfo.destination(300, 400))

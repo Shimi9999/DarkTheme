@@ -35,6 +35,7 @@ local function main()
     {id = 13, path = "image/option_assist.png"},
     {id = 14, path = "image/option_detailed.png"},
     {id = 15, path = "image/target.png"},
+    {id = 16, path = "image/course.png"},
   }
   if property.isBackgroundCustomize() then
     table.insert(skin.source, {id = "source_background_custom", path = "customize/background/*.png"})
