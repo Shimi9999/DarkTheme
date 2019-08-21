@@ -106,11 +106,11 @@ function Judge.destination(x, y)
   local easy_color = {r = 153, g = 255, b = 153}
   local veryeasy_color = {r = 153, g = 255, b = 255}
   return {
-    {id = "veryhard_judge", op = {180}, dst = { utils.mergeMap(veryhard_color, dst) }},
-    {id = "hard_judge", op = {181}, dst = { utils.mergeMap(hard_color, dst) }},
-    {id = "normal_judge", op = {182}, dst = { utils.mergeMap(normal_color, dst) }},
-    {id = "easy_judge", op = {183}, dst = { utils.mergeMap(easy_color, dst) }},
-    {id = "veryeasy_judge", op = {184}, dst = { utils.mergeMap(veryeasy_color, dst) }}
+    {id = "veryhard_judge", op = {5, 180}, dst = { utils.mergeMap(veryhard_color, dst) }},
+    {id = "hard_judge", op = {5, 181}, dst = { utils.mergeMap(hard_color, dst) }},
+    {id = "normal_judge", op = {5, 182}, dst = { utils.mergeMap(normal_color, dst) }},
+    {id = "easy_judge", op = {5, 183}, dst = { utils.mergeMap(easy_color, dst) }},
+    {id = "veryeasy_judge", op = {5, 184}, dst = { utils.mergeMap(veryeasy_color, dst) }}
   }
 end
 

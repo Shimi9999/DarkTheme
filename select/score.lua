@@ -112,10 +112,10 @@ function ScoreParams.destination(base_x, base_y)
       {id = "fast_num", op = {5}, dst = { {x = x, y = base_y - h * 4, w = w, h = h} }},
       {id = "slow_num", op = {5}, dst = { {x = x + margin, y = base_y - h * 4, w = w, h = h} }},
 
-      {id = "slash", op = {2}, dst = { {x = x + s_margin, y = base_y - h * 1, w = w, h = h} }},
-      {id = "slash", op = {2}, dst = { {x = x + s_margin, y = base_y - h * 2, w = w, h = h} }},
-      {id = "slash", op = {2}, dst = { {x = x + s_margin, y = base_y - h * 3, w = w, h = h} }},
-      {id = "slash", op = {2}, dst = { {x = x + s_margin, y = base_y - h * 4, w = w, h = h} }},
+      {id = "slash", op = {5}, dst = { {x = x + s_margin, y = base_y - h * 1, w = w, h = h} }},
+      {id = "slash", op = {5}, dst = { {x = x + s_margin, y = base_y - h * 2, w = w, h = h} }},
+      {id = "slash", op = {5}, dst = { {x = x + s_margin, y = base_y - h * 3, w = w, h = h} }},
+      {id = "slash", op = {5}, dst = { {x = x + s_margin, y = base_y - h * 4, w = w, h = h} }},
 
       {id = "djpoint_num", op = {5}, dst = { {x = x - 100, y = base_y - h * 5, w = w, h = h} }},
     }
