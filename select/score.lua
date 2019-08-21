@@ -100,7 +100,7 @@ function ScoreParams.destination(base_x, base_y)
   utils.mergeArray(t, (function()
     local w = ScoreParams.num_w * scale local h = ScoreParams.h * scale
     local x = base_x + 170 local base_y = base_y + h * 5
-    local margin = 70
+    local s_margin = 56 local margin = 70
     return {
       {id = "exscore_num", op = {2}, dst = { {x = x, y = base_y - h * 0, w = w, h = h} }},
       {id = "maxcombo_num", op = {5}, dst = { {x = x, y = base_y - h * 1, w = w, h = h} }},
@@ -111,6 +111,11 @@ function ScoreParams.destination(base_x, base_y)
       {id = "playcount_num", op = {5}, dst = { {x = x + margin, y = base_y - h * 3, w = w, h = h} }},
       {id = "fast_num", op = {5}, dst = { {x = x, y = base_y - h * 4, w = w, h = h} }},
       {id = "slow_num", op = {5}, dst = { {x = x + margin, y = base_y - h * 4, w = w, h = h} }},
+
+      {id = "slash", dst = { {x = x + s_margin, y = base_y - h * 1, w = w, h = h} }},
+      {id = "slash", dst = { {x = x + s_margin, y = base_y - h * 2, w = w, h = h} }},
+      {id = "slash", dst = { {x = x + s_margin, y = base_y - h * 3, w = w, h = h} }},
+      {id = "slash", dst = { {x = x + s_margin, y = base_y - h * 4, w = w, h = h} }},
 
       {id = "djpoint_num", op = {5}, dst = { {x = x - 100, y = base_y - h * 5, w = w, h = h} }},
     }
@@ -129,7 +134,7 @@ function ScoreRate.destination(base_x, base_y)
   local w = 24 local h = 32
   return {
     {id = "scorerate_num", op = {5, -100}, dst = { {x = base_x, y = base_y - 40 , w = w, h = h} }},
-    {id = "dot", op = {5, -100}, dst = { {x = base_x + 50, y = base_y - 40 , w = w, h = h} }},
+    {id = "dot", op = {5, -100}, dst = { {x = base_x + 53, y = base_y - 40 , w = w, h = h} }},
     {id = "scorerate_afterdot_num", op = {5, -100}, dst = { {x = base_x + 70, y = base_y - 40, w = w, h = h} }},
     {id = "percent", op = {5, -100}, dst = { {x = base_x + 110, y = base_y - 40 , w = w, h = h} }}
   }
@@ -158,7 +163,7 @@ end
 local NextRank = Object.new()
 function NextRank.value()
   return {
-    utils.generateValue({id = "nextrank_num", digit = 4, ref = 154})
+    utils.generateValue({id = "nextrank_num", digit = 4, align = 1, ref = 154})
   }
 end
 function NextRank.destination(x, y)
@@ -166,7 +171,7 @@ function NextRank.destination(x, y)
   local w = 48 * scale local h = 64 * scale
   local t = {
     {id = "minus", op = {5, -100}, dst = { {x = x + 48, y = y, w = w, h = h} }},
-    {id = "nextrank_num", op = {5, -100}, dst = { {x = x + 50, y = y, w = w, h = h} }}
+    {id = "nextrank_num", op = {5, -100}, dst = { {x = x + 64, y = y, w = w, h = h} }}
   }
   for i = 1, 8 do
     utils.mergeArray(t, {
@@ -249,7 +254,7 @@ function Score.destination()
   utils.mergeArray(t, Score.scorerate.destination(50, 460))
   utils.mergeArray(t, Score.cleartype.destination(30, 460))
   utils.mergeArray(t, Score.rank.destination(240, 430))
-  utils.mergeArray(t, Score.nextrank.destination(360, 420))
+  utils.mergeArray(t, Score.nextrank.destination(370, 420))
   utils.mergeArray(t, Score.judgenumbers.destination(30, 250))
   utils.mergeArray(t, Score.scoreparams.destination(230, 250))
   utils.mergeArray(t, Score.clearoption.destination(50, 220))
