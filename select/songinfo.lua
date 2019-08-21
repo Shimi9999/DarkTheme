@@ -46,6 +46,7 @@ function SongParam.image()
   return {
     {id = "bpm", src = src, x = x, y = h * 7, w = w, h = h},
     {id = "total", src = src, x = x, y = h * 8, w = w, h = h},
+    {id = "time", src = src, x = x, y = h * 9, w = w, h = h},
   }
 end
 function SongParam.value()
@@ -69,13 +70,14 @@ function SongParam.destination(base_x, base_y)
     {id = "bpm", op = {2}, filter = 1, dst = { {x = base_x, y = bpm_y, w = text_w, h = h} }},
     {id = "bpm_num", op = {2,176}, filter = 1, dst = { {x = base_x + 100, y = bpm_y, w = num_w, h = h} }},
     {id = "bpm_min_num", op = {2,177}, filter = 1, dst = { {x = base_x + 100, y = bpm_y, w = num_w, h = h} }},
-    {id = "wavedash", op = {2,177}, filter = 1, dst = { {x = base_x + 156, y = bpm_y, w = num_w, h = h} }},
+    {id = "wavedash", op = {2,177}, filter = 1, dst = { {x = base_x + 158, y = bpm_y, w = num_w, h = h} }},
     {id = "bpm_max_num", op = {2,177}, filter = 1, dst = { {x = base_x + 180, y = bpm_y, w = num_w, h = h} }},
     {id = "bpm_main_num", op = {2,177}, filter = 1, dst = { {x = base_x + 260, y = bpm_y, w = num_w, h = h, r = 127, g = 204, b = 101} }},
 
-    {id = "songtime_minute", op = {2}, dst = { {x = base_x, y = songtime_y, w = num_w, h = h} }},
-    {id = "colon", op = {2}, dst = { {x = base_x + 40, y = songtime_y, w = num_w, h = h} }},
-    {id = "songtime_second", op = {2}, dst = { {x = base_x + 60, y = songtime_y, w = num_w, h = h} }},
+    {id = "time", op = {2}, filter = 1, dst = { {x = base_x, y = songtime_y, w = text_w, h = h} }},
+    {id = "songtime_minute", op = {2}, dst = { {x = base_x + 100, y = songtime_y, w = num_w, h = h} }},
+    {id = "colon", op = {2}, dst = { {x = base_x + 100 + 40, y = songtime_y, w = num_w, h = h} }},
+    {id = "songtime_second", op = {2}, dst = { {x = base_x + 100 + 60, y = songtime_y, w = num_w, h = h} }},
 
     {id = "total", op = {2}, filter = 1, dst = { {x = base_x, y = total_y, w = text_w, h = h} }},
     {id = "total_num", op = {2}, dst = { {x = base_x + 120, y = total_y, w = num_w, h = h} }}
