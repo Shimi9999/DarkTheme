@@ -3,7 +3,7 @@ local Object = require "object"
 local Objects = require "objects"
 
 local Bar = Object.new()
-Bar.w = 800
+Bar.w = 810
 Bar.h = 60
 function Bar.image()
   local function img(id, num)
