@@ -97,13 +97,18 @@ function Judge.image()
 end
 function Judge.destination(x, y)
   local scale = 0.5
-  local dst = { {x = x, y = y, w = Judge.w * scale, h = Judge.h * scale} }
+  local dst = {x = x, y = y, w = Judge.w * scale, h = Judge.h * scale}
+  local veryhard_color = {r = 229, g = 153, b = 255}
+  local hard_color = {r = 255, g = 153, b = 153}
+  local normal_color = {r = 255, g = 255, b = 153}
+  local easy_color = {r = 153, g = 255, b = 153}
+  local veryeasy_color = {r = 153, g = 255, b = 255}
   return {
-    {id = "veryhard_judge", op = {180}, dst = dst},
-    {id = "hard_judge", op = {181}, dst = dst},
-    {id = "normal_judge", op = {182}, dst = dst},
-    {id = "easy_judge", op = {183}, dst = dst},
-    {id = "veryeasy_judge", op = {184}, dst = dst}
+    {id = "veryhard_judge", op = {180}, dst = { utils.mergeMap(veryhard_color, dst) }},
+    {id = "hard_judge", op = {181}, dst = { utils.mergeMap(hard_color, dst) }},
+    {id = "normal_judge", op = {182}, dst = { utils.mergeMap(normal_color, dst) }},
+    {id = "easy_judge", op = {183}, dst = { utils.mergeMap(easy_color, dst) }},
+    {id = "veryeasy_judge", op = {184}, dst = { utils.mergeMap(veryeasy_color, dst) }}
   }
 end
 
@@ -412,7 +417,7 @@ function SongInfo.destination()
   end)())
   utils.mergeArray(t, SongInfo.songtext.destination(540, 706))
   utils.mergeArray(t, SongInfo.songparam.destination(480, 560))
-  utils.mergeArray(t, SongInfo.judge.destination(850, 560))
+  utils.mergeArray(t, SongInfo.judge.destination(846, 560))
   utils.mergeArray(t, SongInfo.keys.destination(850, 520))
   utils.mergeArray(t, SongInfo.density.destination(550, 400))
   utils.mergeArray(t, SongInfo.notesgraph.destination(550, 200))
