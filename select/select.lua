@@ -8,6 +8,7 @@ local Score = require "score"
 local SongList = require "songlist"
 local Option = require "option"
 local ScrollBar = require "scrollbar"
+local VolumeSlider = require "volumeslider"
 local Button = require "button"
 local Search = require "search"
 local BottomInfo = require "bottominfo"
@@ -26,8 +27,8 @@ local function main()
     {id = 4, path = "image/text.png"},
     {id = 5, path = "image/playbutton.png"},
     {id = 6, path = "image/score.png"},
-    {id = 8, path = "image/lampgraph.png"},
     {id = 7, path = "image/label.png"},
+    {id = 8, path = "image/lampgraph.png"},
     {id = 9, path = "image/trophy.png"},
     {id = 10, path = "image/infotext.png"},
     {id = 11, path = "image/option_selector.png"},
@@ -36,6 +37,7 @@ local function main()
     {id = 14, path = "image/option_detailed.png"},
     {id = 15, path = "image/target.png"},
     {id = 16, path = "image/course.png"},
+    {id = 17, path = "image/volumetext.png"},
   }
   if property.isBackgroundCustomize() then
     table.insert(skin.source, {id = "source_background_custom", path = "customize/background/*.png"})
@@ -49,6 +51,7 @@ local function main()
   local songlist = SongList.new()
   local score = Score.new()
   local scrollbar = ScrollBar.new()
+  local volumeslider = VolumeSlider.new()
   local option = Option.new()
   local bottominfo = BottomInfo.new()
   local playbutton = Button.PlayButton.new()
@@ -57,7 +60,7 @@ local function main()
   local lnmodebutton = Button.LNModeButton.new()
   local search = Search.new()
 
-  local parts = Objects.new({SongInfo, SongList, Score, ScrollBar, Option, BottomInfo,
+  local parts = Objects.new({SongInfo, SongList, Score, ScrollBar, VolumeSlider, Option, BottomInfo,
     Button.PlayButton, Button.SortButton, Button.KeyModeButton, Button.LNModeButton, Search})
 
   skin.image = {}
@@ -108,6 +111,7 @@ local function main()
     {id = "background", dst = { {x = 0, y = 0, w = header.w, h = header.h, a = 255 - property.backgroundDarkness()} }},
   }
   utils.mergeArray(skin.destination, songinfo.destination())
+  utils.mergeArray(skin.destination, volumeslider.destination())
   utils.mergeArray(skin.destination, score.destination())
   utils.mergeArray(skin.destination, songlist.destination())
   utils.mergeArray(skin.destination, playbutton.destination())
