@@ -53,11 +53,12 @@ function JudgeNumbers.destination(base_x, base_y)
     }
   end)())
   utils.mergeArray(t, (function()
-    local x = base_x + 110
     local w = JudgeNumbers.num_w * scale local h = JudgeNumbers.h * scale
+    local x = base_x + 110
+    local y = base_y + h * 6
     local t = {}
     for i = 1, 6 do
-      t[i] = {id = "judge_num_"..i, op = {5}, dst = { {x = x, y = base_y + h * (i - 1), w = w, h = h} }}
+      t[i] = {id = "judge_num_"..i, op = {5}, dst = { {x = x, y = y - h * i, w = w, h = h} }}
     end
     return t
   end)())
