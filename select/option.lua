@@ -115,9 +115,8 @@ end
 local Hotkey = Object.new()
 Target.fontSize = 30
 function Hotkey.text()
-  local font = 0
   local function hotkey(key, text)
-    return {id = "hotkey_"..key, font = font, size = Target.fontSize, constantText = key.."  "..text, overflow = 1}
+    return {id = "hotkey_"..key, font = 0, size = Target.fontSize, constantText = key.."  "..text, overflow = 1}
   end
   local t = {
     hotkey("1", "Change key mode filter"),
@@ -151,10 +150,14 @@ function Hotkey.text()
   return t
 end
 function Hotkey.destination(op, x, y)
+  local padding = 10
   local t = {}
-  utils.mergeArray(t, Hotkey.destinationN(op, x, y))
-  utils.mergeArray(t, Hotkey.destinationFN(op, x, y - 380))
-  utils.mergeArray(t, Hotkey.destinationNKEY(op, x, y - 380 - 420))
+  utils.mergeArray(t, {
+    {id = -111, op = op, dst = { {x = x, y = 0, w = 550, h = 1080, r = 34, g = 34, b = 34} }}
+  })
+  utils.mergeArray(t, Hotkey.destinationN(op, x + padding, y))
+  utils.mergeArray(t, Hotkey.destinationFN(op, x + padding, y - 380))
+  utils.mergeArray(t, Hotkey.destinationNKEY(op, x + padding, y - 380 - 420))
   return t
 end
 function Hotkey.destinationN(op, x, y)
@@ -242,7 +245,7 @@ function Option.destination()
       {id = "option_assist", op = op, dst = { {x = 0, y = 0, w = header.w, h = header.h} }},
     }
     utils.mergeArray(t2, Option.selector.destination(2, op))
-    utils.mergeArray(t2, Option.hotkey.destination(op, 1436, 1010))
+    utils.mergeArray(t2, Option.hotkey.destination(op, 1430, 1010))
     return t2
   end)())
   utils.mergeArray(t, (function()
