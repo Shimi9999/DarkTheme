@@ -112,9 +112,88 @@ function Target.destination(op)
   }
 end
 
+local Hotkey = Object.new()
+Target.fontSize = 30
+function Hotkey.text()
+  local font = 0
+  local function hotkey(key, text)
+    return {id = "hotkey_"..key, font = font, size = Target.fontSize, constantText = key.."  "..text, overflow = 1}
+  end
+  local t = {
+    hotkey("1", "Change key mode filter"),
+    hotkey("2", "Change sort mode"),
+    hotkey("3", "Change LN mode"),
+    hotkey("4", "Select replay log"),
+    hotkey("5", "Show detail option"),
+    hotkey("6", "Open key config"),
+    hotkey("7", "Change rival lamps"),
+    hotkey("8", "Open same song folder"),
+    hotkey("9", "Display song text file"),
+
+    hotkey("F1", "Show/hide FPS"),
+    hotkey("F2", "Reload folder/table"),
+    hotkey("F3", "Open folder with file viewer"),
+    hotkey("F4", "Change fullscreen/windowed"),
+    hotkey("F6", "Take a screen shot"),
+    hotkey("F8", "Set song as favorite song"),
+    hotkey("F9", "Set song as favorite chart"),
+    hotkey("F10", "Autoplay all songs in folder"),
+    hotkey("F11", "Open IR chart page"),
+    hotkey("F12", "Open skin config"),
+
+    hotkey("1KEY", "Play"),
+    hotkey("3KEY", "Practice"),
+    hotkey("5KEY", "Auto play"),
+    hotkey("2,4KEY", "Close folder"),
+    hotkey("6KEY", "Select replay log"),
+    hotkey("7KEY", "Replay")
+  }
+  return t
+end
+function Hotkey.destination(op, x, y)
+  local t = {}
+  utils.mergeArray(t, Hotkey.destinationN(op, x, y))
+  utils.mergeArray(t, Hotkey.destinationFN(op, x, y - 380))
+  utils.mergeArray(t, Hotkey.destinationNKEY(op, x, y - 380 - 420))
+  return t
+end
+function Hotkey.destinationN(op, x, y)
+  local t = {}
+  local margin = 8
+  for i = 1, 9 do
+    utils.mergeArray(t, {
+      {id = "hotkey_"..i, op = op, filter = 1, dst = { {x = x, y = y - (Target.fontSize + margin) * (i - 1), w = 500, h = Target.fontSize} }}
+    })
+  end
+  return t
+end
+function Hotkey.destinationFN(op, x, y)
+  local t = {}
+  local f = {1, 2, 3, 4, 6, 8, 9, 10, 11, 12}
+  local margin = 8
+  for i, v in ipairs(f) do
+    utils.mergeArray(t, {
+      {id = "hotkey_F"..v, op = op, filter = 1, dst = { {x = x, y = y - (Target.fontSize + margin) * (i - 1), w = 500, h = Target.fontSize} }}
+    })
+  end
+  return t
+end
+function Hotkey.destinationNKEY(op, x, y)
+  local t = {}
+  local f = {1, 3, 5, "2,4", 6, 7}
+  local margin = 8
+  for i, v in ipairs(f) do
+    utils.mergeArray(t, {
+      {id = "hotkey_"..v.."KEY", op = op, filter = 1, dst = { {x = x, y = y - (Target.fontSize + margin) * (i - 1), w = 500, h = Target.fontSize} }}
+    })
+  end
+  return t
+end
+
 local Option = Object.new()
 Option.selector = Selector.new()
 Option.target = Target.new()
+Option.hotkey = Hotkey.new()
 function Option.image()
   local t = {
     {id = "option_play", src = 12, x = 0, y = 0, w = -1, h = -1},
@@ -141,6 +220,9 @@ function Option.value()
     utils.generateValueXY({id = "option_judgetiming", digit = 3, ref = 12}, 12, 2)
   }
 end
+function Option.text()
+  return Option.hotkey.text()
+end
 function Option.destination()
   local t = {}
   utils.mergeArray(t, (function()
@@ -160,6 +242,7 @@ function Option.destination()
       {id = "option_assist", op = op, dst = { {x = 0, y = 0, w = header.w, h = header.h} }},
     }
     utils.mergeArray(t2, Option.selector.destination(2, op))
+    utils.mergeArray(t2, Option.hotkey.destination(op, 1436, 1010))
     return t2
   end)())
   utils.mergeArray(t, (function()
