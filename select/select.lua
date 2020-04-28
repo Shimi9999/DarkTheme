@@ -44,7 +44,8 @@ local function main()
   end
 
   skin.font = {
-    {id = 0, path = "../common/font/Koruri-Semibold.ttf"}
+    {id = 0, path = "../common/font/Koruri-Semibold.ttf"},
+    {id = 1, path = "../common/font/GenShinGothic-Bold.ttf"}
   }
 
   local songinfo = SongInfo.new()
