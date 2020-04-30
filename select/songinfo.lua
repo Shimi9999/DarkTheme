@@ -161,7 +161,7 @@ function Density.value()
     utils.generateValue({id = "density_end", digit = 2, ref = 362}),
     utils.generateValueX({id = "density_end_afterdot", digit = 2, ref = 363}, 11),
     utils.generateValue({id = "density_average", digit = 2, ref = 364}),
-    utils.generateValueX({id = "density_peak_afterdot", digit = 2, ref = 365}, 11),
+    utils.generateValueX({id = "density_average_afterdot", digit = 2, ref = 365}, 11),
   }
 end
 function Density.destination(base_x, y)
@@ -173,21 +173,22 @@ function Density.destination(base_x, y)
   local tw = Density.text_w * text_scale local th = Density.h * text_scale
   local ty = y - 20
   local op = {2, 5}
+  local peak_x = base_x local end_x = base_x + 100 local average_x = base_x + 240
   local peak_color = {r = 201, g = 101, b = 101}
   local end_color = {r = 204, g = 204, b = 101}
   local average_color = {r = 101, g = 178, b = 204}
   return {
-    {id = "density_peak", op = op, filter = 1, dst = { utils.mergeMap({x = base_x, y = y, w = nw, h = nh}, peak_color) }},
-    {id = "density_end", op = op, filter = 1, dst = { utils.mergeMap({x = base_x + 100, y = y, w = nw, h = nh}, end_color) }},
-    {id = "dot", op = op, filter = 1, dst = { utils.mergeMap({x = base_x + 140, y = y, w = nw, h = nh}, end_color) }},
-    {id = "density_end_afterdot", op = op, filter = 1, dst = { utils.mergeMap({x = base_x + 160, y = y, w = aw, h = ah}, end_color) }},
-    {id = "density_average", op = op, filter = 1, dst = { utils.mergeMap({x = base_x + 240, y = y, w = nw, h = nh}, average_color) }},
-    {id = "dot", op = op, filter = 1, dst = { utils.mergeMap({x = base_x + 280, y = y, w = nw, h = nh}, average_color) }},
-    {id = "density_peak_afterdot", filter = 1, op = op, dst = { utils.mergeMap({x = base_x + 300, y = y, w = aw, h = ah}, average_color) }},
+    {id = "density_peak", op = op, filter = 1, dst = { utils.mergeMap({x = peak_x, y = y, w = nw, h = nh}, peak_color) }},
+    {id = "density_end", op = op, filter = 1, dst = { utils.mergeMap({x = end_x, y = y, w = nw, h = nh}, end_color) }},
+    {id = "dot", op = op, filter = 1, dst = { utils.mergeMap({x = end_x + 40, y = y, w = nw, h = nh}, end_color) }},
+    {id = "density_end_afterdot", op = op, filter = 1, dst = { utils.mergeMap({x = end_x + 60, y = y, w = aw, h = ah}, end_color) }},
+    {id = "density_average", op = op, filter = 1, dst = { utils.mergeMap({x = average_x, y = y, w = nw, h = nh}, average_color) }},
+    {id = "dot", op = op, filter = 1, dst = { utils.mergeMap({x = average_x + 40, y = y, w = nw, h = nh}, average_color) }},
+    {id = "density_average_afterdot", filter = 1, op = op, dst = { utils.mergeMap({x = average_x + 60, y = y, w = aw, h = ah}, average_color) }},
 
-    {id = "peak", op = op, dst = { utils.mergeMap({x = base_x, y = ty, w = tw, h = th}, peak_color) }},
-    {id = "end", op = op, dst = { utils.mergeMap({x = base_x + 140, y = ty, w = tw, h = th}, end_color) }},
-    {id = "average", op = op, dst = { utils.mergeMap({x = base_x + 260, y = ty, w = tw, h = th}, average_color) }}
+    {id = "peak", op = op, dst = { utils.mergeMap({x = peak_x + 4, y = ty, w = tw, h = th}, peak_color) }},
+    {id = "end", op = op, dst = { utils.mergeMap({x = end_x + 38, y = ty, w = tw, h = th}, end_color) }},
+    {id = "average", op = op, dst = { utils.mergeMap({x = average_x + 12, y = ty, w = tw, h = th}, average_color) }}
   }
 end
 
@@ -421,9 +422,9 @@ function SongInfo.destination()
   utils.mergeArray(t, SongInfo.songparam.destination(480, 560))
   utils.mergeArray(t, SongInfo.judge.destination(846, 560))
   utils.mergeArray(t, SongInfo.keys.destination(850, 520))
-  utils.mergeArray(t, SongInfo.density.destination(550, 400))
-  utils.mergeArray(t, SongInfo.notesgraph.destination(550, 200))
-  utils.mergeArray(t, SongInfo.notestype.destination(550, 200))
+  utils.mergeArray(t, SongInfo.density.destination(550, 412))
+  utils.mergeArray(t, SongInfo.notesgraph.destination(550, 230))
+  utils.mergeArray(t, SongInfo.notestype.destination(550, 230))
   utils.mergeArray(t, SongInfo.courseconstraint.destination(550, 400))
 
   utils.mergeArray(t, SongInfo.foldersongs.destination(400, 640))
