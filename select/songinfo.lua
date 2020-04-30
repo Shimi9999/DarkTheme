@@ -259,6 +259,42 @@ function NotesType.destination(base_x, base_y)
   }
 end
 
+local IRInfo = Object.new()
+IRInfo.w = 48
+IRInfo.h = 64
+function IRInfo.value()
+  return {
+    utils.generateValue({id = "ir_rank_num", digit = 4, ref = 179}),
+    utils.generateValue({id = "ir_totalplayer_num", digit = 4, align = 1, ref = 180}),
+    utils.generateValue({id = "ir_clearrate_num", digit = 3, ref = 227}),
+    utils.generateValue({id = "ir_clearrate_num_afterdot", digit = 1, ref = 241}),
+  }
+end
+function IRInfo.text()
+  return {
+    {id = "irinfo_slash", font = 1, size = IRInfo.h, constantText = "/"},
+    {id = "irinfo_dot", font = 1, size = IRInfo.h, constantText = "."},
+    {id = "irinfo_ranking", font = 1, size = IRInfo.h, constantText = "IR RANKING"},
+    {id = "irinfo_clearrate", font = 1, size = IRInfo.h, constantText = "CLEAR RATE"},
+  }
+end
+function IRInfo.destination(x, y)
+  local scale = 0.4
+  local w = IRInfo.w * scale local h = IRInfo.h * scale
+  local op = {2, 5, 51}
+  return {
+    {id = "irinfo_ranking", op = op, dst = { {x = x + 20, y = y - h * 0.7 - 6, w = 1, h = h * 0.7} }},
+    {id = "ir_rank_num", op = op, dst = { {x = x, y = y, w = w, h = h} }},
+    {id = "irinfo_slash", op = op, dst = { {x = x + 64, y = y - 4, w = 1, h = h} }},
+    {id = "ir_totalplayer_num", op = op, dst = { {x = x + 74, y = y, w = w, h = h} }},
+
+    {id = "irinfo_clearrate", op = op, dst = { {x = x + 182, y = y - h * 0.7 - 6, w = 1, h = h * 0.7} }},
+    {id = "ir_clearrate_num", op = op, dst = { {x = x + 186, y = y, w = w, h = h} }},
+    {id = "irinfo_dot", op = op, dst = { {x = x + 235, y = y - 4, w = 1, h = h} }},
+    {id = "ir_clearrate_num_afterdot", op = op, dst = { {x = x + 240, y = y, w = w, h = h} }}
+  }
+end
+
 local CourseConstraint = Object.new()
 CourseConstraint.w = 500
 CourseConstraint.h = 64
@@ -373,7 +409,7 @@ function TotalInfo.destination(base_x, base_y)
   }
 end
 
-local SongInfo = Objects.new({SongText, SongParam, Judge, Keys, Density, NotesGraph, NotesType, CourseConstraint, FolderSongs, TotalInfo})
+local SongInfo = Objects.new({SongText, SongParam, Judge, Keys, Density, NotesGraph, NotesType, IRInfo, CourseConstraint, FolderSongs, TotalInfo})
 SongInfo.songtext = SongText.new()
 SongInfo.songparam = SongParam.new()
 SongInfo.judge = Judge.new()
@@ -381,6 +417,7 @@ SongInfo.keys = Keys.new()
 SongInfo.density = Density.new()
 SongInfo.notesgraph = NotesGraph.new()
 SongInfo.notestype = NotesType.new()
+SongInfo.irinfo = IRInfo.new()
 SongInfo.courseconstraint = CourseConstraint.new()
 SongInfo.foldersongs = FolderSongs.new()
 SongInfo.totalinfo = TotalInfo.new()
@@ -425,6 +462,7 @@ function SongInfo.destination()
   utils.mergeArray(t, SongInfo.density.destination(550, 412))
   utils.mergeArray(t, SongInfo.notesgraph.destination(550, 230))
   utils.mergeArray(t, SongInfo.notestype.destination(550, 230))
+  utils.mergeArray(t, SongInfo.irinfo.destination(550, 120))
   utils.mergeArray(t, SongInfo.courseconstraint.destination(550, 400))
 
   utils.mergeArray(t, SongInfo.foldersongs.destination(400, 640))
