@@ -59,7 +59,7 @@ function SongParam.value()
     utils.generateValue({id = "songtime_minute", digit = 2, ref = 1163}),
     utils.generateValueX({id = "songtime_second", digit = 2, ref = 1164}, 11),
 
-    utils.generateValue({id = "total_num", digit = 3, ref = 368}),
+    utils.generateValue({id = "total_num", digit = 4, ref = 368}),
   }
 end
 function SongParam.destination(base_x, base_y)
