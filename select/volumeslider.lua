@@ -1,3 +1,4 @@
+local utils = require "utils"
 local Object = require "object"
 
 local VolumeSlider = Object.new()
@@ -17,6 +18,13 @@ function VolumeSlider.image()
     {id = "volumeslider_frame", src = VolumeSlider.src, x = 0, y = 0, w = VolumeSlider.w, h = VolumeSlider.frame_h}
   }
 end
+function VolumeSlider.value()
+  return {
+    utils.generateValue({id = "volume_master", digit = 3, ref = 57, align = 2}),
+    utils.generateValue({id = "volume_key", digit = 3, ref = 58, align = 2}),
+    utils.generateValue({id = "volume_bgm", digit = 3, ref = 59, align = 2}),
+  }
+end
 function VolumeSlider.slider()
   return {
     {id = "volumeslider_master", src = VolumeSlider.src, x = 0, y = 0, w = VolumeSlider.w, h = VolumeSlider.thumb_h, angle = 0, type = 17, range = VolumeSlider.frame_h},
@@ -30,14 +38,17 @@ function VolumeSlider.destination()
   local op = {1}
   local space = 35
   return {
+    {id = "volume_master", op = op, filter = 1, dst = { {x = x - 5, y = y + VolumeSlider.frame_h + 4, w = 14, h = 22} }},
     {id = "volumeslider_frame", op = op, dst = { {x = x, y = y, w = VolumeSlider.w, h = VolumeSlider.frame_h, r = 16, g = 16, b = 16} }},
     {id = "volumeslider_master", op = op, dst = { {x = x, y = y, w = VolumeSlider.w, h = VolumeSlider.thumb_h, r = 225, g = 225, b = 225} }},
     {id = "volumetext_master", op = op, dst = { {x = x + 2, y = y - VolumeSlider.text_h, w = VolumeSlider.text_w, h = VolumeSlider.text_h} }},
 
+    {id = "volume_key", op = op, filter = 1, dst = { {x = x + space - 5, y = y + VolumeSlider.frame_h + 4, w = 14, h = 22} }},
     {id = "volumeslider_frame", op = op, dst = { {x = x + space, y = y, w = VolumeSlider.w, h = VolumeSlider.frame_h, r = 16, g = 16, b = 16} }},
     {id = "volumeslider_key", op = op, dst = { {x = x + space, y = y, w = VolumeSlider.w, h = VolumeSlider.thumb_h, r = 225, g = 225, b = 225} }},
     {id = "volumetext_key", op = op, dst = { {x = x + space + 2, y = y - VolumeSlider.text_h, w = VolumeSlider.text_w, h = VolumeSlider.text_h} }},
 
+    {id = "volume_bgm", op = op, filter = 1, dst = { {x = x + space * 2 - 5, y = y + VolumeSlider.frame_h + 4, w = 14, h = 22} }},
     {id = "volumeslider_frame", op = op, dst = { {x = x + space * 2, y = y, w = VolumeSlider.w, h = VolumeSlider.frame_h, r = 16, g = 16, b = 16} }},
     {id = "volumeslider_bgm", op = op, dst = { {x = x + space * 2, y = y, w = VolumeSlider.w, h = VolumeSlider.thumb_h, r = 225, g = 225, b = 225} }},
     {id = "volumetext_bgm", op = op, dst = { {x = x + space * 2 + 2, y = y - VolumeSlider.text_h, w = VolumeSlider.text_w, h = VolumeSlider.text_h} }},
