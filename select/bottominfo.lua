@@ -3,7 +3,7 @@ local utils = require "utils"
 local skin = {}
 
 do
-  local src = 10
+  local src = "src_infotext"
   local x = 0 local y = 0 local w = 526 local h = 64
   skin.image = {
     {id = "uptime", src = src, x = x, y = y + h * 0, w = w, h = h}
@@ -11,7 +11,7 @@ do
 end
 
 do
-  local font = 1
+  local font = "font_genshingothic"
   local size = 64
   skin.text = {
     {id = "bottom_fps", font = font, size = size, constantText = "FPS"},

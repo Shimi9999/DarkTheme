@@ -1,22 +1,28 @@
 local utils = require "utils"
 
-local src = 3
+local src = "src_white"
 local w = 25
 local frame_h = 200
 local thumb_h = 4
-local text_src = 17
 local text_w = 20
 local text_h = 120
 
 local skin = {}
 
-skin.image = {
-  {id = "volumetext_master", src = text_src, x = text_w * 0, y = 0, w = text_w, h = text_h},
-  {id = "volumetext_key", src = text_src, x = text_w * 1, y = 0, w = text_w, h = text_h},
-  {id = "volumetext_bgm", src = text_src, x = text_w * 2, y = 0, w = text_w, h = text_h},
-
-  {id = "volumeslider_frame", src = src, x = 0, y = 0, w = w, h = frame_h}
+skin.source = {
+  {id = "src_volumetext", path = "image/volumetext.png"}
 }
+
+do
+  local text_src = "src_volumetext"
+  skin.image = {
+    {id = "volumetext_master", src = text_src, x = text_w * 0, y = 0, w = text_w, h = text_h},
+    {id = "volumetext_key", src = text_src, x = text_w * 1, y = 0, w = text_w, h = text_h},
+    {id = "volumetext_bgm", src = text_src, x = text_w * 2, y = 0, w = text_w, h = text_h},
+
+    {id = "volumeslider_frame", src = src, x = 0, y = 0, w = w, h = frame_h}
+  }
+end
 
 skin.value = {
   utils.generateValue({id = "volume_master", digit = 3, ref = 57, align = 2}),

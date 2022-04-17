@@ -1,5 +1,11 @@
 local utils = require "utils"
 
+
+local score = {}
+score.source = {
+  {id = "src_score", path = "image/score.png"}
+}
+
 local scoreRate = {}
 do
   scoreRate.value = {
@@ -34,12 +40,10 @@ do
   local h = 64
 
   do
-    local src = 4
-    local x = 600
     clearType.image = {}
     for i = 1, 11 do
       table.insert(clearType.image,
-        {id = "cleartype_"..i, src = src, x = x, y = h * (i-1), w = w, h = h}
+        {id = "cleartype_"..i, src = "src_text", x = 600, y = h * (i-1), w = w, h = h}
       )
     end
   end
@@ -66,7 +70,7 @@ do
   do
     rank.image = {}
     for i = 1, 9 do
-      table.insert(rank.image, {id = "rank_"..i, src = 6, x = 740, y = h * (i-1), w = w, h = h})
+      table.insert(rank.image, {id = "rank_"..i, src = "src_score", x = 740, y = h * (i-1), w = w, h = h})
     end
   end
 
@@ -116,7 +120,7 @@ do
   local h = 64
 
   judgeNumbers.image = {
-    {id = "judges", src = 6, x = 0, y = 0, w = text_w, h = h * 6},
+    {id = "judges", src = "src_score", x = 0, y = 0, w = text_w, h = h * 6},
   }
 
   do
@@ -162,7 +166,7 @@ do
   local h = 64
 
   scoreParams.image = {
-    {id = "scores", src = 6, x = 300, y = 0, w = text_w, h = h * 5}
+    {id = "scores", src = "src_score", x = 300, y = 0, w = text_w, h = h * 5}
   }
 
   scoreParams.value = {
@@ -222,7 +226,7 @@ do
   do
     clearOption.image = {}
     for i = 1, 10 do
-      table.insert(clearOption.image, {id = "clearoption_"..i, src = 6, x = 900, y = h * (i - 1), w = w, h = h})
+      table.insert(clearOption.image, {id = "clearoption_"..i, src = "src_score", x = 900, y = h * (i - 1), w = w, h = h})
     end
   end
 
@@ -249,7 +253,7 @@ do
   local h = 64
 
   rivalScore.image = {
-    {id = "rival_exscore", src = 6, x = 300, y = 0, w = img_w, h = h}
+    {id = "rival_exscore", src = "src_score", x = 300, y = 0, w = img_w, h = h}
   }
 
   rivalScore.value = {
@@ -257,7 +261,7 @@ do
   }
 
   rivalScore.text = {
-    {id = "rival_name", font = 0, size = h, overflow = 1, ref = 1},
+    {id = "rival_name", font = "font_koruri", size = h, overflow = 1, ref = 1},
   }
 
   function rivalScore.destination(base_x, base_y)
@@ -284,6 +288,7 @@ local skin = {}
 skin.destination = {}
 
 local parts = {
+  score,
   scoreRate,
   clearType,
   rank,

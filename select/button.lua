@@ -2,8 +2,12 @@ local utils = require "utils"
 
 local playButton = {}
 do
+  playButton.source = {
+    {id = "src_playbutton", path = "image/playbutton.png"}
+  }
+
   do
-    local src = 5
+    local src = "src_playbutton"
     local base_x = 0 local y = 0 local w = 64 local h = 64
     playButton.image = {
       {id = "play", src = src, x = base_x + w * 0, y = y, w = w, h = h, ref = 15, act = 15},
@@ -42,7 +46,7 @@ do
   local h = 64
 
   sortButton.image = {
-    {id = "sort", src = 4, x = 1010, y = 0, w = w, h = h * 8, divy = 8, len = 8, ref = 12, act = 12}
+    {id = "sort", src = "src_text", x = 1010, y = 0, w = w, h = h * 8, divy = 8, len = 8, ref = 12, act = 12}
   }
 
   do
@@ -61,7 +65,7 @@ do
   local h = 64
 
   keyModeButton.image = {
-    {id = "keys", src = 4, x = 1410, y = 0, w = w, h = h * 8, divy = 8, len = 8, ref = 11, act = 11},
+    {id = "keys", src = "src_text", x = 1410, y = 0, w = w, h = h * 8, divy = 8, len = 8, ref = 11, act = 11},
   }
 
   do
@@ -80,8 +84,8 @@ do
   local h = 64
 
   lnModeButton.image = {
-    {id = "lnmode", src = 7, x = 0, w = w, h = h * 3, divy = 3, len = 3, ref = 308, act = 308},
-    {id = "lnmode_frame", src = 3, x = 0, y = 0, w = w, h = h},
+    {id = "lnmode", src = "src_label", x = 0, w = w, h = h * 3, divy = 3, len = 3, ref = 308, act = 308},
+    {id = "lnmode_frame", src = "src_white", x = 0, y = 0, w = w, h = h},
   }
 
   do

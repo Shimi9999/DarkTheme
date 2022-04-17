@@ -8,8 +8,13 @@ do
     return 10 + 60 * selection_num
   end
 
+  selector.source = {
+    {id = "src_option_selector", path = "image/option_selector.png"}
+  }
+
   do
-    local src = 11 local x = 0 local base_y = 540 local diff_y = 60
+    local src = "src_option_selector"
+    local x = 0 local base_y = 540 local diff_y = 60
     selector.image = {}
     local function selector_img(selection_num)
       for i = 1, selection_num do
@@ -94,8 +99,12 @@ do
   local w = 310
   local h = 430
 
+  target.source = {
+    {id = "src_target", path = "image/target.png"}
+  }
+
   do
-    local src = 15
+    local src = "src_target"
     local x = 0 local base_y = 0 local diff_y = 40
     target.image = {}
     for i = 1, 11 do
@@ -130,7 +139,7 @@ do
 
   do
     local function hotkey_txt(key, text)
-      return {id = "hotkey_"..key, font = 0, size = fontSize, constantText = key.."  "..text, overflow = 1}
+      return {id = "hotkey_"..key, font = "font_koruri", size = fontSize, constantText = key.."  "..text, overflow = 1}
     end
     hotkey.text = {
       hotkey_txt("1", "Change key mode filter"),
@@ -216,13 +225,19 @@ end
 
 local option = {}
 do
+  option.source = {
+    {id = "src_option_play", path = "image/option_play.png"},
+    {id = "src_option_assist", path = "image/option_assist.png"},
+    {id = "src_option_detailed", path = "image/option_detailed.png"}
+  }
+
   option.image = {
-    {id = "option_play", src = 12, x = 0, y = 0, w = -1, h = -1},
-    {id = "option_assist", src = 13, x = 0, y = 0, w = -1, h = -1},
-    {id = "option_detailed", src = 14, x = 0, y = 0, w = -1, h = -1},
-    {id = "option_bg_1", src = 0, x = 0, y = 0, w = -1, h = -1},
-    {id = "option_bg_2", src = 0, x = 0, y = 0, w = -1, h = -1},
-    {id = "option_bg_3", src = 0, x = 0, y = 0, w = -1, h = -1}
+    {id = "option_play", src = "src_option_play", x = 0, y = 0, w = -1, h = -1},
+    {id = "option_assist", src = "src_option_assist", x = 0, y = 0, w = -1, h = -1},
+    {id = "option_detailed", src = "src_option_detailed", x = 0, y = 0, w = -1, h = -1},
+    {id = "option_bg_1", src = "src_bg", x = 0, y = 0, w = -1, h = -1},
+    {id = "option_bg_2", src = "src_bg", x = 0, y = 0, w = -1, h = -1},
+    {id = "option_bg_3", src = "src_bg", x = 0, y = 0, w = -1, h = -1}
   }
 
   option.value = {

@@ -1,6 +1,6 @@
 local header = require "header"
 
-local src = 3
+local src = "src_white"
 local w = 25
 local frame_h = 600
 local thumb_h = 4

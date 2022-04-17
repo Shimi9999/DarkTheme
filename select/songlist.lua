@@ -5,9 +5,13 @@ do
   local w = 810
   local h = 60
 
+  bar.source = {
+    {id = "src_bar", path = "image/bar.png"},
+  }
+
   do
     local function img(id, num)
-      return {id = id, src = 1, x = 0, y = h * num, w = w, h = h}
+      return {id = id, src = "src_bar", x = 0, y = h * num, w = w, h = h}
     end
     bar.image = {
       img("bar_song", 0),
@@ -40,7 +44,7 @@ end
 local barText = {}
 do
   barText.text = {
-    {id = "bar_text", font = 0, size = 40}
+    {id = "bar_text", font = "font_koruri", size = 40}
   }
 
   function barText.destination()
@@ -118,7 +122,7 @@ do
   local img_h = 60
 
   barLamp.image = {
-    {id = "lamp", src = 3, x = 0, y = 0, w = w, h = img_h}
+    {id = "lamp", src = "src_white", x = 0, y = 0, w = w, h = img_h}
   }
 
   function barLamp.destination(x, y, h)
@@ -160,7 +164,7 @@ do
   local h = 64
 
   do
-    local src = 7
+    local src = "src_label"
     label.image = {
       {id = "label_ln", src = src, x = 0, y = h * 0, w = w, h = h},
       {id = "label_cn", src = src, x = 0, y = h * 1, w = w, h = h},
@@ -197,8 +201,12 @@ local trophy = {}
 do
   local size = 60
 
+  trophy.source = {
+    {id = "src_trophy", path = "image/trophy.png"}
+  }
+
   do
-    local src = 9
+    local src = "src_trophy"
     local x = 0 local y = 0 local w = size local h = size
     trophy.image = {
       {id = "trophy_bronze", src = src, x = x + w * 0, y = y, w = w, h = h},
@@ -222,8 +230,12 @@ local lampGraph = {}
 do
   local h = 8
 
+  lampGraph.source = {
+    {id = "src_lampgraph", path = "image/lampgraph.png"}
+  }
+
   lampGraph.graph = {
-    {id = "graph_lamp", src = 8, x = 0, y = 0, w = 11, h = h, divx = 11, type = -1}
+    {id = "graph_lamp", src = "src_lampgraph", x = 0, y = 0, w = 11, h = h, divx = 11, type = -1}
   }
 
   function lampGraph.destination()

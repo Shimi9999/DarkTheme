@@ -41,8 +41,8 @@ function utils.generateValueX(param_table, divx)
   return utils.generateValueXY(param_table, divx, 1)
 end
 function utils.generateValueXY(param_table, divx, divy)
-  local src = 2 local x = 0 local y = 0 local w = 48 local h = 64 local space = -4
-  local t = {src = src, x = x, y = y, w = w * divx, h = h * divy, divx = divx, divy = divy, space = space}
+  local w = 48 local h = 64 local space = -4
+  local t = {src = "src_number", x = 0, y = 0, w = w * divx, h = h * divy, divx = divx, divy = divy, space = space}
   return utils.merge_all(t, param_table)
 end
 

@@ -5,11 +5,11 @@ local text_h = 32
 local skin = {}
 
 skin.image = {
-  {id = "search_frame", src = 3, x = 0, y = 0, w = w, h = frame_h}
+  {id = "search_frame", src = "src_white", x = 0, y = 0, w = w, h = frame_h}
 }
 
 skin.text = {
-  {id = "search", font = 0, size = text_h, ref = 30}
+  {id = "search", font = "font_koruri", size = text_h, ref = 30}
 }
 
 do

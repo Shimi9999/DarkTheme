@@ -13,42 +13,32 @@ local function main()
   end
 
   skin.source = {
-    {id = 0, path = "image/bg.png"},
-    {id = 1, path = "image/bar.png"},
-    {id = 2, path = "image/number.png"},
-    {id = 3, path = "image/white.png"},
-    {id = 4, path = "image/text.png"},
-    {id = 5, path = "image/playbutton.png"},
-    {id = 6, path = "image/score.png"},
-    {id = 7, path = "image/label.png"},
-    {id = 8, path = "image/lampgraph.png"},
-    {id = 9, path = "image/trophy.png"},
-    {id = 10, path = "image/infotext.png"},
-    {id = 11, path = "image/option_selector.png"},
-    {id = 12, path = "image/option_play.png"},
-    {id = 13, path = "image/option_assist.png"},
-    {id = 14, path = "image/option_detailed.png"},
-    {id = 15, path = "image/target.png"},
-    {id = 16, path = "image/course.png"},
-    {id = 17, path = "image/volumetext.png"},
+    {id = "src_bg", path = "image/bg.png"},
+    {id = "src_number", path = "image/number.png"},
+    {id = "src_white", path = "image/white.png"},
+    {id = "src_text", path = "image/text.png"},
+    {id = "src_label", path = "image/label.png"},
+    {id = "src_infotext", path = "image/infotext.png"},
   }
   if property.isBackgroundCustomize() then
     table.insert(skin.source, {id = "src_background_custom", path = "customize/background/*.png"})
   end
 
   skin.font = {
-    {id = 0, path = "../common/font/Koruri-Semibold.ttf"},
-    {id = 1, path = "../common/font/GenShinGothic-Bold.ttf"}
+    {id = "font_koruri", path = "../common/font/Koruri-Semibold.ttf"},
+    {id = "font_genshingothic", path = "../common/font/GenShinGothic-Bold.ttf"}
   }
 
   skin.image = {}
   do
-    local src = 0
-    if property.isBackgroundCustomize() then src = "src_background_custom" end
+    local src = "src_bg"
+    if property.isBackgroundCustomize() then
+      src = "src_background_custom"
+    end
     table.insert(skin.image, {id = "background", src = src, x = 0, y = 0, w = -1, h = -1})
   end
   utils.append_all(skin.image, (function()
-    local src = 2
+    local src = "src_number"
     local w = 48 local h = 64
     local y = h * 2
     return {

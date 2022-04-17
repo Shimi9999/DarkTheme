@@ -4,19 +4,22 @@ local header = require "header"
 
 local songText = {}
 do
-  songText.text = {
-    {id = "title", font = 0, size = 90, align = 1, overflow = 1, shadowOffsetX = 4, shadowOffsetY = 4, ref = 10},
-    {id = "subtitle", font = 0, size = 48, align = 1, overflow = 1, shadowOffsetX = 2, shadowOffsetY = 2, ref = 11},
-    {id = "artist", font = 0, size = 32, align = 1, overflow = 1, ref = 16},
-    --{id = "subartist", font = 0, size = 44, align = 1, overflow = 1, ref = 15},
-    {id = "genre", font = 0, size = 32, align = 1, overflow = 1, ref = 13},
-    {id = "directory", font = 0, size = 32, align = 1, overflow = 1, ref = 1000},
-    {id = "coursetitle1", font = 0, size = 90, align = 1, overflow = 1, ref = 150},
-    {id = "coursetitle2", font = 0, size = 38, align = 1, overflow = 1, ref = 151},
-    {id = "coursetitle3", font = 0, size = 38, align = 1, overflow = 1, ref = 152},
-    {id = "coursetitle4", font = 0, size = 38, align = 1, overflow = 1, ref = 153},
-    {id = "coursetitle5", font = 0, size = 38, align = 1, overflow = 1, ref = 154}
-  }
+  do
+    local font = "font_koruri"
+    songText.text = {
+      {id = "title", font = font, size = 90, align = 1, overflow = 1, shadowOffsetX = 4, shadowOffsetY = 4, ref = 10},
+      {id = "subtitle", font = font, size = 48, align = 1, overflow = 1, shadowOffsetX = 2, shadowOffsetY = 2, ref = 11},
+      {id = "artist", font = font, size = 32, align = 1, overflow = 1, ref = 16},
+      --{id = "subartist", font = font, size = 44, align = 1, overflow = 1, ref = 15},
+      {id = "genre", font = font, size = 32, align = 1, overflow = 1, ref = 13},
+      {id = "directory", font = font, size = 32, align = 1, overflow = 1, ref = 1000},
+      {id = "coursetitle1", font = font, size = 90, align = 1, overflow = 1, ref = 150},
+      {id = "coursetitle2", font = font, size = 38, align = 1, overflow = 1, ref = 151},
+      {id = "coursetitle3", font = font, size = 38, align = 1, overflow = 1, ref = 152},
+      {id = "coursetitle4", font = font, size = 38, align = 1, overflow = 1, ref = 153},
+      {id = "coursetitle5", font = font, size = 38, align = 1, overflow = 1, ref = 154}
+    }
+  end
 
   function songText.destination(base_x, base_y)
     local w = 1000 local h = 32
@@ -63,7 +66,8 @@ do
   local h = 64
 
   do
-    local src = 4 local x = 248 local w = text_w local h = h
+    local src = "src_text"
+    local x = 248 local w = text_w local h = h
     songParam.image = {
       {id = "bpm", src = src, x = x, y = h * 7, w = w, h = h},
       {id = "total", src = src, x = x, y = h * 8, w = w, h = h},
@@ -136,7 +140,7 @@ do
   local h = 64
 
   do
-    local src = 4
+    local src = "src_text"
     local x = 248
     judge.image = {
       {id = "veryhard_judge", src = src, x = x, y = h * 0, w = w, h = h},
@@ -196,7 +200,8 @@ do
   local h = 64
 
   do
-    local src = 4 local x = 0
+    local src = "src_text"
+    local x = 0
     keys.image = {
       {id = "7keys", src = src, x = x, y = h * 0, w = w, h = h},
       {id = "5keys", src = src, x = x, y = h * 1 , w = w, h = h},
@@ -230,7 +235,8 @@ do
   local h = 64
 
   do
-    local src = 4 local x = 1700
+    local src = "src_text"
+    local x = 1700
     density.image = {
       {id = "peak", src = src, x = x, y = h * 0, w = text_w, h = h},
       {id = "end", src = src, x = x, y = h * 1 , w = text_w, h = h},
@@ -325,7 +331,8 @@ do
   local h = 64
 
   do
-    local src = 4 local x = 1700
+    local src = "src_text"
+    local x = 1700
     notesType.image = {
       {id = "note", src = src, x = x, y = h * 4, w = text_w, h = h},
       {id = "scratch", src = src, x = x, y = h * 5, w = text_w, h = h},
@@ -386,7 +393,7 @@ do
   }
 
   do
-    local font = 1
+    local font = "font_genshingothic"
     irInfo.text = {
       {id = "irinfo_slash", font = font, size = h, constantText = "/"},
       {id = "irinfo_dot", font = font, size = h, constantText = "."},
@@ -434,8 +441,12 @@ do
   local w = 500
   local h = 64
 
+  courseConstraint.source = {
+    {id = "src_cource", path = "image/course.png"}
+  }
+
   do
-    local src = 16
+    local src = "src_cource"
     local function img(id, num)
       return {id = id, src = src, x = 0, y = h * num, w = w, h = h}
     end
@@ -504,7 +515,7 @@ do
   local h = 64
 
   folderSongs.image = {
-    {id = "songs", src = 10, x = 0, y = h * 6, w = w, h = h},
+    {id = "songs", src = "src_infotext", x = 0, y = h * 6, w = w, h = h},
   }
 
   folderSongs.value = {
@@ -533,7 +544,7 @@ do
   local h = 64
 
   do
-    local src = 10
+    local src = "src_infotext"
     local x = 0 local y = 0 local w = text_w
     totalInfo.image = {
       {id = "total_playnotes", src = src, x = x, y = y + h * 1, w = w, h = h},
@@ -610,7 +621,7 @@ end
 local stagefile = {}
 do
   stagefile.image = {
-    {id = "stagefile_darkness", src = 3, x = 0, y = 0, w = -1, h = -1}
+    {id = "stagefile_darkness", src = "src_white", x = 0, y = 0, w = -1, h = -1}
   }
 
   function stagefile.destination()
