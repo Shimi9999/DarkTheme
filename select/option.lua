@@ -53,8 +53,9 @@ do
       {id = "option_bpmguide", ref = 306, images = selector_images(2)},
       {id = "option_nomine", ref = 307, images = selector_images(2)},
 
-      {id = "option_bga", ref = 72, images = selector_images(3)},
       {id = "option_gas", ref = 78, images = selector_images(5)},
+      {id = "option_bga", ref = 72, images = selector_images(3)},
+      {id = "option_autoadjust", ref = 75, images = selector_images(2)},
     }
   end
 
@@ -85,10 +86,10 @@ do
         selector_dst("option_bpmguide", 2, top_x + diff_x * 2, top_y),
       }
     elseif option_num == 3 then
-      local x = 540
       return {
-        selector_dst("option_bga", 3, x, 170),
-        selector_dst("option_gas", 5, x, 540),
+        selector_dst("option_gas", 5, 540, 540),
+        selector_dst("option_bga", 3, 510, 170),
+        selector_dst("option_autoadjust", 2, 740, 230),
       }
     end
   end
