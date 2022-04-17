@@ -2,18 +2,11 @@ local utils = require "utils"
 local header = require "header"
 local property = require "property"
 
-local Objects = require "objects"
-local SongInfo = require "songinfo"
-local Score = require "score"
-local SongList = require "songlist"
-local Option = require "option"
-local ScrollBar = require "scrollbar"
-local VolumeSlider = require "volumeslider"
-local Button = require "button"
-local Search = require "search"
-local BottomInfo = require "bottominfo"
-
 local function main()
+  if not skin_config then
+    return {}
+  end
+
   local skin = {}
   for k, v in pairs(header) do
     skin[k] = v
@@ -40,7 +33,7 @@ local function main()
     {id = 17, path = "image/volumetext.png"},
   }
   if property.isBackgroundCustomize() then
-    table.insert(skin.source, {id = "source_background_custom", path = "customize/background/*.png"})
+    table.insert(skin.source, {id = "src_background_custom", path = "customize/background/*.png"})
   end
 
   skin.font = {
@@ -48,30 +41,15 @@ local function main()
     {id = 1, path = "../common/font/GenShinGothic-Bold.ttf"}
   }
 
-  local songinfo = SongInfo.new()
-  local songlist = SongList.new()
-  local score = Score.new()
-  local scrollbar = ScrollBar.new()
-  local volumeslider = VolumeSlider.new()
-  local option = Option.new()
-  local bottominfo = BottomInfo.new()
-  local playbutton = Button.PlayButton.new()
-  local sortbutton = Button.SortButton.new()
-  local keymodebutton = Button.KeyModeButton.new()
-  local lnmodebutton = Button.LNModeButton.new()
-  local search = Search.new()
-
-  local parts = Objects.new({SongInfo, SongList, Score, ScrollBar, VolumeSlider, Option, BottomInfo,
-    Button.PlayButton, Button.SortButton, Button.KeyModeButton, Button.LNModeButton, Search})
-
   skin.image = {}
   do
     local src = 0
-    if property.isBackgroundCustomize() then src = "source_background_custom" end
+    if property.isBackgroundCustomize() then src = "src_background_custom" end
     table.insert(skin.image, {id = "background", src = src, x = 0, y = 0, w = -1, h = -1})
   end
-  utils.mergeArray(skin.image, (function()
-    local src = 2 local w = 48 local h = 64
+  utils.append_all(skin.image, (function()
+    local src = 2
+    local w = 48 local h = 64
     local y = h * 2
     return {
       {id = "dot", src = src, x = w * 0, y = y, w = w, h = h},
@@ -79,50 +57,30 @@ local function main()
       {id = "wavedash", src = src, x = w * 2, y = y, w = w, h = h},
       {id = "slash", src = src, x = w * 4, y = y, w = w, h = h},
       {id = "percent", src = src, x = w * 5, y = y, w = w, h = h},
-
       {id = "minus", src = src, x = w * 11, y = h, w = w, h = h},
     }
   end)())
-  utils.mergeArray(skin.image, parts:image())
-
-  skin.imageset = {}
-  utils.mergeArray(skin.imageset, parts:imageset())
-
-  skin.value = {}
-  utils.mergeArray(skin.value, parts:value())
-
-  skin.text = {}
-  utils.mergeArray(skin.text, parts:text())
-
-  skin.slider = {}
-  utils.mergeArray(skin.slider, parts:slider())
-
-  skin.graph = {}
-  utils.mergeArray(skin.graph, parts:graph())
-
-  skin.songlist = SongList.songlist()
-
-  skin.judgegraph = {}
-  utils.mergeArray(skin.judgegraph, SongInfo.judgegraph())
-
-  skin.bpmgraph = {}
-  utils.mergeArray(skin.bpmgraph, SongInfo.bpmgraph())
 
   skin.destination = {
-    {id = "background", dst = { {x = 0, y = 0, w = header.w, h = header.h, a = 255 - property.backgroundDarkness()} }},
+    {id = "background", dst = {
+      {x = 0, y = 0, w = header.w, h = header.h, a = 255 - property.backgroundDarkness()}
+    }}
   }
-  utils.mergeArray(skin.destination, songinfo.destination())
-  utils.mergeArray(skin.destination, volumeslider.destination())
-  utils.mergeArray(skin.destination, score.destination())
-  utils.mergeArray(skin.destination, songlist.destination())
-  utils.mergeArray(skin.destination, playbutton.destination())
-  utils.mergeArray(skin.destination, sortbutton.destination())
-  utils.mergeArray(skin.destination, keymodebutton.destination())
-  utils.mergeArray(skin.destination, lnmodebutton.destination())
-  utils.mergeArray(skin.destination, scrollbar.destination())
-  utils.mergeArray(skin.destination, search.destination())
-  utils.mergeArray(skin.destination, option.destination())
-  utils.mergeArray(skin.destination, bottominfo.destination())
+
+  local modules = {
+    require "songinfo",
+    require "score",
+    require "songlist",
+    require "option",
+    require "scrollbar",
+    require "volumeslider",
+    require "button",
+    require "search",
+    require "bottominfo",
+  }
+  for _, mod in ipairs(modules) do
+    utils.merge_all(skin, mod)
+  end
 
   return skin
 end

@@ -1,17 +1,37 @@
 local utils = {}
 
-function utils.mergeArray(first, second)
-  for i = 1, #second do
-    first[#first + 1] = second[i]
-  end
-  return first
+function utils.append_all(list, list1)
+	for _, v in ipairs(list1) do
+		table.insert(list, v)
+	end
 end
 
-function utils.mergeMap(first, second)
-  for k, v in pairs(second) do
-    first[k] = v
-  end
-  return first
+function utils.merge_all(table, table1)
+	for k, v in pairs(table1) do
+		if type(k) == "number" and k % 1 == 0 then
+			table[#table + 1] = v
+		elseif table[k] and type(table[k]) == "table" and type(v) == "table" then
+			utils.merge_all(table[k], v)
+		else
+			table[k] = v
+		end
+	end
+	return table
+end
+
+function utils.merge_all_whitout_function(table, table1)
+	for k, v in pairs(table1) do
+    if type(v) == "function" then
+      -- continue
+		elseif type(k) == "number" and k % 1 == 0 then
+			table[#table + 1] = v
+		elseif table[k] and type(table[k]) == "table" and type(v) == "table" then
+			utils.merge_all_whitout_function(table[k], v)
+		else
+			table[k] = v
+		end
+	end
+	return table
 end
 
 function utils.generateValue(param_table)
@@ -23,7 +43,7 @@ end
 function utils.generateValueXY(param_table, divx, divy)
   local src = 2 local x = 0 local y = 0 local w = 48 local h = 64 local space = -4
   local t = {src = src, x = x, y = y, w = w * divx, h = h * divy, divx = divx, divy = divy, space = space}
-  return utils.mergeMap(t, param_table)
+  return utils.merge_all(t, param_table)
 end
 
 return utils
