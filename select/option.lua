@@ -174,52 +174,54 @@ do
 
   function hotkey.destination(op, x, y)
     local padding = 10
-    local t = {}
-    utils.append_all(t, {
-      {id = -111, op = op, dst = { {x = x, y = 0, w = 550, h = 1080, r = 34, g = 34, b = 34} }}
+    local dsts = {}
+    utils.append_all(dsts, {
+      {id = -111, op = op, dst = {
+        {x = x, y = 0, w = 550, h = 1080, r = 34, g = 34, b = 34}
+      }}
     })
-    utils.append_all(t, hotkey.destinationNumberKeys(op, x + padding, y))
-    utils.append_all(t, hotkey.destinationFunctionKeys(op, x + padding, y - 380))
-    utils.append_all(t, hotkey.destinationControllerKeys(op, x + padding, y - 380 - 420))
-    return t
+    utils.append_all(dsts, hotkey.destinationNumberKeys(op, x + padding, y))
+    utils.append_all(dsts, hotkey.destinationFunctionKeys(op, x + padding, y - 380))
+    utils.append_all(dsts, hotkey.destinationControllerKeys(op, x + padding, y - 380 - 420))
+    return dsts
   end
   function hotkey.destinationNumberKeys(op, x, y)
-    local t = {}
+    local dsts = {}
     local margin = 8
     for i = 1, 9 do
-      utils.append_all(t, {
+      utils.append_all(dsts, {
         {id = "hotkey_"..i, op = op, filter = 1, dst = {
           {x = x, y = y - (fontSize + margin) * (i - 1), w = 500, h = fontSize}
         }}
       })
     end
-    return t
+    return dsts
   end
   function hotkey.destinationFunctionKeys(op, x, y)
-    local t = {}
-    local f = {1, 2, 3, 4, 6, 8, 9, 10, 11, 12}
+    local dsts = {}
+    local keyNums = {1, 2, 3, 4, 6, 8, 9, 10, 11, 12}
     local margin = 8
-    for i, v in ipairs(f) do
-      utils.append_all(t, {
-        {id = "hotkey_F"..v, op = op, filter = 1, dst = {
+    for i, keyNum in ipairs(keyNums) do
+      utils.append_all(dsts, {
+        {id = "hotkey_F"..keyNum, op = op, filter = 1, dst = {
           {x = x, y = y - (fontSize + margin) * (i - 1), w = 500, h = fontSize}
         }}
       })
     end
-    return t
+    return dsts
   end
   function hotkey.destinationControllerKeys(op, x, y)
-    local t = {}
-    local f = {1, 3, 5, "2,4", 6, 7}
+    local dsts = {}
+    local keyNums = {1, 3, 5, "2,4", 6, 7}
     local margin = 8
-    for i, v in ipairs(f) do
-      utils.append_all(t, {
-        {id = "hotkey_"..v.."KEY", op = op, filter = 1, dst = {
+    for i, keyNum in ipairs(keyNums) do
+      utils.append_all(dsts, {
+        {id = "hotkey_"..keyNum.."KEY", op = op, filter = 1, dst = {
           {x = x, y = y - (fontSize + margin) * (i - 1), w = 500, h = fontSize}
         }}
       })
     end
-    return t
+    return dsts
   end
 end
 

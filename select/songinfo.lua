@@ -167,30 +167,6 @@ do
       }})
     end
     return dsts
-
-    --[[local dst = {x = x, y = y, w = w * scale, h = h * scale}
-    local veryhard_color = {r = 229, g = 153, b = 255}
-    local hard_color = {r = 255, g = 153, b = 153}
-    local normal_color = {r = 255, g = 255, b = 153}
-    local easy_color = {r = 153, g = 255, b = 153}
-    local veryeasy_color = {r = 153, g = 255, b = 255}
-    return {
-      {id = "veryhard_judge", op = {5, 180}, dst = {
-        utils.merge_all(veryhard_color, dst)
-      }},
-      {id = "hard_judge", op = {5, 181}, dst = {
-        utils.merge_all(hard_color, dst)
-      }},
-      {id = "normal_judge", op = {5, 182}, dst = {
-        utils.merge_all(normal_color, dst)
-      }},
-      {id = "easy_judge", op = {5, 183}, dst = {
-        utils.merge_all(easy_color, dst)
-      }},
-      {id = "veryeasy_judge", op = {5, 184}, dst = {
-        utils.merge_all(veryeasy_color, dst)
-      }}
-    }]]
   end
 end
 
@@ -215,7 +191,9 @@ do
 
   function keys.destination(x, y)
     local scale = 0.5
-    local dst = { { x = x, y = y, w = w * scale, h = h * scale} }
+    local dst = {
+      {x = x, y = y, w = w * scale, h = h * scale}
+    }
     return {
       {id = "7keys", op = {160}, dst = dst},
       {id = "5keys", op = {161}, dst = dst},

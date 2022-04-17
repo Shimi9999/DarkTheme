@@ -52,13 +52,13 @@ do
     local scale = 0.5
     local w = w * scale local h = h * scale
     local ops = {100, 101, 1100, 1101, 102, 103, 104, 1102, 105, 1103, 1104}
-    local t = {}
+    local dsts = {}
     for i = 1, 11 do
-      table.insert(t, {id = "cleartype_"..i, op = {5, ops[i]}, dst = {
+      table.insert(dsts, {id = "cleartype_"..i, op = {5, ops[i]}, dst = {
         {x = x, y = y, w = w, h = h}
       }})
     end
-    return t
+    return dsts
   end
 end
 
@@ -75,13 +75,13 @@ do
   end
 
   function rank.destination(x, y)
-    local t = {}
+    local dsts = {}
     for i = 1, 8 do
-      table.insert(t, {id = "rank_"..i + 1, op = {199 + i}, dst = {
+      table.insert(dsts, {id = "rank_"..i + 1, op = {199 + i}, dst = {
         {x = x, y = y, w = w - 10, h = h}
       }})
     end
-    return t
+    return dsts
   end
 end
 
@@ -94,7 +94,7 @@ do
   function nextRank.destination(x, y)
     local scale = 0.4
     local w = 48 * scale local h = 64 * scale
-    local t = {
+    local dsts = {
       {id = "minus", op = {5, -100}, dst = {
         {x = x + 48, y = y, w = w, h = h}
       }},
@@ -103,13 +103,13 @@ do
       }}
     }
     for i = 1, 8 do
-      utils.merge_all(t, {
+      utils.append_all(dsts, {
         {id = "rank_"..i, op = {199 + i, -100}, dst = {
           {x = x, y = y, w = 140 * scale, h = h}
         }}
       })
     end
-    return t
+    return dsts
   end
 end
 
@@ -127,15 +127,19 @@ do
     judgeNumbers.value = {}
     for i = 1, 6 do
       local ref = 109 + i
-      if i == 6 then ref = 420 end
-      utils.merge_all(judgeNumbers.value, { utils.generateValue({id = "judge_num_"..i, digit = 4, ref = ref}) } )
+      if i == 6 then
+        ref = 420
+      end
+      utils.append_all(judgeNumbers.value, {
+        utils.generateValue({id = "judge_num_"..i, digit = 4, ref = ref})
+      })
     end
   end
 
   function judgeNumbers.destination(base_x, base_y)
     local scale = 0.4
-    local t = {}
-    utils.merge_all(t, (function()
+    local dsts = {}
+    utils.append_all(dsts, (function()
       local w = text_w * scale local h = h * scale
       return {
         {id = "judges", op = {5}, dst = {
@@ -143,7 +147,7 @@ do
         }},
       }
     end)())
-    utils.merge_all(t, (function()
+    utils.append_all(dsts, (function()
       local w = num_w * scale local h = h * scale
       local x = base_x + 110
       local y = base_y + h * 6
@@ -155,7 +159,7 @@ do
       end
       return t
     end)())
-    return t
+    return dsts
   end
 end
 
@@ -184,37 +188,66 @@ do
 
   function scoreParams.destination(base_x, base_y)
     local scale = 0.4
-    local t = {}
-    utils.merge_all(t, (function()
+    local dsts = {}
+    utils.append_all(dsts, (function()
       local w = text_w * scale local h = h * scale
       return {
-        {id = "scores", op = {5}, dst = { {x = base_x, y = base_y + h, w = w, h = h * 5} }}
+        {id = "scores", op = {5}, dst = {
+          {x = base_x, y = base_y + h, w = w, h = h * 5}
+        }}
       }
     end)())
-    utils.merge_all(t, (function()
+    utils.append_all(dsts, (function()
       local w = num_w * scale local h = h * scale
       local x = base_x + 170 local base_y = base_y + h * 5
       local s_margin = 56 local margin = 70
       return {
-        {id = "exscore_num", op = {2}, dst = { {x = x, y = base_y - h * 0, w = w, h = h} }},
-        {id = "maxcombo_num", op = {5}, dst = { {x = x, y = base_y - h * 1, w = w, h = h} }},
-        {id = "totalnotes_num", op = {5}, dst = { {x = x + margin, y = base_y - h * 1, w = w, h = h} }},
-        {id = "combobreak_num", op = {5}, dst = { {x = x, y = base_y - h * 2, w = w, h = h} }},
-        {id = "misscount_num", op = {5}, dst = { {x = x + margin, y = base_y - h * 2, w = w, h = h} }},
-        {id = "clearcount_num", op = {5}, dst = { {x = x, y = base_y - h * 3, w = w, h = h} }},
-        {id = "playcount_num", op = {5}, dst = { {x = x + margin, y = base_y - h * 3, w = w, h = h} }},
-        {id = "fast_num", op = {5}, dst = { {x = x, y = base_y - h * 4, w = w, h = h} }},
-        {id = "slow_num", op = {5}, dst = { {x = x + margin, y = base_y - h * 4, w = w, h = h} }},
+        {id = "exscore_num", op = {2}, dst = {
+          {x = x, y = base_y - h * 0, w = w, h = h}
+        }},
+        {id = "maxcombo_num", op = {5}, dst = {
+          {x = x, y = base_y - h * 1, w = w, h = h} }},
+        {id = "totalnotes_num", op = {5}, dst = {
+          {x = x + margin, y = base_y - h * 1, w = w, h = h}
+        }},
+        {id = "combobreak_num", op = {5}, dst = {
+          {x = x, y = base_y - h * 2, w = w, h = h}
+        }},
+        {id = "misscount_num", op = {5}, dst = {
+          {x = x + margin, y = base_y - h * 2, w = w, h = h}
+        }},
+        {id = "clearcount_num", op = {5}, dst = {
+          {x = x, y = base_y - h * 3, w = w, h = h}
+        }},
+        {id = "playcount_num", op = {5}, dst = {
+          {x = x + margin, y = base_y - h * 3, w = w, h = h}
+        }},
+        {id = "fast_num", op = {5}, dst = {
+          {x = x, y = base_y - h * 4, w = w, h = h}
+        }},
+        {id = "slow_num", op = {5}, dst = {
+          {x = x + margin, y = base_y - h * 4, w = w, h = h}
+        }},
 
-        {id = "slash", op = {5}, dst = { {x = x + s_margin, y = base_y - h * 1, w = w, h = h} }},
-        {id = "slash", op = {5}, dst = { {x = x + s_margin, y = base_y - h * 2, w = w, h = h} }},
-        {id = "slash", op = {5}, dst = { {x = x + s_margin, y = base_y - h * 3, w = w, h = h} }},
-        {id = "slash", op = {5}, dst = { {x = x + s_margin, y = base_y - h * 4, w = w, h = h} }},
+        {id = "slash", op = {5}, dst = {
+          {x = x + s_margin, y = base_y - h * 1, w = w, h = h}
+        }},
+        {id = "slash", op = {5}, dst = {
+          {x = x + s_margin, y = base_y - h * 2, w = w, h = h}
+        }},
+        {id = "slash", op = {5}, dst = {
+          {x = x + s_margin, y = base_y - h * 3, w = w, h = h}
+        }},
+        {id = "slash", op = {5}, dst = {
+          {x = x + s_margin, y = base_y - h * 4, w = w, h = h}
+        }},
 
-        {id = "djpoint_num", op = {5}, dst = { {x = x - 100, y = base_y - h * 5, w = w, h = h} }},
+        {id = "djpoint_num", op = {5}, dst = {
+          {x = x - 100, y = base_y - h * 5, w = w, h = h}
+        }},
       }
     end)())
-    return t
+    return dsts
   end
 end
 
@@ -236,13 +269,13 @@ do
     local scale = 0.3
     local w = w * scale local h = h * scale
     local ops = {126, 127, 128, 129, 130, 131, 1128, 1129, 1130, 1131}
-    local t = {}
+    local dsts = {}
     for i = 1, 10 do
-      table.insert(t, {id = "clearoption_"..i, op = {5, 624, ops[i]}, dst = {
+      table.insert(dsts, {id = "clearoption_"..i, op = {5, 624, ops[i]}, dst = {
         {x = x + (w + 10) * math.floor(i / 5) , y = y - h * (i % 5 - 1), w = w, h = h}
       }})
     end
-    return t
+    return dsts
   end
 end
 

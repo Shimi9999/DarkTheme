@@ -217,7 +217,9 @@ do
 
   function trophy.destination()
     local scale = 0.7
-    local dst = { {x = 20, y = (size * (1 - scale)) / 2 , w = size * scale, h = size * scale} }
+    local dst = {
+      {x = 20, y = (size * (1 - scale)) / 2 , w = size * scale, h = size * scale}
+    }
     return {
       {id = "trophy_bronze", filter = 1, dst = dst},
       {id = "trophy_silver", filter = 1, dst = dst},

@@ -57,16 +57,28 @@ local function main()
     }}
   }
 
+  local songinfo = require "songinfo"
+  local score = require "score"
+  local songlist = require "songlist"
+  local option = require "option"
+  local scrollbar = require "scrollbar"
+  local volumaslider = require "volumeslider"
+  local button = require "button"
+  local search = require "search"
+  local bottominfo = require "bottominfo"
+
+  -- 描画順に影響
   local modules = {
-    require "songinfo",
-    require "score",
-    require "songlist",
-    require "option",
-    require "scrollbar",
-    require "volumeslider",
-    require "button",
-    require "search",
-    require "bottominfo",
+    songinfo,
+    score,
+    songlist,
+    scrollbar,
+    volumaslider,
+    button,
+    search,
+    bottominfo,
+
+    option
   }
   for _, mod in ipairs(modules) do
     utils.merge_all(skin, mod)
