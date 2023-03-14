@@ -125,12 +125,40 @@ do
     }
   }
 
-  function target.destination(op)
-    return {
-      {id = "option_target", op = op, dst = {
-        {x = 130, y = 320, w = w, h = h}
-      }}
+  local target_half_num = 9 -- ターゲットリストの半分の数。5なら5*2+1で総数は11。
+  do
+    local font = "font_genshingothic" local size = 26
+    target.text = {
+      {id = "option_target_text", font = font, size = size, ref = 3}
     }
+    for i = 1, target_half_num do
+      table.insert(target.text, {id = "option_target_text_upper_"..i, font = font, size = size, ref = 209 - (i - 1)})
+    end
+    for i = 1, target_half_num do
+      table.insert(target.text, {id = "option_target_text_lower_"..i, font = font, size = size, ref = 209 + target_half_num - (i - 1)})
+    end
+  end
+
+  function target.destination(op)
+    local text_w = 16 local text_h = 26
+    local x = 130 + 12 local center_y = 518
+    local spacing_y = 14
+
+    local destination = {}
+    for i = 1, target_half_num do
+      table.insert(destination, {id = "option_target_text_upper_"..i, op = op, filter = 1, dst = {
+        {x = x, y = center_y + i * (text_h + spacing_y), w = text_w, h = text_h}
+      }})
+    end
+    table.insert(destination, {id = "option_target_text", op = op, filter = 1, dst = {
+      {x = x, y = center_y, w = text_w, h = text_h}
+    }})
+    for i = 1, target_half_num do
+      table.insert(destination, {id = "option_target_text_lower_"..i, op = op, filter = 1, dst = {
+        {x = x, y = center_y + (i - 1 - target_half_num) * (text_h + spacing_y), w = text_w, h = text_h}
+      }})
+    end
+    return destination
   end
 end
 
